@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
-import * as LoginForm from '../components/LoginForm';
+import * as LoginForm from './LoginForm';
 
 const Container = styled.div`
   background-color: #fff;
@@ -17,8 +17,8 @@ const Container = styled.div`
 
 export default Login;
 function Login() {
-  const [email, setEmail] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);
   };
@@ -29,20 +29,33 @@ function Login() {
   };
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     console.log(`email: ${email}, password: ${password} `);
+    const data = { email: email, password: password };
+    const logindata = JSON.stringify(data);
+    localStorage.setItem('login', logindata);
   };
   useEffect(() => {
-    console.log(`email: ${email}, password: ${password} `);
-  }, [email, password]);
+    const data = localStorage.getItem('login');
+    console.log(
+      `${data ? '로그인정보 이미 있습니다.' : '로그인 정보가 없습니다.'}`
+    );
+  }, []);
   return (
     <Container>
       <LoginForm.Title>로그인</LoginForm.Title>
       <LoginForm.InputBox
         title={'이메일'}
         handleChange={handleEmailChange}
+        placeholder={'이메일 주소를 입력하세요.'}
+        type={'string'}
+        value={email}
       ></LoginForm.InputBox>
+
       <LoginForm.InputBox
         title={'비밀번호'}
         handleChange={handlePasswordChange}
+        placeholder={'비밀번호는 6자리 이상이여야 합니다.'}
+        type={'password'}
+        value={password}
       ></LoginForm.InputBox>
       <LoginForm.FindPasswordtag>비밀번호 찾기</LoginForm.FindPasswordtag>
       <LoginForm.Button onClick={handleClick}>로그인 버튼</LoginForm.Button>

@@ -22,7 +22,7 @@ export const Title = styled.div`
   text-align: center;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   font-size: 20px;
   font-size: 16px;
   line-height: 19px;
@@ -34,7 +34,7 @@ const Input = styled.input`
   border-radius: 5px;
 `;
 
-const InputTitle = styled.p`
+export const InputTitle = styled.p`
   font-size: 20px;
   line-height: 24px;
   color: #000000;
@@ -42,7 +42,7 @@ const InputTitle = styled.p`
   margin-bottom: 7px;
 `;
 
-const InputDiv = styled.div`
+export const InputDiv = styled.div`
   width: 100%;
 `;
 export const Button = styled.button`
@@ -62,6 +62,11 @@ export const Button = styled.button`
   text-align: center;
   display: inline-block;
   margin: 25px 0;
+  transition: all 0.5s;
+  :hover {
+    background: #fff;
+    color: #bababa;
+  }
 `;
 
 export const FindPasswordtag = styled.a`
@@ -82,13 +87,27 @@ export const FindPasswordtag = styled.a`
 interface InputBoxProps {
   title?: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  type?: string;
+  value: string;
 }
 
-export const InputBox: React.FC<InputBoxProps> = (props) => {
+export const InputBox: React.FC<InputBoxProps> = ({
+  title,
+  handleChange,
+  value,
+  placeholder,
+  type,
+}) => {
   return (
     <InputDiv>
-      <InputTitle>{props.title}</InputTitle>
-      <Input onChange={(event) => props.handleChange(event)} {...props} />
+      {title && <InputTitle>{title}</InputTitle>}
+      <Input
+        type={type}
+        value={value}
+        placeholder={placeholder}
+        onChange={(event) => handleChange(event)}
+      />
     </InputDiv>
   );
 };

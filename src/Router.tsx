@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './views/pages/Loginbox';
+import Login from './views/components/Loginbox';
 import About from './views/components/About';
 import NotFound from './views/components/NotFound';
 
