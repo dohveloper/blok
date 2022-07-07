@@ -1,7 +1,7 @@
-const express = require('express');
-const morgan = require('morgan');
-const path = require('path');
-const cors = require('cors');
+const express = require("express");
+const morgan = require("morgan");
+const path = require("path");
+const cors = require("cors");
 
 const app = express();
 
@@ -17,8 +17,8 @@ app.use(
 );
 
 // Serve static assets
-app.set('view engine', 'tsx');
-app.use(express.static(path.resolve(__dirname, '..', 'build')));
+app.set("view engine", "tsx");
+app.use(express.static(path.resolve(__dirname, "..", "build")));
 
 // Always return the main index.html, so react-router render the route in the client
 //   모든 request에 대해서 build폴더 아래 index.html을 보내도록 되어 있는데,
@@ -30,10 +30,14 @@ app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}`);
 });
 
-app.get('/123', function (req, res) {
-  res.send('<h1>welcome page</h1>');
+app.get("/123", function (req, res) {
+  res.send("<h1>welcome page</h1>");
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+app.get("/user", function (req, res) {
+  res.send({ name: "elice", email: "elice@elice.com", plan: "Free" });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
 });
