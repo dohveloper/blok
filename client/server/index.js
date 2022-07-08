@@ -35,7 +35,15 @@ app.get("/123", function (req, res) {
 });
 
 app.get("/user", function (req, res) {
-  res.send({ name: "elice", email: "elice@elice.com", plan: "Free" });
+  res.send({
+    name: "elice",
+    email: "elice@elice.com",
+    plan: "Free",
+    domain: [
+      { doname: "naver", link: "http://www.naver.com" },
+      { doname: "google", link: "http://www.google.com" },
+    ],
+  });
 });
 
 app.get("*", (req, res) => {
