@@ -4,7 +4,7 @@ import ManageAccount from "./ManageAccount";
 import styled from "styled-components";
 
 const Container = styled.div`
-  background-color: fff;
+  background-color: #fff;
   border-radius: 30px;
   padding: 49px 72px 25px 70px;
   box-sizing: border-box;
