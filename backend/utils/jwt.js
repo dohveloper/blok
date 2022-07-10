@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const secret = process.env.JWT_SECRET_KEY;
 
+// jwt토큰을 만들어 주는 함수
 const setUserToken = (res, user) => {
   // 유저 jwt 토큰생성
   const jwttoken = jwt.sign(user, secret);
@@ -13,8 +14,6 @@ const setUserToken = (res, user) => {
   res.cookie("jwttoken", jwttoken, {
     expires: expiryDate,
     httpOnly: true,
-    // signed cookie 적용 보류
-    // signed: true,
   });
 };
 

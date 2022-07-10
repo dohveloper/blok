@@ -37,6 +37,7 @@ userRouter.post("/adduser", upload.single("file"), async (req, res) => {
   await userdata.save();
   res.redirect("/");
 });
+
 // post '/api/register'
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post("/register", async (req, res, next) => {
@@ -48,7 +49,6 @@ userRouter.post("/register", async (req, res, next) => {
         "headers의 Content-Type을 application/json으로 설정해주세요"
       );
     }
-
     // req (request)의 body 에서 데이터 가져오기
     const userName = req.body.userName;
     const email = req.body.email;
@@ -61,14 +61,15 @@ userRouter.post("/register", async (req, res, next) => {
     });
     // 추가된 유저의 db 데이터를 프론트에 다시 보내줌
     // 물론 프론트에서 안 쓸 수도 있지만, 편의상 일단 보내 줌
-    res.status(201).json(newUser);
+    return res.status(201).json(newUser);
   } catch (error) {
     next(error);
   }
 });
+
 // post '/api/login'
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/login로 요청해야 함.)
-// passport local 및 jwt 전략 사용
+// passport local 및 jwt 전략 사용, oauth 계정 사용 불가.
 userRouter.post(
   "/login",
   passport.authenticate("local", { session: false }),
@@ -82,21 +83,28 @@ userRouter.post(
       }
       // jwt 토큰을 쿠키에 저장
       setUserToken(res, req.user);
-      res.json({ message: "로그인 성공", status: 200 });
+      res.status(200).json({ message: "로그인 성공", status: 200 });
     } catch (error) {
       next(error);
     }
   }
 );
+
 // post '/api/reset-password'
 // 비밀번호 초기화 api
-// 테스트 아직 안해봤음.
 userRouter.post("/reset-password", async (req, res, next) => {
   try {
-    const { email } = req.body;
-    await userService.passwordReset(email);
-    // res.redirect 필요할 것 같음. 프론트와 상의
-    res.json({ message: "비밀번호가 초기화 되었습니다!", status: 200 });
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        "headers의 Content-Type을 application/json으로 설정해주세요"
+      );
+    }
+    // 이메일로 랜덤으로 생성된 문자열을 해싱하여 이메일로 보내준다.
+    const { userName, email } = req.body;
+    await userService.passwordReset(userName, email);
+    res
+      .status(201)
+      .json({ message: "비밀번호가 초기화 되었습니다!", status: 201 });
   } catch (error) {
     next(error);
   }
@@ -104,7 +112,7 @@ userRouter.post("/reset-password", async (req, res, next) => {
 
 // delete '/api/users/:userId'
 // 회원탈퇴, 도메인 삭제는 그때가서 생각.
-// 문제 생길 확률이 높음 cascade 관련해서 이후에 다시 구현 예정
+// 문제 생길 확률이 높음 cascade 관련해서 이후에 다시 구현 예정, 로그인 필요
 userRouter.delete(
   "/users/:userId",
   loginRequired,
@@ -117,7 +125,7 @@ userRouter.delete(
         throw new Error("본인의 계정만 삭제할 수 있습니다.");
       }
       const deletedUserInfo = await userService.deleteUser(userId);
-      res.status(200).json(deletedUserInfo);
+      res.status(204).clearCookie("jwttoken").json(deletedUserInfo);
     } catch (error) {
       next(error);
     }
@@ -136,25 +144,26 @@ userRouter.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "/login",
   }),
   (req, res, next) => {
     setUserToken(res, req.user);
-    res.redirect("/");
+    res.status(201).json(req.user);
   }
 );
+
 // get '/api/auth/kakao'
 // kakao stragegy 인증 부분
 userRouter.get("/auth/kakao", passport.authenticate("kakao"));
 // 카카오 로그인이 된다면 jwt 쿠키 생성
 userRouter.get(
   "/auth/kauth",
-  passport.authenticate("kakao", { session: false, failureRedirect: "/login" }),
+  passport.authenticate("kakao", { session: false }),
   (req, res) => {
     setUserToken(res, req.user);
-    res.redirect("/");
+    res.status(201).json(req.user);
   }
 );
+
 // get '/api/logincheck'
 // userId, email, role, userName 전달하는 함수, 이 값이 존재한다면 로그인 상태임을 확인할 수 있음.
 // jwttoken을 통해(쿠키로 전달되기 때문에 클라이언트에선 변수 없이 호출)
@@ -173,7 +182,10 @@ userRouter.get("/logincheck", loginRequired, (req, res) => {
 userRouter.get("/logout", async function (req, res, next) {
   //쿠키에 있는 jwt 토큰이 들어 있는 쿠키를 비워줌
   try {
-    res.status(200).clearCookie("jwttoken").redirect("/");
+    return res
+      .status(200)
+      .clearCookie("jwttoken")
+      .json({ message: "로그아웃에 성공했습니다!", status: 200 });
   } catch (error) {
     next(error);
   }
@@ -195,20 +207,24 @@ userRouter.get("/logout", async function (req, res, next) {
 
 // get '/api/users/:userId'
 // 유저 정보 전달 api
-userRouter.get("/users/:userId", loginRequired, async function (req, res) {
-  try {
-    const userId = req.params.userId;
-    const user = await userService.getUserInfo(userId);
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
+userRouter.get(
+  "/users/:userId",
+  loginRequired,
+  async function (req, res, next) {
+    try {
+      const userId = req.params.userId;
+      const user = await userService.getUserInfo(userId);
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // patch '/api/users/"userId'
 // 사용자 비밀번호 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
-// shortId로 접근
+// shortId로 접근, oauth 계정 사용 불가, login 필수.
 userRouter.patch(
   "/users/:userId",
   loginRequired,

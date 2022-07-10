@@ -27,7 +27,7 @@ export class UserModel {
     const users = await User.find({});
     return users;
   }
-  async update({ userId, update }) {
+  async update(userId, update) {
     const filter = { userId };
     const option = { returnOriginal: false };
     const updatedUser = await User.findOneAndUpdate(filter, update, option);

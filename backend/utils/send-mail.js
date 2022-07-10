@@ -2,6 +2,8 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
 dotenv.config();
+
+// smtp 환경변수 설정
 const transport = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -10,6 +12,7 @@ const transport = nodemailer.createTransport({
   },
 });
 
+// 이메일을 보내주는 함수
 const sendMail = (to, subject, text) =>
   new Promise((resolve, reject) => {
     const message = {
@@ -17,7 +20,6 @@ const sendMail = (to, subject, text) =>
       subject,
       text,
     };
-
     transport.sendMail(message, (err, info) => {
       if (err) {
         reject(err);

@@ -7,7 +7,7 @@ dotenv.config();
 const config = {
   clientID: process.env.KAKAO_CLIENT_ID,
   // callback url은 추후 수정하는걸로
-  callbackURL: "http://localhost:3000/api/auth/kauth",
+  callbackURL: `http://localhost:${process.env.SERVER_PORT}/api/auth/kauth`,
 };
 
 // kakaoStrategy 부분

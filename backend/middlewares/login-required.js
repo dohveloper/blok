@@ -16,9 +16,9 @@ function loginRequired(req, res, next) {
     return;
   }
   // 비밀번호 초기화 이후 비밀번호 변경 강제 로직
+  // 클라이언트에서 이걸 어떻게 써야할 지에 대한 로직 변경 필요. 서버에선 redirect 사용 안하기로 결정.
   if (req.user.passwordReset) {
-    res.redirect("/change-password");
-    return;
+    throw new Error("비밀번호 초기화 이후 비밀번호 수정이 필요합니다.");
   }
   return passport.authenticate(
     "jwt",
@@ -30,7 +30,6 @@ function loginRequired(req, res, next) {
           reason: "정상적인 토큰이 아닙니다.",
         });
       }
-      req.user = user;
       next();
     }
   )(req, res, next);
