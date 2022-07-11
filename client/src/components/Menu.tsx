@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { FaUserAlt } from "react-icons/fa";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
-import { BiLogOut } from "react-icons/bi";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { FaUserAlt } from 'react-icons/fa';
+import { MdOutlineSpaceDashboard } from 'react-icons/md';
+import { BiLogOut } from 'react-icons/bi';
 
 const MenuContainer = styled.div`
   width: 200px;
@@ -31,19 +31,19 @@ export default function Menu() {
   return (
     <MenuContainer>
       <List>
-        <Link to="/">
+        <Link to='/'>
           <FaUserAlt />
           <span>Account</span>
         </Link>
       </List>
       <List>
-        <Link to="/">
+        <Link to='/'>
           <MdOutlineSpaceDashboard />
           <span>Dashboard</span>
         </Link>
       </List>
       <List>
-        <Link to="/">
+        <Link to='/'>
           <BiLogOut />
           <span>Logout</span>
         </Link>

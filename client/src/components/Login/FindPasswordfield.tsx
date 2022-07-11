@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useRef } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
@@ -22,7 +22,8 @@ function FindPasswordfield() {
   const regEmail = vaildation.regEmail;
   const nav = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const [nameError, setNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const [btnError, setbtnError] = useState<boolean>(true);
@@ -42,19 +43,35 @@ function FindPasswordfield() {
       setbtnError(false);
     }
   };
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (nameRef.current!.value.length === 1) {
+      setNameError(true);
+    } else {
+      setNameError(false);
+    }
+    if (emailRef.current!.value.length === 0) {
+      setbtnError(true);
+    } else {
+      setbtnError(false);
+    }
+  };
+  const handleClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     console.log(
-      `email: ${emailRef.current!.value}, password: ${
-        passwordRef.current!.value
-      } `
+      `email: ${emailRef.current!.value}, userName: ${nameRef.current!.value} `
     );
     const data = {
+      userName: nameRef.current!.value,
       email: emailRef.current!.value,
-      password: passwordRef.current!.value,
     };
-    const logindata = JSON.stringify(data);
-    localStorage.setItem('login', logindata);
+    try {
+      const res = await axios.post('/api/reset-password/', data);
+      console.log(res);
+      nav('/main');
+    } catch (e) {
+      console.log(e);
+    }
     // 문제없으면 이동
     // nav('/signin');
     // try {
@@ -84,6 +101,20 @@ function FindPasswordfield() {
   return (
     <Container>
       <LoginForm.FindPswTitle>비밀번호를 잊으셨나요?</LoginForm.FindPswTitle>
+      <LoginForm.InputDiv>
+        <LoginForm.InputTitle error={nameError}>이름</LoginForm.InputTitle>
+        <LoginForm.ErrorSpan>
+          {nameError && '유효하지 않은 이름입니다.'}
+        </LoginForm.ErrorSpan>
+      </LoginForm.InputDiv>
+      <LoginForm.Input
+        onChange={handleNameChange}
+        type='string'
+        ref={nameRef}
+        placeholder='이름을 입력하세요.'
+        error={nameError}
+      />
+      <LoginForm.InputDiv></LoginForm.InputDiv>
       <LoginForm.InputDiv>
         <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>

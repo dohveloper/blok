@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import logoImg from "./../imgs/logo.png";
-import Menu from "./Menu";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import logoImg from './../imgs/logo.png';
+import Menu from './Menu';
 
 // import icon
-import { GrMenu } from "react-icons/gr";
-import { FaRegUserCircle } from "react-icons/fa";
+import { GrMenu } from 'react-icons/gr';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 const Nav = styled.nav`
   width: 72px;
@@ -51,14 +51,14 @@ export default function Sidebar() {
 
   return (
     <Nav>
-      <Link to="/" className="navbar-logo">
-        <img src={logoImg} alt="logo" width={48}></img>
+      <Link to='/' className='navbar-logo'>
+        <img src={logoImg} alt='logo' width={48}></img>
       </Link>
       <Hamburger onClick={showMenuHandler}>
         <GrMenu size={42} />
       </Hamburger>
       <Profile onClick={showMenuHandler}>
-        <FaRegUserCircle size="48" color="#CCCCCC" />
+        <FaRegUserCircle size='48' color='#CCCCCC' />
       </Profile>
       {click && <Menu />}
     </Nav>

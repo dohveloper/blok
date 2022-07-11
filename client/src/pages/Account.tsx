@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import React, { useState, useEffect } from "react";
-import AccountContainer from "../components/Account";
-import Sidebar from "../components/Sidebar";
+import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import AccountContainer from '../components/Account';
+import Sidebar from '../components/Sidebar';
 
 const Container = styled.div`
   background-color: #f7f7f9;

@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { CustomTitle } from "../components/Account/Title";
-// import DashboardInfo from "../components/DashboardBox";
-import * as DashboardBox from "../components/DashboardBox";
+import styled from 'styled-components';
+import { CustomTitle } from '../components/Account/Title';
+// import * as DashboardInfo from '../components/DashboardBox';
+import * as DashboardBox from '../components/DashboardBox';
 
 const Container = styled.div`
   background-color: #fff;

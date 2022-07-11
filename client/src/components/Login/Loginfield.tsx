@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useRef } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
@@ -61,7 +61,9 @@ function Loginfield() {
       setbtnError(false);
     }
   };
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     console.log(
       `email: ${emailRef.current!.value}, password: ${
         passwordRef.current!.value
@@ -73,6 +75,13 @@ function Loginfield() {
     };
     const logindata = JSON.stringify(data);
     localStorage.setItem('login', logindata);
+    try {
+      const res = await axios.post('/api/login/', data);
+      console.log(res);
+      nav('/main');
+    } catch (e) {
+      console.log(e);
+    }
     // 문제없으면 이동
     // nav('/signin');
     // try {
