@@ -1,5 +1,5 @@
-import Loginfield from '../components/Login/Loginfield';
 import styled from 'styled-components';
+import Signinfield from '../components/Login/Signinfield';
 import Logo from '../components/Logo';
 
 export const Container = styled.div`
@@ -15,12 +15,13 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
-export default Login;
-function Login() {
+function Signin() {
   return (
     <Container>
       <Logo></Logo>
-      <Loginfield></Loginfield>
+      <Signinfield></Signinfield>
     </Container>
   );
 }
+
+export default Signin;

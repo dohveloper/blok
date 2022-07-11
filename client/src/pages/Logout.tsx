@@ -1,6 +1,4 @@
-import Loginfield from '../components/Login/Loginfield';
 import styled from 'styled-components';
-import Logo from '../components/Logo';
 
 export const Container = styled.div`
   background-color: #f7f7f9;
@@ -14,13 +12,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100vh;
 `;
-
-export default Login;
-function Login() {
-  return (
-    <Container>
-      <Logo></Logo>
-      <Loginfield></Loginfield>
-    </Container>
-  );
+export default Logout;
+function Logout() {
+  return <Container>logout</Container>;
 }

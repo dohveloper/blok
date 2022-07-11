@@ -1,5 +1,5 @@
-import Loginfield from '../components/Login/Loginfield';
 import styled from 'styled-components';
+import FindPasswordfield from '../components/Login/FindPasswordfield';
 import Logo from '../components/Logo';
 
 export const Container = styled.div`
@@ -15,12 +15,13 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
-export default Login;
-function Login() {
+function FindPassword() {
   return (
     <Container>
       <Logo></Logo>
-      <Loginfield></Loginfield>
+      <FindPasswordfield></FindPasswordfield>
     </Container>
   );
 }
+
+export default FindPassword;
