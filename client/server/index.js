@@ -46,6 +46,26 @@ app.get("/user", function (req, res) {
   });
 });
 
+app.get("/template", function (req, res) {
+  res.send({
+    template: [
+      { title: "랜딩페이지", description: "회사 웹사이트 템플릿 입니다." },
+      {
+        title: "이력서",
+        description: "이력서 템플릿 입니다.",
+        color1: "#2B9D67",
+        color2: "#CEF0E2",
+      },
+      {
+        title: "기업소개 웹사이트",
+        description: "기업소개 템플릿 입니다.",
+        color1: "#F5E44C",
+        color2: "#CEA9D3",
+      },
+    ],
+  });
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
 });

@@ -1,12 +1,20 @@
-import React from 'react';
-import { AppRouter } from './Router';
+import { AppRouter } from "./Router";
+import { ThemeProvider } from "styled-components";
 
 function App() {
   return (
-    <div className='App'>
-      <header className='App-header'>
+    <div className="App">
+      <ThemeProvider
+        theme={{
+          palette: {
+            black: "#282828",
+            gray: "#949494",
+            white: "#FFFFFF",
+          },
+        }}
+      >
         <AppRouter />
-      </header>
+      </ThemeProvider>
     </div>
   );
 }
