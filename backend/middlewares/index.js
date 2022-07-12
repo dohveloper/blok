@@ -4,5 +4,4 @@
 export * from "./error-handler";
 export * from "./login-required";
 export * from "./admin-required";
-export * from "./get-user-from-jwt";
 export * from "./oauth-blocker";

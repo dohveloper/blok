@@ -1,4 +1,4 @@
-import { loginRequired, oauthBlocker, getUserFromJWT } from "../middlewares";
+import { loginRequired, oauthBlocker } from "../middlewares";
 import { userController } from "../controller";
 import passport from "passport";
 import { Router } from "express";
@@ -37,7 +37,6 @@ userRouter.post("/register", userController.register);
 userRouter.post(
   "/login",
   passport.authenticate("local", { session: false }),
-  getUserFromJWT,
   oauthBlocker,
   userController.login
 );
@@ -49,12 +48,7 @@ userRouter.post("/reset-password", userController.resetPassword);
 // delete '/api/user/:userId'
 // 회원탈퇴, 도메인 삭제는 그때가서 생각.
 // 문제 생길 확률이 높음 cascade 관련해서 이후에 다시 구현 예정, 로그인 필요
-userRouter.delete(
-  "/:userId",
-  loginRequired,
-  getUserFromJWT,
-  userController.userDelete
-);
+userRouter.delete("/:userId", loginRequired, userController.userDelete);
 
 // get '/api/user/auth/google'
 // google strategy 인증 부분
@@ -70,7 +64,6 @@ userRouter.get(
   passport.authenticate("google", {
     session: false,
   }),
-  getUserFromJWT,
   userController.googleOauth
 );
 
@@ -80,7 +73,6 @@ userRouter.get("/auth/kakao", passport.authenticate("kakao"));
 // 카카오 로그인이 된다면 jwt 쿠키 생성
 userRouter.get(
   "/auth/kauth",
-  getUserFromJWT,
   passport.authenticate("kakao", { session: false }),
   userController.kakaoOauth
 );
@@ -88,12 +80,7 @@ userRouter.get(
 // get '/api/logincheck'
 // userId, email, role, userName 전달하는 함수, 이 값이 존재한다면 로그인 상태임을 확인할 수 있음.
 // jwttoken을 통해(쿠키로 전달되기 때문에 클라이언트에선 변수 없이 호출)
-userRouter.get(
-  "/logincheck",
-  loginRequired,
-  getUserFromJWT,
-  userController.logincheck
-);
+userRouter.get("/logincheck", loginRequired, userController.logincheck);
 
 // get '/api/logout'
 // logout api
@@ -110,7 +97,6 @@ userRouter.patch(
   "/:userId",
   loginRequired,
   oauthBlocker,
-  getUserFromJWT,
   userController.editPassword
 );
 
