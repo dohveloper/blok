@@ -7,7 +7,7 @@ const userRouter = Router();
 
 // 삭제 예정
 userRouter.get("/", (req, res) => {
-    res.send("User Router");
+  res.send("User Router");
 });
 
 // 이부분 리팩토링이 필요합니다.(호연)
@@ -35,11 +35,11 @@ userRouter.post("/register", userController.register);
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/login로 요청해야 함.)
 // passport local 및 jwt 전략 사용, oauth 계정 사용 불가.
 userRouter.post(
-    "/login",
-    passport.authenticate("local", { session: false }),
-    getUserFromJWT,
-    oauthBlocker,
-    userController.login
+  "/login",
+  passport.authenticate("local", { session: false }),
+  getUserFromJWT,
+  oauthBlocker,
+  userController.login
 );
 
 // post '/api/reset-password'
@@ -50,28 +50,28 @@ userRouter.post("/reset-password", userController.resetPassword);
 // 회원탈퇴, 도메인 삭제는 그때가서 생각.
 // 문제 생길 확률이 높음 cascade 관련해서 이후에 다시 구현 예정, 로그인 필요
 userRouter.delete(
-    "/:userId",
-    loginRequired,
-    getUserFromJWT,
-    userController.userDelete
+  "/:userId",
+  loginRequired,
+  getUserFromJWT,
+  userController.userDelete
 );
 
 // get '/api/user/auth/google'
 // google strategy 인증 부분
 // 이 url로 접근하면 구글 oauth가 진행됨
 userRouter.get(
-    "/auth/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 // 구글 로그인이 된다면 jwt 쿠키 생성
 userRouter.get(
-    "/auth/google/callback",
-    passport.authenticate("google", {
-        session: false,
-    }),
-    getUserFromJWT,
-    userController.googleOauth
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    session: false,
+  }),
+  getUserFromJWT,
+  userController.googleOauth
 );
 
 // get '/api/user/auth/kakao'
@@ -79,16 +79,21 @@ userRouter.get(
 userRouter.get("/auth/kakao", passport.authenticate("kakao"));
 // 카카오 로그인이 된다면 jwt 쿠키 생성
 userRouter.get(
-    "/auth/kauth",
-    getUserFromJWT,
-    passport.authenticate("kakao", { session: false }),
-    userController.kakaoOauth
+  "/auth/kauth",
+  getUserFromJWT,
+  passport.authenticate("kakao", { session: false }),
+  userController.kakaoOauth
 );
 
 // get '/api/logincheck'
 // userId, email, role, userName 전달하는 함수, 이 값이 존재한다면 로그인 상태임을 확인할 수 있음.
 // jwttoken을 통해(쿠키로 전달되기 때문에 클라이언트에선 변수 없이 호출)
-userRouter.get("/logincheck", loginRequired, userController.logincheck);
+userRouter.get(
+  "/logincheck",
+  loginRequired,
+  getUserFromJWT,
+  userController.logincheck
+);
 
 // get '/api/logout'
 // logout api
@@ -102,11 +107,11 @@ userRouter.get("/:userId", loginRequired, userController.getUserInfo);
 // 사용자 비밀번호 수정
 // shortId로 접근, oauth 계정 사용 불가, login 필수.
 userRouter.patch(
-    "/:userId",
-    loginRequired,
-    oauthBlocker,
-    getUserFromJWT,
-    userController.editPassword
+  "/:userId",
+  loginRequired,
+  oauthBlocker,
+  getUserFromJWT,
+  userController.editPassword
 );
 
 export { userRouter };
