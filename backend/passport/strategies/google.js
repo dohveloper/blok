@@ -7,7 +7,7 @@ dotenv.config();
 const config = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/api/auth/google/callback",
+  callbackURL: "/api/user/auth/google/callback",
 };
 
 // googleStrategy 부분

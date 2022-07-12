@@ -1,12 +1,12 @@
 import { Strategy } from "passport-jwt";
 import { userModel } from "../../db";
 import dotenv from "dotenv";
+import { JWT_COOKIE_KEY, userJWTObjectMaker } from "../../utils";
 
 dotenv.config();
 const cookieExtractor = (req) => {
   // req 의 cookies 에서 jwttoken 사용하기
-  // return req.signedCookies.jwttoken
-  return req.cookies.jwttoken;
+  return req.cookies[JWT_COOKIE_KEY];
 };
 
 // jwt strategy options
@@ -19,16 +19,9 @@ const opts = {
 const jwt = new Strategy(opts, async (user, done) => {
   try {
     const findUser = await userModel.findByShortId(user.userId);
-    // 유저가 있으면
     if (findUser) {
-      done(null, {
-        userId: findUser.userId,
-        email: findUser.email,
-        role: findUser.role,
-        userName: findUser.userName,
-        oauth: user.oauth,
-        passwordReset: user.passwordReset,
-      });
+      // userJWTObjectMaker => jwt화 할 유저 정보만 빼주는 함수.
+      done(null, userJWTObjectMaker(findUser));
       return;
     }
     // 유저가 없으면
@@ -38,4 +31,4 @@ const jwt = new Strategy(opts, async (user, done) => {
   }
 });
 
-export { jwt };
+export { jwt, userJWTObjectMaker };
