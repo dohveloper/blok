@@ -34,7 +34,7 @@ class UserService {
     // 이메일 기반 검색으로 먼저 유저를 찾고, 없는 경우에만 진행
     // 이미 가입된 계정인 경우(oauth가 아닌) 에러 throw
     // 카카오 oauth가 이메일이 아니기 때문에 일단 이렇게 구현, 카카오 oauth가 email일 경우, 문제 있음.
-    if (user && user.oauth == false) {
+    if (user && user.oauth === false) {
       throw new BadRequestError("이미 계정으로 가입된 이메일입니다.");
     }
     if (user) {
@@ -67,8 +67,19 @@ class UserService {
     return user;
   }
 
+  // 유저 프로필 이미지 수정
+  async changeProfileImage(userId, toUpdatedIamge) {
+    const user = await this.userModel.findByShortId(userId);
+    if (!user) {
+      throw new BadRequestError("존재하지 않는 유저입니다.");
+    }
+    const changedUser = await this.userModel.update(userId, toUpdatedIamge);
+
+    return changedUser;
+  }
+
   // 유저 비밀번호 수정, 현재 비밀번호가 있어야 수정 가능함.
-  async setUser(userInfoRequired, toUpdate) {
+  async changeUserPassword(userInfoRequired, toUpdate) {
     const { userId, currentPassword } = userInfoRequired;
     // shortId 사용
     let user = await this.userModel.findByShortId(userId);
@@ -128,6 +139,7 @@ class UserService {
       // 비밀번호 변경을 강제하는 로직을 위해 passwordReset을 true로 설정
       passwordReset: true,
     });
+    return updatedUser;
   }
 
   // 회원 삭제 구현, 추후 수정예정

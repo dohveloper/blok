@@ -5,6 +5,7 @@ import {
   JWT_COOKIE_KEY,
   userJWTObjectMaker,
   asyncHandler,
+  s3Uploadv2,
 } from "../utils";
 import { BadRequestError, ForbiddenError } from "../errors";
 
@@ -87,7 +88,24 @@ const userController = {
     res.status(200).json(user);
   }),
 
-  editPassword: asyncHandler(async (req, res, next) => {
+  changeProfileImage: asyncHandler(async (req, res) => {
+    // S3 이미지 처리 process
+    const results = await s3Uploadv2(req.file);
+    const profileImage = results.Location;
+    // S3 이미지 저장 주소
+    // await console.log(profileImage);
+    // Mongo DB 저장
+    if (req.user.userId !== req.params.userId) {
+      throw new ForbiddenError("본인의 정보만 수정할 수 있습니다!");
+    }
+    const userId = req.user.userId;
+    const updatedUserInfo = await userService.changeProfileImage(userId, {
+      profileImage: profileImage,
+    });
+    res.status(201).json(updatedUserInfo);
+  }),
+
+  changePassword: asyncHandler(async (req, res, next) => {
     if (is.emptyObject(req.body)) {
       throw new BadRequestError(
         "headers의 Content-Type을 application/json으로 설정해주세요"
@@ -110,11 +128,11 @@ const userController = {
     const toUpdate = {
       ...(editPassword && { password: editPassword }),
     };
-    const updatedUserInfo = await userService.setUser(
+    const updatedUserInfo = await userService.changeUserPassword(
       userInfoRequired,
       toUpdate
     );
-    res.status(200).json(updatedUserInfo);
+    res.status(201).json(updatedUserInfo);
   }),
 };
 

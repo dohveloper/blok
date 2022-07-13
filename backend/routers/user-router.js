@@ -1,4 +1,4 @@
-import { loginRequired, oauthBlocker } from "../middlewares";
+import { loginRequired, oauthBlocker, upload } from "../middlewares";
 import { userController } from "../controller";
 import passport from "passport";
 import { Router } from "express";
@@ -9,23 +9,6 @@ const userRouter = Router();
 userRouter.get("/", (req, res) => {
   res.send("User Router");
 });
-
-// 이부분 리팩토링이 필요합니다.(호연)
-// userRouter.post("/adduser", upload.single("file"), async (req, res) => {
-//   // S3 이미지 처리 process
-//   const profileImg = [];
-//   const results = await s3Uploadv2(req.file);
-
-//   profileImg.push(results.Location);
-//   // S3 이미지 저장 주소
-//   await console.log(profileImg);
-//   // Mongo DB 저장
-//   const userdata = new User({
-//     profileImg: profileImg,
-//   });
-//   await userdata.save();
-//   res.redirect("/");
-// });
 
 // post '/api/register'
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
@@ -90,14 +73,22 @@ userRouter.get("/logout", loginRequired, userController.logout);
 // 유저 정보 전달 api
 userRouter.get("/:userId", loginRequired, userController.getUserInfo);
 
-// patch '/api/user/"userId'
-// 사용자 비밀번호 수정
+// patch '/api/user/change-profileImage/:userId'
+userRouter.patch(
+  "/change-profileImage/:userId",
+  loginRequired,
+  upload.single("profileImage"),
+  userController.changeProfileImage
+);
+
+// patch '/api/user/change-password/:userId'
+// 사용자 비밀번호 변경
 // shortId로 접근, oauth 계정 사용 불가, login 필수.
 userRouter.patch(
-  "/:userId",
+  "/change-password/:userId",
   loginRequired,
   oauthBlocker,
-  userController.editPassword
+  userController.changePassword
 );
 
 export { userRouter };

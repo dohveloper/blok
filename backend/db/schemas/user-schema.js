@@ -9,7 +9,7 @@ const UserSchema = new Schema(
     // domain schema로 변경 예정
     domain: [
       {
-        type:  Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "sites",
         required: false,
       },
@@ -28,6 +28,7 @@ const UserSchema = new Schema(
     },
     profileImage: {
       type: String,
+      default: null,
     },
     oauth: {
       type: Boolean,
