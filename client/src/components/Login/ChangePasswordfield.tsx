@@ -9,12 +9,15 @@ const Container = styled.div`
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
   padding: 49px 72px 25px 70px;
   box-sizing: border-box;
   width: 645px;
   border: 1px solid black;
+  @media screen and (max-width: 1120px) {
+    width: 100%;
+    padding: 39px 62px 15px 60px;
+  }
 `;
 
 function ChangePasswordfield() {

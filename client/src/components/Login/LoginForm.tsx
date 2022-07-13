@@ -24,6 +24,9 @@ export const Title = styled.div`
   line-height: 39px;
   align-items: center;
   text-align: center;
+  @media screen and (max-width: 1120px) {
+    font-size: 24px;
+  }
 `;
 
 export const FindPswTitle = styled.div`
@@ -31,21 +34,31 @@ export const FindPswTitle = styled.div`
   font-size: 32px;
   line-height: 39px;
   margin-top: 37px;
-  margin-bottom: 52px;
+  margin-bottom: 20px;
   align-items: center;
   text-align: center;
+  @media screen and (max-width: 1120px) {
+    font-size: 22px;
+    font-weight: 700;
+  }
 `;
 
 export const Input = styled.input<{ error: boolean }>`
   font-size: 20px;
-  font-size: 16px;
+
   line-height: 19px;
-  width: 501px;
+  width: 100%;
   height: 50px;
   border: ${(props) => (props.error ? '1px solid red' : '1px solid #ececec')};
   box-sizing: border-box;
   padding: 15px 19px;
   border-radius: 5px;
+  @media screen and (max-width: 1120px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 499px) {
+    font-size: 12px;
+  }
 `;
 
 export const InputTitle = styled.p<{ error: boolean }>`
@@ -55,6 +68,9 @@ export const InputTitle = styled.p<{ error: boolean }>`
 
   margin: 0;
   display: flex;
+  @media screen and (max-width: 1120px) {
+    font-size: 16px;
+  }
 `;
 
 export const InputDiv = styled.div`
@@ -101,7 +117,7 @@ export const Button = styled.button`
   margin: 20px 0;
   transition: all 0.5s;
   :disabled {
-    opacity: 0.4;
+    opacity: 0.6;
     :hover {
       background: #bababa;
       color: #fff;
@@ -111,6 +127,9 @@ export const Button = styled.button`
   :hover {
     background: #fff;
     color: #bababa;
+  }
+  @media screen and (max-width: 1120px) {
+    font-size: 16px;
   }
 `;
 

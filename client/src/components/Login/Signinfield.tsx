@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useRef } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
@@ -11,12 +11,16 @@ const Container = styled.div`
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
   padding: 49px 72px 25px 70px;
   box-sizing: border-box;
   width: 645px;
   border: 1px solid black;
+
+  @media screen and (max-width: 1120px) {
+    width: 100%;
+    padding: 39px 62px 15px 60px;
+  }
 `;
 
 function Signinfield() {
@@ -51,10 +55,7 @@ function Signinfield() {
     }
   };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    if (
-      passwordRef.current!.value.length < 6 &&
-      passwordRef.current!.value.length >= 1
-    ) {
+    if (nameRef.current!.value.length === 1) {
       setNameError(true);
     } else {
       setNameError(false);
@@ -83,18 +84,28 @@ function Signinfield() {
     }
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     console.log(
-      `email: ${emailRef.current!.value}, password: ${
-        passwordRef.current!.value
-      } `
+      `userName: ${nameRef.current!.value}, 
+       email: ${emailRef.current!.value}, 
+       password: ${passwordRef.current!.value} `
     );
     const data = {
+      userName: nameRef.current!.value,
       email: emailRef.current!.value,
       password: passwordRef.current!.value,
     };
     const logindata = JSON.stringify(data);
     localStorage.setItem('login', logindata);
+    try {
+      const res = await axios.post('/api/register/', data);
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+
     // 문제없으면 이동
     // nav('/signin');
     // try {
@@ -125,12 +136,9 @@ function Signinfield() {
     <Container>
       <LoginForm.Title>회원가입</LoginForm.Title>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={nameError}>
-          이름
-          {nameError && '유효하지 않은 이름입니다.'}
-        </LoginForm.InputTitle>
+        <LoginForm.InputTitle error={nameError}>이름</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
-          {nameError && '이름을 입력해주세요'}
+          {nameError && '유효하지 않은 이름입니다.'}
         </LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input

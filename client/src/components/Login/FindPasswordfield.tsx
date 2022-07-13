@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useRef } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
@@ -10,19 +10,24 @@ const Container = styled.div`
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
+
   flex-direction: column;
   padding: 49px 72px 25px 70px;
   box-sizing: border-box;
   width: 645px;
   border: 1px solid black;
+  @media screen and (max-width: 1120px) {
+    width: 100%;
+    padding: 39px 62px 15px 60px;
+  }
 `;
 
 function FindPasswordfield() {
   const regEmail = vaildation.regEmail;
   const nav = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const [nameError, setNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const [btnError, setbtnError] = useState<boolean>(true);
@@ -42,19 +47,35 @@ function FindPasswordfield() {
       setbtnError(false);
     }
   };
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    if (nameRef.current!.value.length === 1) {
+      setNameError(true);
+    } else {
+      setNameError(false);
+    }
+    if (emailRef.current!.value.length === 0) {
+      setbtnError(true);
+    } else {
+      setbtnError(false);
+    }
+  };
+  const handleClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     console.log(
-      `email: ${emailRef.current!.value}, password: ${
-        passwordRef.current!.value
-      } `
+      `email: ${emailRef.current!.value}, userName: ${nameRef.current!.value} `
     );
     const data = {
+      userName: nameRef.current!.value,
       email: emailRef.current!.value,
-      password: passwordRef.current!.value,
     };
-    const logindata = JSON.stringify(data);
-    localStorage.setItem('login', logindata);
+    try {
+      const res = await axios.post('/api/reset-password/', data);
+      console.log(res);
+      nav('/main');
+    } catch (e) {
+      console.log(e);
+    }
     // 문제없으면 이동
     // nav('/signin');
     // try {
@@ -85,6 +106,20 @@ function FindPasswordfield() {
     <Container>
       <LoginForm.FindPswTitle>비밀번호를 잊으셨나요?</LoginForm.FindPswTitle>
       <LoginForm.InputDiv>
+        <LoginForm.InputTitle error={nameError}>이름</LoginForm.InputTitle>
+        <LoginForm.ErrorSpan>
+          {nameError && '유효하지 않은 이름입니다.'}
+        </LoginForm.ErrorSpan>
+      </LoginForm.InputDiv>
+      <LoginForm.Input
+        onChange={handleNameChange}
+        type='string'
+        ref={nameRef}
+        placeholder='가입한 이름을 입력해주세요.'
+        error={nameError}
+      />
+
+      <LoginForm.InputDiv>
         <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {emailError && '유효하지 않은 이메일 주소입니다.'}
@@ -94,7 +129,7 @@ function FindPasswordfield() {
         onChange={handleEmailChange}
         type='string'
         ref={emailRef}
-        placeholder='이메일 주소를 입력하세요.'
+        placeholder='가입한 이메일 주소를 입력해주세요.'
         error={emailError}
       />
       <LoginForm.Button onClick={handleClick} disabled={btnactive}>

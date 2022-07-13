@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useRef } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
@@ -10,13 +10,16 @@ const Container = styled.div`
   background-color: #fff;
   border-radius: 10px;
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
   padding: 49px 72px 25px 70px;
   box-sizing: border-box;
   width: 645px;
   border: 1px solid black;
+  @media screen and (max-width: 1120px) {
+    width: 100%;
+    padding: 39px 62px 15px 60px;
+  }
 `;
 
 function Loginfield() {
@@ -61,7 +64,9 @@ function Loginfield() {
       setbtnError(false);
     }
   };
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     console.log(
       `email: ${emailRef.current!.value}, password: ${
         passwordRef.current!.value
@@ -73,6 +78,13 @@ function Loginfield() {
     };
     const logindata = JSON.stringify(data);
     localStorage.setItem('login', logindata);
+    try {
+      const res = await axios.post('/api/login/', data);
+      console.log(res);
+      nav('/main');
+    } catch (e) {
+      console.log(e);
+    }
     // 문제없으면 이동
     // nav('/signin');
     // try {

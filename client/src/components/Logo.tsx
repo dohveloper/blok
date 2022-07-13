@@ -12,6 +12,15 @@ const Logodiv = styled.div`
   height: 40px;
   cursor: pointer;
   padding: 10px;
+  @media screen and (max-width: 1120px) {
+    position: static;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: 40px;
+    padding: 10px 0;
+  }
 `;
 
 const Logo = () => {

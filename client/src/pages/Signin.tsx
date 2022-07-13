@@ -13,6 +13,9 @@ export const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
+  @media screen and (max-width: 1120px) {
+    justify-content: flex-start;
+  }
 `;
 
 function Signin() {
