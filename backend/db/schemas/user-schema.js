@@ -9,7 +9,9 @@ const UserSchema = new Schema(
     // domain schema로 변경 예정
     domain: [
       {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: "sites",
+        required: false,
       },
     ],
     userName: {
@@ -26,6 +28,7 @@ const UserSchema = new Schema(
     },
     profileImage: {
       type: String,
+      default: null,
     },
     oauth: {
       type: Boolean,
@@ -49,7 +52,7 @@ const UserSchema = new Schema(
     },
   },
   {
-    collection: "team12user",
+    collection: "users",
     timestamps: true,
   }
 );

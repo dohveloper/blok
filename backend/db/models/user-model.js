@@ -1,4 +1,3 @@
-import { del } from "express/lib/application";
 import { model } from "mongoose";
 import { UserSchema } from "../schemas/user-schema";
 

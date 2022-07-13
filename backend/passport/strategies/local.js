@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Strategy } from "passport-local";
 import { userModel } from "../../db";
+import { BadRequestError } from "../../errors";
 
 const config = {
   usernameField: "email", // 'email' 필드 사용하도록 설정
@@ -11,10 +12,10 @@ const local = new Strategy(config, async (email, password, done) => {
   try {
     const user = await userModel.findByEmail(email);
     if (!user) {
-      throw new Error("회원을 찾을 수 없습니다.");
+      throw new BadRequestError("회원을 찾을 수 없습니다.");
     }
     if (user.oauth === true) {
-      throw new Error("소셜 로그인으로 가입된 이메일입니다.");
+      throw new BadRequestError("소셜 로그인으로 가입된 이메일입니다.");
     }
     // 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password; // db에 저장되어 있는 암호화된 비밀번호
@@ -25,7 +26,7 @@ const local = new Strategy(config, async (email, password, done) => {
     );
     // 비밀번호가 일치하지 않는 경우 예외처리
     if (!isPasswordCorrect) {
-      throw new Error(
+      throw new BadRequestError(
         "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
       );
     }
