@@ -18,7 +18,7 @@ const opts = {
 //jwt strategy
 const jwt = new Strategy(opts, async (user, done) => {
   try {
-    const findUser = await userModel.findByShortId(user.userId);
+    const findUser = await userModel.findById(user._id);
     if (findUser) {
       // userJWTObjectMaker => jwt화 할 유저 정보만 빼주는 함수.
       done(null, userJWTObjectMaker(findUser));

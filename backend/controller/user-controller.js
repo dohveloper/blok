@@ -53,11 +53,11 @@ const userController = {
   }),
 
   userDelete: asyncHandler(async (req, res, next) => {
-    const userId = req.params.userId;
-    if (req.user.userId !== userId) {
+    const _id = req.params._id;
+    if (req.user._id !== _id) {
       throw new ForbiddenError("본인의 계정만 삭제할 수 있습니다.");
     }
-    const deletedUserInfo = await userService.deleteUser(userId);
+    const deletedUserInfo = await userService.deleteUser(_id);
     res.status(204).clearCookie(JWT_COOKIE_KEY).json(deletedUserInfo);
   }),
 
@@ -83,8 +83,8 @@ const userController = {
   }),
 
   getUserInfo: asyncHandler(async (req, res, next) => {
-    const userId = req.params.userId;
-    const user = await userService.getUserInfo(userId);
+    const _id = req.params._id;
+    const user = await userService.getUserInfo(_id);
     res.status(200).json(user);
   }),
 
@@ -95,11 +95,11 @@ const userController = {
     // S3 이미지 저장 주소
     // await console.log(profileImage);
     // Mongo DB 저장
-    if (req.user.userId !== req.params.userId) {
+    if (req.user._id !== req.params._id) {
       throw new ForbiddenError("본인의 정보만 수정할 수 있습니다!");
     }
-    const userId = req.user.userId;
-    const updatedUserInfo = await userService.changeProfileImage(userId, {
+    const _id = req.user._id;
+    const updatedUserInfo = await userService.changeProfileImage(_id, {
       profileImage: profileImage,
     });
     res.status(201).json(updatedUserInfo);
@@ -111,11 +111,11 @@ const userController = {
         "headers의 Content-Type을 application/json으로 설정해주세요"
       );
     }
-    const userId = req.params.userId;
+    const _id = req.params._id;
     const editPassword = req.body.password;
     const currentPassword = req.body.currentPassword;
-
-    if (req.user.userId !== userId) {
+    console.log(req.user._id, req.params._id);
+    if (req.user._id !== _id) {
       throw new ForbiddenError("본인의 정보만 수정할 수 있습니다!");
     }
 
@@ -124,7 +124,7 @@ const userController = {
         "정보를 변경하려면, 현재의 비밀번호가 필요합니다."
       );
     }
-    const userInfoRequired = { userId, currentPassword };
+    const userInfoRequired = { _id, currentPassword };
     const toUpdate = {
       ...(editPassword && { password: editPassword }),
     };

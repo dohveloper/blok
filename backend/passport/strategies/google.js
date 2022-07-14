@@ -1,5 +1,6 @@
 import { Strategy } from "passport-google-oauth20";
 import { userService } from "../../services";
+import { userJWTObjectMaker } from "../../utils";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -7,7 +8,7 @@ dotenv.config();
 const config = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "/api/user/auth/google/callback",
+  callbackURL: "/api/auth/google/callback",
 };
 
 // googleStrategy 부분
@@ -22,16 +23,9 @@ const google = new Strategy(
     };
     try {
       // 유저를 찾으면 로그인 시켜주고, 아니면 회원가입
-      const user = await userService.findOrCreateUser(newUser);
+      const user = await userService.findOrCreateUser(newUser, "google");
       // 정보를 전달하여 jwt토큰으로 만들어줌
-      done(null, {
-        userId: user.userId,
-        email: user.email,
-        userName: user.userName,
-        role: user.role,
-        oauth: user.oauth,
-        passwordReset: user.passwordReset,
-      });
+      done(null, userJWTObjectMaker(user));
     } catch (e) {
       done(e, null);
     }
