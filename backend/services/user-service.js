@@ -1,17 +1,13 @@
-import { userModel } from "../db";
 import { generateRandomPassword, sendMail } from "../utils";
 import bcrypt from "bcrypt";
-import dotenv from "dotenv";
 import { BadRequestError, ForbiddenError } from "../errors";
-
-dotenv.config();
+import { userModel } from "../db";
 
 class UserService {
   constructor(userModel) {
     this.userModel = userModel;
   }
 
-  // 회원가입
   async addUser(userInfo) {
     const { userName, email, password } = userInfo;
     const user = await this.userModel.findByEmail(email);
@@ -26,37 +22,12 @@ class UserService {
     return createdNewUser;
   }
 
-  // oauth 로그인 인증 부분
-  // 유저를 찾고 없으면 자동 회원가입
-  async findOrCreateUser(newUser, oauth) {
-    const { userName, email, profileImage } = newUser;
-    const user = await userModel.findByEmail(email);
-    // 이메일 기반 검색으로 먼저 유저를 찾고, 없는 경우에만 진행
-    // 이미 가입된 이메일 + 해당 oauth가 아닌 경우, 에러 throw
-    if (user && user.oauth === oauth) {
-      throw new BadRequestError("이미 계정으로 가입된 이메일입니다.");
-    }
-    if (user) {
-      return user;
-    }
-    const created = await userModel.create({
-      userName,
-      email,
-      profileImage,
-      // 비밀번호는 어쩌피 사용되지 않기 때문에 일단 고정값으로 설정
-      password: "OAUTH",
-      oauth: oauth,
-    });
-
-    return created;
-  }
   // 사용자 목록을 받음.
   async getUsers() {
     const users = await this.userModel.findAll();
     return users;
   }
 
-  // 사용자 정보 주는 함수
   async getUserInfo(_id) {
     const user = await this.userModel.findById(_id);
     if (!user) {
@@ -65,7 +36,6 @@ class UserService {
     return user;
   }
 
-  // 유저 프로필 이미지 수정
   async changeProfileImage(_id, toUpdatedIamge) {
     const user = await this.userModel.findById(_id);
     if (!user) {
@@ -76,7 +46,6 @@ class UserService {
     return changedUser;
   }
 
-  // 유저 비밀번호 수정, 현재 비밀번호가 있어야 수정 가능함.
   async changeUserPassword(userInfoRequired, toUpdate) {
     const { _id, currentPassword } = userInfoRequired;
     let user = await this.userModel.findById(_id);
@@ -105,7 +74,6 @@ class UserService {
     return user;
   }
 
-  // 비밀번호 초기화 로직
   async passwordReset(userName, email) {
     const user = await userModel.findByEmail(email);
     if (!user) {
@@ -121,7 +89,6 @@ class UserService {
     }
     let password = generateRandomPassword();
 
-    // 패스워드 발송하기
     await sendMail(
       email,
       // 제목

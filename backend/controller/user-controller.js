@@ -1,7 +1,6 @@
 import is from "@sindresorhus/is";
 import { userService } from "../services";
 import {
-  setUserToken,
   JWT_COOKIE_KEY,
   userJWTObjectMaker,
   asyncHandler,
@@ -25,20 +24,6 @@ const userController = {
     return res.status(201).json(newUser);
   }),
 
-  login: asyncHandler(async (req, res, next) => {
-    if (is.emptyObject(req.body)) {
-      throw new BadRequestError(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
-    }
-    setUserToken(res, req.user);
-    res.status(200).json({
-      message: "로그인 성공",
-      status: 200,
-      passwordReset: req.user.passwordReset,
-    });
-  }),
-
   resetPassword: asyncHandler(async (req, res, next) => {
     if (is.emptyObject(req.body)) {
       throw new BadRequestError(
@@ -60,17 +45,7 @@ const userController = {
     const deletedUserInfo = await userService.deleteUser(_id);
     res.status(204).clearCookie(JWT_COOKIE_KEY).json(deletedUserInfo);
   }),
-
-  googleOauth: asyncHandler((req, res, next) => {
-    setUserToken(res, req.user);
-    res.status(201).json(req.user);
-  }),
-
-  kakaoOauth: asyncHandler((req, res, next) => {
-    setUserToken(res, req.user);
-    res.status(201).json(req.user);
-  }),
-
+  // (jwttoken가 쿠키로 전달되기 때문에 클라이언트에선 변수 없이 호출)
   logincheck: asyncHandler((req, res, next) => {
     return res.status(200).json(userJWTObjectMaker(req.user));
   }),
