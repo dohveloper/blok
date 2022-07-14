@@ -1,21 +1,21 @@
 import styled from "styled-components";
 import Sidebar from "../components/Sidebar";
-import UserTable from "../components/UserTable";
+import User from "../components/User";
 
-const Container = styled.div`
-  background-color: #f7f7f9;
+export const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
   min-height: 100vh;
+  background-color: #f7f7f9;
 `;
 
-export default function Admin() {
+export default function UserInfo() {
   return (
     <Container>
-      <UserTable />
       <Sidebar />
+      <User />
     </Container>
   );
 }

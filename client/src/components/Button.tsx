@@ -11,6 +11,8 @@ interface IProps {
   outline: boolean;
   onClick: () => void;
   className: string;
+  type: "button" | "submit" | "reset";
+  disabled: boolean;
 }
 
 const colorStyles = css`
@@ -75,7 +77,7 @@ const fullWidthStyle = css`
       justify-content: center;
       & + & {
         margin-left: 0;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
       }
     `}
 `;
@@ -97,7 +99,6 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 5px;
   font-weight: bold;
-
   cursor: pointer;
   padding: 0 1rem;
 
@@ -110,13 +111,14 @@ const StyledButton = styled.button`
   /* 둥근 스타일 */
   ${borderStyle}
   
-  /* fullWidth */
-  ${fullWidthStyle}
-
+  
   /* 기타 */
   & + & {
     margin-left: 0.5rem;
   }
+
+  /* fullWidth */
+  ${fullWidthStyle}
 `;
 
 type ButtonProps = {
@@ -128,6 +130,8 @@ type ButtonProps = {
   outline: boolean;
   onClick: () => void;
   className: string;
+  type: "button" | "submit" | "reset";
+  disabled: boolean;
 };
 
 Button.defaultProps = {
@@ -140,6 +144,8 @@ Button.defaultProps = {
     console.log("click");
   },
   className: "",
+  type: "button",
+  disabled: false,
 };
 
 export default function Button({
@@ -149,6 +155,9 @@ export default function Button({
   fullWidth,
   rounding,
   outline,
+  className,
+  type,
+  disabled,
   ...rest
 }: ButtonProps) {
   return (
@@ -158,6 +167,9 @@ export default function Button({
       fullWidth={fullWidth}
       rounding={rounding}
       outline={outline}
+      type={type}
+      className={className}
+      disabled={disabled}
       {...rest}
     >
       {children}

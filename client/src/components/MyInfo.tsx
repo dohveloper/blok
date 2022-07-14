@@ -9,7 +9,7 @@ const MainContainer = styled.div`
 `;
 
 const Container = styled.div`
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 `;
 
 export const MainTitle = styled.div`
@@ -19,41 +19,39 @@ export const MainTitle = styled.div`
   margin-bottom: 70px;
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   font-weight: 500;
   font-size: 1.5rem;
   margin-bottom: 32px;
 `;
 
-const ContentContainer = styled.div`
-  background-color: #fff;
-  padding: 1.6rem;
-  border-radius: 10px;
-
-  .content {
-    margin-bottom: 20px;
-  }
-`;
-
-const ContentDiv = styled.div`
+export const ContentDiv = styled.div`
+  width: 100%;
   display: flex;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
-const ContentTitle = styled.div`
-  font-size: 1.125rem;
-  font-weight: 00;
-  width: 6.25em;
+export const ContentTitle = styled.div`
+  font-size: 18px;
   text-align: center;
-  margin-right: 43px;
+  margin-right: 28px;
+  flex: 1;
 `;
 
-const Content = styled.div`
-  font-size: 1.125rem;
+export const Content = styled.div`
+  font-size: 18px;
   width: 100%;
-  height: 1.5rem;
+  height: 42px;
+  line-height: 44px;
+  border: 1px solid #ececec;
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding-left: 18px;
+  flex: 5;
   color: #111111;
-  border-bottom: 1px solid #e5e5e5;
+  background-color: #fff;
 `;
 
 const ControlButton = styled(Button)`
@@ -80,12 +78,11 @@ export default function MyInfo() {
   const dispatch = useDispatch();
 
   const getUserInfo = async () => {
-    axios.get("/user").then((res): void => {
-      const user = res.data;
-      setName(user.name);
-      setEmail(user.email);
-      setPlan(user.plan);
-    });
+    const res = await axios.get("/user/1");
+    const user = res.data[0];
+    setName(user.name);
+    setEmail(user.email);
+    setPlan(user.plan);
   };
 
   useEffect(() => {
@@ -114,23 +111,21 @@ export default function MyInfo() {
 
   return (
     <MainContainer>
-      <MainTitle>Account</MainTitle>
+      <MainTitle className="title">Account</MainTitle>
       <Container>
         <Title>내 정보</Title>
-        <ContentContainer>
-          <ContentDiv className="content">
-            <ContentTitle>이름</ContentTitle>
-            <Content>{name}</Content>
-          </ContentDiv>
-          <ContentDiv className="content">
-            <ContentTitle>이메일</ContentTitle>
-            <Content>{email}</Content>
-          </ContentDiv>
-          <ContentDiv>
-            <ContentTitle>플랜</ContentTitle>
-            <Content>{plan}</Content>
-          </ContentDiv>
-        </ContentContainer>
+        <ContentDiv className="content">
+          <ContentTitle>이름</ContentTitle>
+          <Content>{name}</Content>
+        </ContentDiv>
+        <ContentDiv className="content">
+          <ContentTitle>이메일</ContentTitle>
+          <Content>{email}</Content>
+        </ContentDiv>
+        <ContentDiv>
+          <ContentTitle>플랜</ContentTitle>
+          <Content>{plan}</Content>
+        </ContentDiv>
       </Container>
       <Container>
         <Title>계정 관리</Title>

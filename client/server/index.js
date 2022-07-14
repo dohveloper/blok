@@ -34,18 +34,6 @@ app.get("/123", function (req, res) {
   res.send("<h1>welcome page</h1>");
 });
 
-app.get("/user", function (req, res) {
-  res.send({
-    name: "elice",
-    email: "elice@elice.com",
-    plan: "Free",
-    domain: [
-      { doname: "naver", link: "http://www.naver.com" },
-      { doname: "google", link: "http://www.google.com" },
-    ],
-  });
-});
-
 app.get("/template", function (req, res) {
   res.send({
     template: [
@@ -64,6 +52,314 @@ app.get("/template", function (req, res) {
       },
     ],
   });
+});
+const siteDate = {
+  data: [
+    {
+      id: 1,
+      template: "랜딩페이지",
+      siteName: "naver",
+      domain: "http://www.naver.com",
+      startDate: "20220202",
+      name: "윤영주",
+      userId: 2,
+    },
+    {
+      id: 2,
+      template: "기업소개",
+      siteName: "naver",
+      domain: "http://www.naver.com/asdasd",
+      startDate: "20220202",
+      name: "앨리스",
+      userId: 1,
+    },
+    {
+      id: 3,
+      template: "랜딩페이지",
+      siteName: "google",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "앨리스",
+      userId: 1,
+    },
+    {
+      id: 4,
+      template: "이력서",
+      siteName: "goole",
+      domain: "http://www.goolgge.com",
+      startDate: "20220202",
+      name: "윤영주",
+      userId: 2,
+    },
+    {
+      id: 5,
+      template: "랜딩페이지",
+      siteName: "goole",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+    {
+      id: 6,
+      template: "랜딩페이지",
+      siteName: "asd",
+      domain: "ㅁㄴㅇㄹ://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+    {
+      id: 7,
+      template: "이력서",
+      siteName: "goole",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+    {
+      id: 8,
+      template: "이력서",
+      siteName: "goole",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+    {
+      id: 9,
+      template: "이력서",
+      siteName: "goole",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+    {
+      id: 10,
+      template: "이력서",
+      siteName: "goole",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+    {
+      id: 11,
+      template: "이력서",
+      siteName: "goole",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+    {
+      id: 12,
+      template: "이력서",
+      siteName: "goole",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+    {
+      id: 13,
+      template: "이력서",
+      siteName: "goole",
+      domain: "http://www.goole.com",
+      startDate: "20220202",
+      name: "윤영자",
+      userId: 4,
+    },
+  ],
+};
+
+const userData = {
+  data: [
+    {
+      id: 1,
+      template: "랜딩페이지",
+      domain: [{ domainName: "naver", link: "http://www.naver.com" }],
+      plan: "free",
+      startDate: "20220202",
+      name: "앨리스",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 2,
+      template: "랜딩페이지",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "윤영주",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 3,
+      template: "기업소개",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "앨리샤",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 4,
+      template: "기업소개",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "윤영자",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 5,
+      template: "기업소개",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "윤영수",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 6,
+      template: "이력서",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "이아영",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 7,
+      template: "기업소개",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "이아진",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 8,
+      template: "메롱",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "윤수민",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 9,
+      template: "이력서",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "김민수",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 10,
+      template: "메롱",
+      domain: [
+        { domainName: "naver", link: "http://www.naver.com" },
+        { domainName: "google", link: "http://www.google.com" },
+      ],
+      plan: "free",
+      startDate: "20220202",
+      name: "윤주은",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+    {
+      id: 11,
+      template: "이력서",
+      domain: [{ domainName: "naver", link: "http://www.naver.com" }],
+      plan: "free",
+      startDate: "20220202",
+      name: "이수은",
+      email: "elice@elice.com",
+      password: "asdf",
+      profileImage: "image",
+      role: "basic-user",
+    },
+  ],
+};
+
+app.get("/user/:userId", function (req, res) {
+  const { userId } = req.params;
+  const data = userData.data.filter((user) => user.id === Number(userId));
+  res.send(data);
+});
+
+app.patch("/user/:userId", function (req, res) {
+  res.send("userData Update!!!");
+});
+
+// 유저필터
+app.get("/sites", function (req, res) {
+  const { q } = req.query;
+
+  const keys = ["name", "template", "domain", "siteName", "startDate"];
+  const search = (data) => {
+    return data.filter((item) => keys.some((key) => item[key].includes(q)));
+  };
+
+  res.send(search(siteDate.data));
+  // res.send(search(userData.data).splice(0, 7));
 });
 
 app.get("*", (req, res) => {

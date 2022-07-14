@@ -22,8 +22,9 @@ const Container = styled.div`
 
 const Table = styled.table`
   border-bottom: 1px solid #e5e5e5;
-  border-collapse: separate;
+  border-collapse: collapse;
   width: 1120px;
+  min-height: 100px;
 
   th {
     padding: 10px;
@@ -93,8 +94,6 @@ export function TemplateList() {
     axios.get("/template").then((res): void => {
       const data = res.data.template;
       setTemplateData(data);
-      console.log(templateData);
-      console.log(data[0].title);
     });
   };
 
@@ -106,16 +105,15 @@ export function TemplateList() {
     <Container>
       <MainTitle className="title">Template</MainTitle>
       <TemplateBox>
-        {templateData?.map((e) => (
-          <>
+        {templateData?.map((e, idx) => (
+          <div key={idx}>
             <TemplateCard
-              key={e.title}
               title={e.title}
               description={e.description}
               color1={e.color1}
               color2={e.color2}
             />
-          </>
+          </div>
         ))}
       </TemplateBox>
     </Container>
@@ -123,14 +121,12 @@ export function TemplateList() {
 }
 
 export function DashboardInfo() {
-  const [domain, setDomain] = useState([]);
+  const [domain, setDomain] = useState<any[]>([]);
   const dispatch = useDispatch();
 
   const getUserInfo = async () => {
-    axios.get("/user").then((res): void => {
-      const data = res.data.domain;
-      setDomain(data);
-    });
+    const res = await axios.get("/user/1");
+    await setDomain(res.data[0].domain);
   };
 
   useEffect(() => {
@@ -164,33 +160,39 @@ export function DashboardInfo() {
             </tr>
           </thead>
           <tbody>
-            {domain.map(({ doname, link }) => (
-              <tr key={doname + link}>
-                <td>
-                  {doname}
-                  <br />
-                  <a href={link}>{link}</a>
-                </td>
-                <td>Free</td>
-                <td>
-                  <ControlButton
-                    className={"editButton"}
-                    rounding
-                    color="white"
-                  >
-                    Edit
-                  </ControlButton>
-                  <ControlButton
-                    className={"deleteButton"}
-                    onClick={deleteHandler}
-                    color="gray"
-                    rounding
-                  >
-                    Delete
-                  </ControlButton>
-                </td>
+            {domain.length > 0 ? (
+              domain.map((e, idx) => (
+                <tr key={idx}>
+                  <td>
+                    {e.domainName}
+                    <br />
+                    <a href={e.link}>{e.link}</a>
+                  </td>
+                  <td>Free</td>
+                  <td>
+                    <ControlButton
+                      className={"editButton"}
+                      rounding
+                      color="white"
+                    >
+                      Edit
+                    </ControlButton>
+                    <ControlButton
+                      className={"deleteButton"}
+                      onClick={deleteHandler}
+                      color="gray"
+                      rounding
+                    >
+                      Delete
+                    </ControlButton>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={3}>사이트가 없습니다.</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </Table>
         <AddButton
