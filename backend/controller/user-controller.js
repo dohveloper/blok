@@ -89,7 +89,6 @@ const userController = {
     const _id = req.params._id;
     const editPassword = req.body.password;
     const currentPassword = req.body.currentPassword;
-    console.log(req.user._id, req.params._id);
     if (req.user._id !== _id) {
       throw new ForbiddenError("본인의 정보만 수정할 수 있습니다!");
     }

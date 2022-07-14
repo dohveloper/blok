@@ -22,12 +22,6 @@ class UserService {
     return createdNewUser;
   }
 
-  // 사용자 목록을 받음.
-  async getUsers() {
-    const users = await this.userModel.findAll();
-    return users;
-  }
-
   async getUserInfo(_id) {
     const user = await this.userModel.findById(_id);
     if (!user) {
@@ -109,6 +103,9 @@ class UserService {
   // 회원 삭제 구현, 추후 수정예정
   async deleteUser(_id) {
     const user = await this.userModel.delete(_id);
+    if (!user) {
+      throw new BadRequestError("존재하지 않는 유저입니다!");
+    }
     return user;
   }
 }

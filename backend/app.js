@@ -3,7 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import { userRouter, adminRouter, authRouter } from "./routers";
-import { errorHandler } from "./middlewares";
+import { errorHandler, adminRequired, loginRequired } from "./middlewares";
 import passport from "passport";
 import passportStrategies from "./passport";
 import cookieParser from "cookie-parser";
@@ -30,10 +30,6 @@ passportStrategies();
 
 app.use(express.json());
 
-app.listen(PORT, function () {
-  console.log(`listening on http://localhost:${PORT}`);
-});
-
 // 테스팅용 라우터, 제거예정
 app.get("/", function (req, res) {
   res.send("<h1>welcome page</h1>");
@@ -43,8 +39,13 @@ app.use(passport.initialize());
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/admin", adminRouter);
+app.use("/api/admin", loginRequired, adminRequired, adminRouter);
 
+app.listen(PORT, function () {
+  console.log(`listening on http://localhost:${PORT}`);
+});
+
+// errorHandler
 app.use(errorHandler);
 
 export { app };

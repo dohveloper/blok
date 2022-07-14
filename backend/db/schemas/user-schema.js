@@ -39,7 +39,7 @@ const UserSchema = new Schema(
       type: String,
       default: "free",
       // 추가 예정
-      enum: ["free"],
+      enum: ["free", "paid"],
     },
     // true일 때 비밀번호 재설정 페이지 렌더링
     passwordReset: {
