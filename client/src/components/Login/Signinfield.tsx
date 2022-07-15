@@ -31,6 +31,8 @@ function Signinfield() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const [nameError, setNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
+  const [emailErrormsg, setEmailErrormshg] =
+    useState<string>('유효하지 않은 이메일입니다.');
   const [pswError, setPswError] = useState<boolean>(false);
   const [btnError, setbtnError] = useState<boolean>(true);
   const [bchecked, setChecked] = useState<boolean>(false);
@@ -44,6 +46,7 @@ function Signinfield() {
       regEmail.test(emailRef.current!.value) !== true &&
       emailRef.current!.value.length >= 1
     ) {
+      setEmailErrormshg('유효하지 않은 이메일입니다.');
       setEmailError(true);
     } else {
       setEmailError(false);
@@ -100,21 +103,13 @@ function Signinfield() {
     const logindata = JSON.stringify(data);
     localStorage.setItem('login', logindata);
     try {
-      const res = await axios.post('/api/register/', data);
+      const res = await axios.post('/api/user/register', data);
       console.log(res);
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      setEmailErrormshg(e.response.data.reason);
+      alert(e.response.data.reason);
+      setEmailError(true);
     }
-
-    // 문제없으면 이동
-    // nav('/signin');
-    // try {
-    //   Api.get('url:${data}')
-
-    // } catch(e){
-    //   console.log(e)
-    //   모달창 띄우기
-    // }
   };
 
   const toLoginClick = (
@@ -123,15 +118,6 @@ function Signinfield() {
     nav('/login');
   };
 
-  // useEffect(() => {
-  //   const data = localStorage.set('login');
-  //   console.log(
-  //     `${data ? '로그인정보 이미 있습니다.' : '로그인 정보가 없습니다.'}`
-  //   );
-  // }, []);
-  // useEffect(() => {
-  //   axios.get('/123').then((res): void => console.log(res));
-  // }, []);
   return (
     <Container>
       <LoginForm.Title>회원가입</LoginForm.Title>
@@ -150,9 +136,7 @@ function Signinfield() {
       />
       <LoginForm.InputDiv>
         <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
-        <LoginForm.ErrorSpan>
-          {emailError && '유효하지 않은 이메일입니다.'}
-        </LoginForm.ErrorSpan>
+        <LoginForm.ErrorSpan>{emailError && emailErrormsg}</LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input
         onChange={handleEmailChange}
@@ -193,9 +177,6 @@ function Signinfield() {
       <LoginForm.GoogleButton>
         <img src={imgs.googleloginicon} alt='구글'></img>구글 계정으로 가입
       </LoginForm.GoogleButton>
-      <LoginForm.KakaoButton>
-        <img src={imgs.kakaologinicon} alt='카카오'></img> 카카오 계정으로 가입
-      </LoginForm.KakaoButton>
       <LoginForm.Graytext>
         이미 가입하셨나요?
         <LoginForm.Atag onClick={toLoginClick}>로그인하기</LoginForm.Atag>

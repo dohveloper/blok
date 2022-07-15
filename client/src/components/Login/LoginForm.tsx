@@ -244,8 +244,18 @@ export const ErrorSpan = styled.span`
   display: inline-block;
   margin-left: auto;
   font-weight: 700;
+
   font-size: 14px;
   color: red;
+`;
+export const LoginErrorSpan = styled.span`
+  display: inline-block;
+  margin-right: auto;
+  font-weight: 700;
+  font-size: 14px;
+  color: red;
+
+  text-decoration: none !important;
 `;
 
 export const Atag = styled.a`

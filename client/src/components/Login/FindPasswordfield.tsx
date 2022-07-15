@@ -70,21 +70,15 @@ function FindPasswordfield() {
       email: emailRef.current!.value,
     };
     try {
-      const res = await axios.post('/api/reset-password/', data);
+      const res = await axios.post(
+        'http://localhost:3000/api/user/reset-password/',
+        data
+      );
       console.log(res);
       nav('/main');
     } catch (e) {
       console.log(e);
     }
-    // 문제없으면 이동
-    // nav('/signin');
-    // try {
-    //   Api.get('url:${data}')
-
-    // } catch(e){
-    //   console.log(e)
-    //   모달창 띄우기
-    // }
   };
 
   const toLoginClick = (

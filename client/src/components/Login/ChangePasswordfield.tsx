@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useRef } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 
@@ -81,8 +81,10 @@ function ChangePasswordfield() {
     }
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const current = currentpswRef.current!.value;
+  const handleClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    // const current = currentpswRef.current!.value;
     const newpsw = newPswRef.current!.value;
     const newpswcheck = newPscheckRef.current!.value;
     // current 유효한지 확인 후
@@ -90,22 +92,20 @@ function ChangePasswordfield() {
       console.log('비밀번호가 일치하지 않습니다.');
       newPscheckRef.current!.focus();
       setNewPswcheckError(true);
+    } else {
+      const data = {
+        password: newpsw,
+      };
+      try {
+        const res = await axios.patch('/api/user/change-password/:_id', data);
+        console.log(res);
+      } catch (e) {
+        console.log(e);
+      }
     }
 
-    const data = {
-      password: newpsw,
-    };
-    const logindata = JSON.stringify(data);
-    localStorage.setItem('login', logindata);
     // 문제없으면 이동
     // nav('/signin');
-    // try {
-    //   Api.get('url:${data}')
-
-    // } catch(e){
-    //   console.log(e)
-    //   모달창 띄우기
-    // }
   };
 
   const toLoginClick = (
