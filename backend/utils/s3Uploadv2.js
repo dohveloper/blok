@@ -9,7 +9,7 @@ const s3Uploadv2 = async (file) => {
 
   const param = {
     Bucket: process.env.AWS_BUCKET_NAME,
-    Key: `uploads/${Date.now()}`,
+    Key: `uploads/${file.originalname}`,
     Body: file.buffer,
     ContentType: "image/png",
   };

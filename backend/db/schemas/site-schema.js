@@ -1,40 +1,50 @@
 import { Schema } from "mongoose";
-import { shortId } from "./types/short-id";
 
-const SiteSchema = new Schema({
-    siteId: shortId,
-
+const SiteSchema = new Schema(
+  {
     siteName: {
-        type: String,
-        required: false,
+      type: String,
+      required: true,
     },
-    domain: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "users",
-            required: false,
-        },
-    ],
-    siteTemplete: {
-        type: String,
-        required: false,
+    siteDomain: {
+      type: Schema.Types.ObjectId,
+      ref: "domain",
+      required: true,
+    },
+    siteOwner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    siteURL: {
+      type: String,
+      required: true,
+    },
+    siteTheme: {
+      type: String,
+      required: true,
     },
     siteFont: {
-        type: String,
-        required: false,
+      type: String,
+      required: true,
     },
     siteColor: {
-        type: new Schema({
-            primaryColor: String,
-            secondaryColor: String,
-            backgroundColor: String,
-            surfaceColor: String,
-        }),
+      type: new Schema({
+        primaryColor: String,
+        secondaryColor: String,
+        backgroundColor: String,
+        surfaceColor: String,
+      }),
     },
     siteData: {
-        type: Object,
-        required: false,
+      type: Object,
+      required: false,
     },
-});
+  },
+  {
+    collection: "sites",
+    timestamps: true,
+  }
+);
 
 export { SiteSchema };

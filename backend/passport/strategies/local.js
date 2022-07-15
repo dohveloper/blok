@@ -14,7 +14,7 @@ const local = new Strategy(config, async (email, password, done) => {
     if (!user) {
       throw new BadRequestError("회원을 찾을 수 없습니다.");
     }
-    if (user.oauth === true) {
+    if (user.oauth !== "local") {
       throw new BadRequestError("소셜 로그인으로 가입된 이메일입니다.");
     }
     // 비밀번호 일치 여부 확인
@@ -31,7 +31,7 @@ const local = new Strategy(config, async (email, password, done) => {
       );
     }
     done(null, {
-      userId: user.userId,
+      _id: user._id,
       email: user.email,
       userName: user.userName,
       role: user.role,

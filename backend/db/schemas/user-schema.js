@@ -1,17 +1,11 @@
 import { Schema } from "mongoose";
-import { shortId } from "./types/short-id";
 
 const UserSchema = new Schema(
   {
-    // 서비스에선 objected Id 대신 shrotId 사용
-    userId: shortId,
-    // domain url 체크 정규표현식 필요
-    // domain schema로 변경 예정
-    domain: [
+    userDomain: [
       {
         type: Schema.Types.ObjectId,
-        ref: "sites",
-        required: false,
+        ref: "domain",
       },
     ],
     userName: {
@@ -31,19 +25,20 @@ const UserSchema = new Schema(
       default: null,
     },
     oauth: {
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ["local", "kakao", "google"],
+      default: "local",
     },
     role: {
       type: String,
-      enum: ["admin-user", "basic-user"],
-      default: "basic-user",
+      enum: ["admin", "basic"],
+      default: "basic",
     },
     plan: {
       type: String,
       default: "free",
       // 추가 예정
-      enum: ["free"],
+      enum: ["free", "paid"],
     },
     // true일 때 비밀번호 재설정 페이지 렌더링
     passwordReset: {
