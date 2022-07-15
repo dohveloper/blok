@@ -60,10 +60,9 @@ class UserService {
       );
     }
     const { password } = toUpdate;
-    if (password) {
-      const newPasswordHash = await bcrypt.hash(password, 10);
-      toUpdate.password = newPasswordHash;
-    }
+    const newPasswordHash = await bcrypt.hash(password, 10);
+    toUpdate.password = newPasswordHash;
+    toUpdate.passwordReset = false;
     user = await this.userModel.update(_id, toUpdate);
     return user;
   }

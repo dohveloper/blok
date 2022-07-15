@@ -21,7 +21,7 @@ const userController = {
       email,
       password,
     });
-    return res.status(201).json(newUser);
+    return res.ok(200, newUser);
   }),
 
   resetPassword: asyncHandler(async (req, res) => {
@@ -32,9 +32,8 @@ const userController = {
     }
     const { userName, email } = req.body;
     await userService.passwordReset(userName, email);
-    res
-      .status(201)
-      .json({ message: "비밀번호가 초기화 되었습니다!", status: 201 });
+    return res.ok(201, { message: "비밀번호가 초기화 되었습니다!" });
+    // res.status(201).json({ message: "비밀번호가 초기화 되었습니다!" });
   }),
 
   userDelete: asyncHandler(async (req, res) => {
@@ -54,7 +53,7 @@ const userController = {
     return res
       .status(200)
       .clearCookie("jwttoken")
-      .json({ message: "로그아웃에 성공했습니다!", status: 200 });
+      .json({ message: "로그아웃에 성공했습니다!" });
   }),
 
   getUserInfo: asyncHandler(async (req, res) => {
@@ -87,7 +86,7 @@ const userController = {
       );
     }
     const _id = req.params._id;
-    const editPassword = req.body.password;
+    const changePassword = req.body.password;
     const currentPassword = req.body.currentPassword;
     if (req.user._id !== _id) {
       throw new ForbiddenError("본인의 정보만 수정할 수 있습니다!");
@@ -98,9 +97,13 @@ const userController = {
         "정보를 변경하려면, 현재의 비밀번호가 필요합니다."
       );
     }
+
+    if (!changePassword) {
+      throw new BadRequestError("변경할 비밀번호를 입력해주세요.");
+    }
     const userInfoRequired = { _id, currentPassword };
     const toUpdate = {
-      ...(editPassword && { password: editPassword }),
+      ...(changePassword && { password: changePassword }),
     };
     const updatedUserInfo = await userService.changeUserPassword(
       userInfoRequired,

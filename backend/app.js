@@ -37,6 +37,16 @@ app.get("/", function (req, res) {
 
 app.use(passport.initialize());
 
+app.use((req, res, next) => {
+  res.ok = (statusCode, json = {}) => {
+    return res.status(statusCode).json(json);
+  };
+  // res.message = (statusCode, message) => {
+  //   return res.status(statusCode).json({message})
+  // };
+  next();
+});
+
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/admin", loginRequired, adminRequired, adminRouter);
@@ -45,7 +55,9 @@ app.listen(PORT, function () {
   console.log(`listening on http://localhost:${PORT}`);
 });
 
-// errorHandler
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "404 Not Found" });
+});
 app.use(errorHandler);
 
 export { app };
