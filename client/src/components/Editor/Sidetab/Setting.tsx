@@ -1,9 +1,9 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
-import Button from "../../Button";
-import { TextInput } from "../../Input";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import Button from '../../Button';
+import { TextInput } from '../../Input';
 
 const ButtonContainer = styled.div`
   margin: 0 auto;
@@ -23,11 +23,11 @@ const Container = styled.div`
 
 export default function Setting() {
   const dispatch = useDispatch();
-  const [domain, setDomain] = useState("");
+  const [domain, setDomain] = useState('');
 
   const getDomainInfo = async () => {
     try {
-      axios.get("/site/2").then((res): void => {
+      axios.get('/site/2').then((res): void => {
         const domain = res.data.sites[0].domain;
         setDomain(domain);
       });
@@ -42,9 +42,9 @@ export default function Setting() {
 
   const deleteHandler = () => {
     dispatch({
-      type: "CONFIRM/MODAL_ON",
+      type: 'CONFIRM/MODAL_ON',
       payload: {
-        title: "삭제",
+        title: '삭제',
         msg: `${domain} 페이지를 정말 삭제하시겠습니까?`,
       },
     });
@@ -57,18 +57,18 @@ export default function Setting() {
     <>
       <Container>
         <TextInput
-          title="도메인"
+          title='도메인'
           required={true}
-          value={domain}
-          guideline="도메인을 변경할 수 있습니다."
+          //value={domain}
+          guideline='도메인을 변경할 수 있습니다.'
           onChange={setDomain}
         ></TextInput>
       </Container>
       <ButtonContainer>
         <Button
           onClick={deleteHandler}
-          color="black"
-          size="large"
+          color='black'
+          size='large'
           rounding
           fullWidth
         >

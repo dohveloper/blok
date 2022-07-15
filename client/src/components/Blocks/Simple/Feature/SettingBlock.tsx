@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { TextInput, CustomSelect } from '../Input';
-import { Card } from '../Card/Card';
+import { TextInput, CustomSelect, ImgInput } from '../../../Input';
+import { Card } from '../../../Card/Card';
+import { FeatureData } from '../../blockValidator';
 
-function Hero() {
+interface Feature {
+  data: FeatureData;
+}
+function Feature({ data }: Feature) {
   const [input, setInput] = useState('');
   const [selectinput, setSelectInput] = useState('');
   const options = [
@@ -13,14 +17,15 @@ function Hero() {
 
   return (
     <>
-      <Card title='Hero'>
+      <Card title='Feature'>
         <TextInput
           title='메뉴명'
           required={true}
           onChange={(e: any) => {
-            setSelectInput(e.value);
+            setInput(e.target.value);
           }}
           guideline='네비게이션 바에 입력될 메뉴명을 입력하세요.'
+          value={data.navTitle}
         ></TextInput>
         <CustomSelect
           title='스타일'
@@ -31,16 +36,23 @@ function Hero() {
           onChange={(e: any) => {
             setSelectInput(e.value);
           }}
+          value={data?.style?.value}
+        />
+        <ImgInput
+          title='이미지'
+          guideline='헤드라인 내용 중에서 강조할 텍스트를 입력하세요'
         />
         <TextInput
           title='캡션'
           required={false}
           guideline='캡션에 표시될 내용을 입력하세요.'
+          value={data.caption?.value}
         ></TextInput>
         <TextInput
           title='헤드라인'
           required={false}
-          guideline='캡션에 표시될 내용을 입력하세요.'
+          guideline='헤드라인에 표시될 내용을 입력하세요.'
+          value={data.header?.value}
         ></TextInput>
         <TextInput
           title='헤드라인 강조 테스트'
@@ -51,20 +63,23 @@ function Hero() {
           title='설명'
           required={false}
           guideline='설명에 표시될 내용을 입력하세요'
+          value={data.body?.value}
         ></TextInput>
         <TextInput
           title='버튼 텍스트'
           required={false}
           guideline='비워둘 경우 버튼이 나타나지 않습니다.'
+          value={data.button?.title}
         ></TextInput>
         <TextInput
           title='버튼 URL'
           required={false}
           guideline='버튼 클릭시 이동될 url을 입력하세요'
+          value={data.button?.url}
         ></TextInput>
       </Card>
     </>
   );
 }
 
-export default Hero;
+export default Feature;

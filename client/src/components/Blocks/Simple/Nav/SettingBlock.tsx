@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { TextInput, CustomSelect, ImgInput } from '../../../Input';
+import { Card } from '../../../Card/Card';
+import { NavData } from '../../blockValidator';
 
-import { TextInput, CustomSelect, ImgInput } from '../Input';
-import { Card } from '../Card/Card';
-
-function Navbar() {
+interface Navbar {
+  data: NavData;
+}
+function Navbar({ data }: Navbar) {
   const [input, setInput] = useState('');
   const [selectinput, setSelectInput] = useState('');
   const options = [
@@ -11,6 +14,7 @@ function Navbar() {
     { value: '스타일2', label: '스타일2' },
     { value: '스타일3', label: '스타일3' },
   ];
+  console.log(data.style.value);
   return (
     <>
       <Card title='Navbar'>
@@ -23,6 +27,7 @@ function Navbar() {
           onChange={(e: any) => {
             setSelectInput(e.value);
           }}
+          value={data?.style?.value}
         />
         <ImgInput title='로고 이미지' guideline='가능한 포맷: .jpg, .png' />
         <TextInput
@@ -30,6 +35,7 @@ function Navbar() {
           required={true}
           onChange={setInput}
           guideline='로고이미지가 없을시 입력될 로고 텍스트를 입력하세요.'
+          value={data?.logoText?.value}
         ></TextInput>
       </Card>
     </>

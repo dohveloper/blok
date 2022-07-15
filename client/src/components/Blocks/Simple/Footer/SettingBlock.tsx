@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { TextInput, CustomSelect } from '../Input';
-import { Card } from '../Card/Card';
+import { TextInput, CustomSelect } from '../../../Input';
+import { Card } from '../../../Card/Card';
+import { FooterData } from '../../blockValidator';
 
-function Footer() {
+interface Footer {
+  data: FooterData;
+}
+function Footer({ data }: Footer) {
   const [selectinput, setSelectInput] = useState('');
   const options = [
     { value: '스타일1', label: '스타일1' },
@@ -22,18 +26,21 @@ function Footer() {
           onChange={(e: any) => {
             setSelectInput(e.value);
           }}
+          value={data?.style?.value}
         />
         <TextInput
           title='왼쪽 텍스트'
           required={false}
           placeholder='©2022 Block Inc. All rights reserved'
           guideline='푸터 왼쪽에 들어갈 문구를 입력하세요'
+          value={data?.leftText?.value}
         ></TextInput>
         <TextInput
           title='오른쪽 텍스트'
           required={true}
           placeholder='블록'
           guideline='푸터 오른쪽에 들어갈 문구를 입력하세요.'
+          value={data?.rightText?.value}
         ></TextInput>
       </Card>
     </>

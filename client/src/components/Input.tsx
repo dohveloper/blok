@@ -68,6 +68,9 @@ export const Input = styled.input`
   @media screen and (max-width: 499px) {
     font-size: 12px;
   }
+  &::placeholder {
+    color: #c8c8c8;
+  }
 `;
 
 export const Guideline = styled.div`
@@ -122,7 +125,6 @@ export const CustomSelect = (props: any) => {
         color: state.data.color,
         opacity: 0.8,
         padding: 20,
-        height: 52,
       }),
       control: (provided: any) => ({
         ...provided,
