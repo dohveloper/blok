@@ -29,13 +29,13 @@ class SiteService {
   }
 
   // 유저가 가진 사이트 목록을 받음.
-  async getSites() {
-    const sites = await this.siteModel.findAllUserSites();
+  async getSites(userId) {
+    const sites = await this.siteModel.findAllUserSites(userId);
     return sites;
   }
 
   // 사이트 정보 수정
-  async setSite(siteName, toUpdate) {
+  async updateSite(siteName, toUpdate) {
     let site = await this.siteModel.findBySiteName(siteName);
     if (!site) {
       throw new BadRequestError(

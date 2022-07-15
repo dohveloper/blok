@@ -12,14 +12,17 @@ export class SiteModel {
     const site = await Site.findOne({ siteName: siteId });
     return site;
   }
-  async findAllUserSites() {
-    const sites = await Site.find({}).populate("siteDomain");
+  async findAllUserSites(userId) {
+    const sites = await Site.find({ siteDomain: userId })
+      .populate("siteDomain", "domain userName")
+      .exec();
     return sites;
   }
-  async update(siteId, update) {
-    const filter = { siteName: siteId };
+  async update({ siteName, update }) {
+    const filter = { siteName: siteName };
     const option = { returnOriginal: false };
     const updatedSite = await Site.findOneAndUpdate(filter, update, option);
+
     return updatedSite;
   }
   async delete(siteId) {
