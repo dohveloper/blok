@@ -70,10 +70,7 @@ function FindPasswordfield() {
       email: emailRef.current!.value,
     };
     try {
-      const res = await axios.post(
-        'http://localhost:3000/api/user/reset-password/',
-        data
-      );
+      const res = await axios.post('/api/user/reset-password/', data);
       console.log(res);
       nav('/main');
     } catch (e) {

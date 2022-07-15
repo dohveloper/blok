@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
@@ -26,6 +26,7 @@ function ChangePasswordfield() {
   const newPswRef = useRef<HTMLInputElement>(null);
   const newPscheckRef = useRef<HTMLInputElement>(null);
   const [currentpswError, setCurrentpswError] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>('');
   const [newpswError, setNewPswError] = useState<boolean>(false);
   const [newpswcheckError, setNewPswcheckError] = useState<boolean>(false);
   const [btnError, setbtnError] = useState<boolean>(true);
@@ -84,7 +85,7 @@ function ChangePasswordfield() {
   const handleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    // const current = currentpswRef.current!.value;
+    const current = currentpswRef.current!.value;
     const newpsw = newPswRef.current!.value;
     const newpswcheck = newPscheckRef.current!.value;
     // current 유효한지 확인 후
@@ -94,10 +95,14 @@ function ChangePasswordfield() {
       setNewPswcheckError(true);
     } else {
       const data = {
+        currentPassword: current,
         password: newpsw,
       };
       try {
-        const res = await axios.patch('/api/user/change-password/:_id', data);
+        const res = await axios.patch(
+          `/api/user/change-password/${userId}`,
+          data
+        );
         console.log(res);
       } catch (e) {
         console.log(e);
@@ -114,15 +119,16 @@ function ChangePasswordfield() {
     nav('/login');
   };
 
-  // useEffect(() => {
-  //   const data = localStorage.set('login');
-  //   console.log(
-  //     `${data ? '로그인정보 이미 있습니다.' : '로그인 정보가 없습니다.'}`
-  //   );
-  // }, []);
-  // useEffect(() => {
-  //   axios.get('/123').then((res): void => console.log(res));
-  // }, []);
+  useEffect(() => {
+    async function loginCheck() {
+      const res = await axios.get('/api/user/logincheck');
+      if (res.data) {
+        console.log(res.data);
+        setUserId(res.data._id);
+      }
+    }
+    loginCheck();
+  }, []);
   return (
     <Container>
       <LoginForm.Title>비밀번호 변경</LoginForm.Title>
@@ -138,7 +144,7 @@ function ChangePasswordfield() {
         onChange={handleNPChange}
         type='string'
         ref={currentpswRef}
-        placeholder='이름을 입력하세요.'
+        placeholder='현재 비밀번호를 입력하세요.'
         error={currentpswError}
       />
       <LoginForm.InputDiv>

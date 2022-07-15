@@ -11,7 +11,7 @@ const DisplayNone = styled.div`
   display: none;
 `;
 
-const Label = styled.div<{ required?: boolean }>`
+export const Label = styled.div<{ required?: boolean }>`
   font-weight: 600;
   font-size: 16px;
   line-height: 16px;
@@ -20,7 +20,7 @@ const Label = styled.div<{ required?: boolean }>`
     display: ${(props) => (props.required === true ? 'static' : 'none')};
   }
 `;
-const Required = styled.span`
+export const Required = styled.span`
   color: red;
   margin-left: 2px;
 `;

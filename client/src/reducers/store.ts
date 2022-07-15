@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { userAuth } from './UserAuthReducer';
-import { sidetabReducer } from './SidetabReducer';
+import { sidetabReducer } from './SideTabReducer';
 import { alertReducer } from './AlertReducer';
 import { modalReducer } from './ModalReducer';
 

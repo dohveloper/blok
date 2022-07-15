@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +28,7 @@ function Loginfield() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [emailError, setEmailError] = useState<boolean>(false);
+  const [sloginCheck, setLoginCheck] = useState<any>();
   const [pswError, setPswError] = useState<boolean>(false);
   // const [loginError, setloginError] = useState<boolean>(false);
   const [loginErrorMsg, setloginErrorMsg] = useState<string>('');
@@ -80,15 +81,15 @@ function Loginfield() {
       email: emailRef.current!.value,
       password: passwordRef.current!.value,
     };
-    const logindata = JSON.stringify(data);
-    localStorage.setItem('login', logindata);
+
     try {
       const res = await axios.post('/api/auth/login', data);
       const resdata = res.data;
+      console.log(res);
       if (resdata.passwordReset) {
         nav('/changepassword');
       }
-      nav('main');
+      // nav('main');
     } catch (e: any) {
       console.log(e.response.data.reason);
       // setloginError(true);
@@ -103,9 +104,8 @@ function Loginfield() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     try {
-      const res = await axios.get('/api/auth/google');
+      const res = await axios.get('/api/user/logincheck');
       console.log(res);
-      nav('/main');
     } catch (e) {
       console.log(e);
     }
@@ -121,6 +121,15 @@ function Loginfield() {
     nav('/findpassword');
   };
 
+  useEffect(() => {
+    async function loginCheck() {
+      const res = await axios.get('/api/user/logincheck');
+      if (res.data) {
+        console.log(res.data);
+      }
+    }
+    loginCheck();
+  }, []);
   return (
     <Container>
       <LoginForm.Title>로그인</LoginForm.Title>
