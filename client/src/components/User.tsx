@@ -121,12 +121,12 @@ const UserUpdate = styled.div`
   }
 `;
 
-const InputDiv = styled.div`
+export const InputDiv = styled.div`
   display: flex;
   margin-bottom: 18px;
 `;
 
-const InputTitle = styled.label`
+export const InputTitle = styled.label`
   font-size: 16px;
   line-height: 36px;
   margin-right: 12px;
@@ -138,7 +138,7 @@ const InputTitle = styled.label`
   }
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   flex: 2;
   width: 100%;
   height: 38px;
