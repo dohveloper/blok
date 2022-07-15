@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
@@ -117,7 +117,18 @@ function Signinfield() {
   ) => {
     nav('/login');
   };
-
+  useEffect(() => {
+    return () => {
+      async function loginCheck() {
+        const res = await axios.get('/api/user/logincheck');
+        if (res.data) {
+          console.log('이미 로그인 되어있습니다.');
+          nav('/main');
+        }
+      }
+      loginCheck();
+    };
+  });
   return (
     <Container>
       <LoginForm.Title>회원가입</LoginForm.Title>

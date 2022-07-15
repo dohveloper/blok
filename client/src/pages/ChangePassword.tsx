@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import FindPasswordfield from '../components/Login/FindPasswordfield';
+import ChangePasswordfield from '../components/Login/ChangePasswordfield';
 import Logo from '../components/Logo';
 
 export const Container = styled.div`
@@ -18,13 +18,13 @@ export const Container = styled.div`
   }
 `;
 
-function FindPassword() {
+function ChangePassword() {
   return (
     <Container>
       <Logo></Logo>
-      <FindPasswordfield></FindPasswordfield>
+      <ChangePasswordfield></ChangePasswordfield>
     </Container>
   );
 }
 
-export default FindPassword;
+export default ChangePassword;

@@ -30,7 +30,7 @@ function ChangePasswordfield() {
   const [newpswError, setNewPswError] = useState<boolean>(false);
   const [newpswcheckError, setNewPswcheckError] = useState<boolean>(false);
   const [btnError, setbtnError] = useState<boolean>(true);
-  const [bchecked, setChecked] = useState<boolean>(false);
+
   const btnactive =
     currentpswError === true ||
     newpswcheckError === true ||
@@ -99,18 +99,13 @@ function ChangePasswordfield() {
         password: newpsw,
       };
       try {
-        const res = await axios.patch(
-          `/api/user/change-password/${userId}`,
-          data
-        );
-        console.log(res);
+        await axios.patch(`/api/user/change-password/${userId}`, data);
+        alert('비밀번호를 바꾸었습니다.'); // 모달창구현
+        nav('/login');
       } catch (e) {
         console.log(e);
       }
     }
-
-    // 문제없으면 이동
-    // nav('/signin');
   };
 
   const toLoginClick = (
@@ -123,12 +118,14 @@ function ChangePasswordfield() {
     async function loginCheck() {
       const res = await axios.get('/api/user/logincheck');
       if (res.data) {
-        console.log(res.data);
+        console.log(res.data.passwordReset);
         setUserId(res.data._id);
+      } else {
+        nav('login');
       }
     }
     loginCheck();
-  }, []);
+  });
   return (
     <Container>
       <LoginForm.Title>비밀번호 변경</LoginForm.Title>
@@ -141,33 +138,33 @@ function ChangePasswordfield() {
         </LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input
-        onChange={handleNPChange}
-        type='string'
+        onChange={handleCPChange}
+        type='password'
         ref={currentpswRef}
         placeholder='현재 비밀번호를 입력하세요.'
         error={currentpswError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={newpswcheckError}>
+        <LoginForm.InputTitle error={newpswError}>
           새 비밀번호
         </LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
-          {newpswcheckError && '유효하지 않은 비밀번호 입니다.'}
+          {newpswError && '유효하지 않은 비밀번호 입니다.'}
         </LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input
-        onChange={handleCPChange}
-        type='string'
+        onChange={handleNPChange}
+        type='password'
         ref={newPswRef}
-        placeholder='이메일 주소를 입력하세요.'
-        error={newpswcheckError}
+        placeholder='변경할 비밀번호를 입력하세요.'
+        error={newpswError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={newpswError}>
+        <LoginForm.InputTitle error={newpswcheckError}>
           새 비밀번호 확인
         </LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
-          {newpswError && '유효하지 않은 비밀번호 입니다.'}
+          {newpswcheckError && '유효하지 않은 비밀번호 입니다.'}
         </LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input
@@ -175,27 +172,15 @@ function ChangePasswordfield() {
         type='password'
         ref={newPscheckRef}
         placeholder='비밀번호는 6자리 이상이여야합니다.'
-        error={newpswError}
+        error={newpswcheckError}
       />
 
-      <LoginForm.CheckBoxContainer>
-        <LoginForm.CheckBox
-          type='checkbox'
-          id='a1'
-          onChange={(e) => {
-            setChecked((res) => !res);
-          }}
-          checked={bchecked}
-        />
-        <span>개인정보 수집 및 이용과 광고성 정보 수신 동의</span>
-      </LoginForm.CheckBoxContainer>
-
       <LoginForm.Button onClick={handleClick} disabled={btnactive}>
-        가입하기
+        비밀번호 변경
       </LoginForm.Button>
       <LoginForm.Text>또는</LoginForm.Text>
       <LoginForm.Graytext>
-        이미 가입하셨나요?
+        로그인으로 돌아가기
         <LoginForm.Atag onClick={toLoginClick}>로그인하기</LoginForm.Atag>
       </LoginForm.Graytext>
     </Container>

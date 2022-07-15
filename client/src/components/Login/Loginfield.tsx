@@ -28,10 +28,7 @@ function Loginfield() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [emailError, setEmailError] = useState<boolean>(false);
-  const [sloginCheck, setLoginCheck] = useState<any>();
   const [pswError, setPswError] = useState<boolean>(false);
-  // const [loginError, setloginError] = useState<boolean>(false);
-  const [loginErrorMsg, setloginErrorMsg] = useState<string>('');
   const [btnError, setbtnError] = useState<boolean>(true);
   const btnactive =
     emailError === true || pswError === true || btnError === true;
@@ -42,7 +39,6 @@ function Loginfield() {
     ) {
       setEmailError(true);
     } else {
-      // setloginError(false);
       setEmailError(false);
     }
     if (emailRef.current!.value.length === 0) {
@@ -60,7 +56,6 @@ function Loginfield() {
     ) {
       setPswError(true);
     } else {
-      // setloginError(false);
       setPswError(false);
     }
     if (emailRef.current!.value.length === 0) {
@@ -89,26 +84,22 @@ function Loginfield() {
       if (resdata.passwordReset) {
         nav('/changepassword');
       }
-      // nav('main');
+      nav('/main');
     } catch (e: any) {
-      console.log(e.response.data.reason);
-      // setloginError(true);
-      setloginErrorMsg(() => {
-        return e.response.data.reason;
-      });
-      alert(loginErrorMsg);
+      alert(e.response.data.reason);
     }
   };
 
   const googleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    try {
-      const res = await axios.get('/api/user/logincheck');
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
+    alert('곧 구현될 예정입니다.');
+    // try {
+    //   const res = await axios.get('/api/user/google');
+    //   nav('/main')
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
   const toSigninClick = (
     e: React.MouseEvent<HTMLHyperlinkElementUtils, MouseEvent>
@@ -122,14 +113,20 @@ function Loginfield() {
   };
 
   useEffect(() => {
-    async function loginCheck() {
-      const res = await axios.get('/api/user/logincheck');
-      if (res.data) {
-        console.log(res.data);
+    return () => {
+      async function loginCheck() {
+        const res = await axios.get('/api/user/logincheck');
+        if (res.data) {
+          if (res.data.passwordReset) {
+            nav('/changepassword');
+          }
+          console.log('이미 로그인 되어있습니다.');
+          nav('/main');
+        }
       }
-    }
-    loginCheck();
-  }, []);
+      loginCheck();
+    };
+  });
   return (
     <Container>
       <LoginForm.Title>로그인</LoginForm.Title>

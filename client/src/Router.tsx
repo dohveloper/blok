@@ -11,7 +11,8 @@ import FindPassword from './pages/FindPassword';
 import Signin from './pages/Signin';
 import Test from './pages/Test';
 import Editor from './pages/Editor';
-import ChangePasswordfield from './components/Login/ChangePasswordfield';
+import ChangePassword from './pages/ChangePassword';
+import Main from './pages/Main';
 
 export function AppRouter() {
   return (
@@ -23,7 +24,8 @@ export function AppRouter() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/admin' element={<Admin />} />
         <Route path='/user/:userId' element={<UserInfo />} />
-        <Route path='/changepassword' element={<ChangePasswordfield />} />
+        <Route path='/changepassword' element={<ChangePassword />} />
+        <Route path='/main' element={<Main />} />
         <Route path='/findpassword' element={<FindPassword />} />
         <Route path='/signin' element={<Signin />} />
         <Route path='/test' element={<Test />} />

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,6 @@ function FindPasswordfield() {
   const nameRef = useRef<HTMLInputElement>(null);
   const [nameError, setNameError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
-
   const [btnError, setbtnError] = useState<boolean>(true);
   const btnactive = emailError === true || btnError === true;
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -70,9 +69,9 @@ function FindPasswordfield() {
       email: emailRef.current!.value,
     };
     try {
-      const res = await axios.post('/api/user/reset-password/', data);
-      console.log(res);
-      nav('/main');
+      await axios.post('/api/user/reset-password/', data);
+      alert('성공적으로 메일을 보내습니다.'); // 모달창구현
+      nav('/ChangePassword');
     } catch (e) {
       console.log(e);
     }
@@ -84,15 +83,18 @@ function FindPasswordfield() {
     nav('/login');
   };
 
-  // useEffect(() => {
-  //   const data = localStorage.set('login');
-  //   console.log(
-  //     `${data ? '로그인정보 이미 있습니다.' : '로그인 정보가 없습니다.'}`
-  //   );
-  // }, []);
-  // useEffect(() => {
-  //   axios.get('/123').then((res): void => console.log(res));
-  // }, []);
+  useEffect(() => {
+    return () => {
+      async function loginCheck() {
+        const res = await axios.get('/api/user/logincheck');
+        if (res.data) {
+          console.log('이미 로그인 되어있습니다.');
+          nav('/main');
+        }
+      }
+      loginCheck();
+    };
+  });
   return (
     <Container>
       <LoginForm.FindPswTitle>비밀번호를 잊으셨나요?</LoginForm.FindPswTitle>
