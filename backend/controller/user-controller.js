@@ -9,7 +9,7 @@ import {
 import { BadRequestError, ForbiddenError } from "../errors";
 
 const userController = {
-  register: asyncHandler(async (req, res, next) => {
+  register: asyncHandler(async (req, res) => {
     if (is.emptyObject(req.body)) {
       throw new BadRequestError(
         "headers의 Content-Type을 application/json으로 설정해주세요"
@@ -24,7 +24,7 @@ const userController = {
     return res.status(201).json(newUser);
   }),
 
-  resetPassword: asyncHandler(async (req, res, next) => {
+  resetPassword: asyncHandler(async (req, res) => {
     if (is.emptyObject(req.body)) {
       throw new BadRequestError(
         "headers의 Content-Type을 application/json으로 설정해주세요"
@@ -37,7 +37,7 @@ const userController = {
       .json({ message: "비밀번호가 초기화 되었습니다!", status: 201 });
   }),
 
-  userDelete: asyncHandler(async (req, res, next) => {
+  userDelete: asyncHandler(async (req, res) => {
     const _id = req.params._id;
     if (req.user._id !== _id) {
       throw new ForbiddenError("본인의 계정만 삭제할 수 있습니다.");
@@ -46,18 +46,18 @@ const userController = {
     res.status(204).clearCookie(JWT_COOKIE_KEY).json(deletedUserInfo);
   }),
   // (jwttoken가 쿠키로 전달되기 때문에 클라이언트에선 변수 없이 호출)
-  logincheck: asyncHandler((req, res, next) => {
+  logincheck: asyncHandler((req, res) => {
     return res.status(200).json(userJWTObjectMaker(req.user));
   }),
 
-  logout: asyncHandler(async (req, res, next) => {
+  logout: asyncHandler(async (req, res) => {
     return res
       .status(200)
       .clearCookie("jwttoken")
       .json({ message: "로그아웃에 성공했습니다!", status: 200 });
   }),
 
-  getUserInfo: asyncHandler(async (req, res, next) => {
+  getUserInfo: asyncHandler(async (req, res) => {
     const _id = req.params._id;
     const user = await userService.getUserInfo(_id);
     res.status(200).json(user);
@@ -80,7 +80,7 @@ const userController = {
     res.status(201).json(updatedUserInfo);
   }),
 
-  changePassword: asyncHandler(async (req, res, next) => {
+  changePassword: asyncHandler(async (req, res) => {
     if (is.emptyObject(req.body)) {
       throw new BadRequestError(
         "headers의 Content-Type을 application/json으로 설정해주세요"

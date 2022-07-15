@@ -4,14 +4,14 @@ import { upload } from "../middlewares";
 
 const adminRouter = Router();
 
-adminRouter.get("/userlist", adminController.getUsersInfo);
+adminRouter.get("/user/:_id", adminController.getUserInfo);
 
 adminRouter.patch(
-  "/edit-userInfo/:_id",
+  "/user/:_id",
   upload.single("profileImage"),
   adminController.editUserInfo
 );
 
-adminRouter.delete("/delete-user/:_id", adminController.deleteUser);
+adminRouter.delete("/user/:_id", adminController.deleteUser);
 
 export { adminRouter };
