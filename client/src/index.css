@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Nanum+Gothic&family=Nanum+Myeongjo&family=Noto+Sans+KR&family=Noto+Serif+KR&family=Roboto&family=Song+Myung&display=swap");
+@import url(//font.elice.io/EliceDigitalBaeum.css);
+
+.font {
+  font-family: "East Sea Dokdo", cursive;
+  font-family: "Nanum Gothic", sans-serif;
+  font-family: "Nanum Myeongjo", serif;
+  font-family: "Noto Sans KR", sans-serif;
+  font-family: "Noto Serif KR", serif;
+  font-family: "Roboto", sans-serif;
+  font-family: "Song Myung", serif;
+  font-family: "Elice Digital Baeum", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  font-size: 16px;
+}
