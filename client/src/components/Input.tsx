@@ -52,6 +52,7 @@ interface Inputprops {
   placeholder?: string;
   onChange?: any;
   guideline?: string;
+  value?: string;
   ref?: React.RefObject<HTMLInputElement>;
 }
 
@@ -95,6 +96,7 @@ export function TextInput(props: Inputprops) {
             ? props.placeholder
             : '안에 들어갈 내용을 입력하세요'
         }
+        value={props.value && props.value}
         onChange={props.onChange}
         ref={props.ref}
       />
@@ -148,6 +150,7 @@ export const CustomSelect = (props: any) => {
       )}
       <SelectBox
         placeholder={props.placeholder}
+        value={props.value}
         styles={customStyles}
         options={props.options}
         onChange={props.onChange}

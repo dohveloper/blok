@@ -19,7 +19,6 @@ const ModalContainer = styled.div`
   flex-direction: column;
   position: fixed;
   background-color: #fff;
-  width: 230px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -75%);
@@ -37,7 +36,7 @@ const ModalContainer = styled.div`
   .confirmText {
     display: flex;
     color: black;
-    margin: 1rem 0 1.2rem 0;
+    margin: 1rem 1rem 1.2rem 0;
     text-align: center;
     line-height: 2rem;
     font-size: 1.1rem;
@@ -47,6 +46,7 @@ const ModalContainer = styled.div`
     display: flex;
     margin-top: auto;
     justify-content: flex-end;
+    align-items: flex-end;
   }
 `;
 

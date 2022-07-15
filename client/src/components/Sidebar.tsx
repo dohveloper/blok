@@ -148,7 +148,7 @@ export default function Sidebar() {
     <Nav>
       <div className="navbarLogo">
         <Link to="/">
-          <img src={logoImg} alt="logo" width={48} height={48} />
+          <img src={logoImg} alt="logo" width={49} height={43} />
         </Link>
       </div>
       <Hamburger onClick={showMenuHandler}>

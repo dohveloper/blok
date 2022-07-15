@@ -362,6 +362,113 @@ app.get("/sites", function (req, res) {
   // res.send(search(userData.data).splice(0, 7));
 });
 
+app.get("/site/2", function (req, res) {
+  res.send({
+    "sites": [
+      {
+        "name": "First Site",
+        "domain": "firstSite.block.com",
+        "theme": "Minimal",
+        "font": "Roboto",
+        "colorSet": {
+          "primary": "#5754DE",
+          "secondary": "#ABA9FF",
+          "background": "#FFFFFF",
+          "surface": "#E2E2E2",
+        },
+        "blocks": [
+          {
+            "type": "Nav",
+            "navTitle": null,
+            "template": {
+              "theme": "Minimal",
+              "blockType": "Nav",
+              "layout": null
+            },
+            "data": {
+              "logoImage": {
+                "isRequired": false,
+                "src": "www.image.com/source/12312",
+                "alt": "logo"
+              },
+              "logoText": {
+                "isRequired": false,
+                "value": "블록"
+              },
+              "button": {
+                "isRequired": false,
+                "title": "지원하기",
+                "url": "form.google.com/joinTeam"
+              }
+            }
+          },
+          {
+            "type": "Hero",
+            "navTitle": "홈",
+            "template": {
+              "theme": "Minimal",
+              "blockType": "Hero",
+              "layout": null
+            },
+            "data": {
+              "image": {
+                "isRequired": false,
+                "src": "www.image.com/source/12312",
+                "alt": "logo"
+              },
+              "caption": {
+                "isRequired": false,
+                "value": "노코드 웹사이트 빌더"
+              },
+              "header": {
+                "isRequired": false,
+                "value": "블록으로 웹사이트를 만들어보세요"
+              },
+              "body": {
+                "isRequired": false,
+                "value": "블록은 노코드 웹사이트 빌더입니다. 빠르고 쉽게 웹사이트를 만들어보세요."
+              },
+              "button": {
+                "isRequired": false,
+                "title": "웹사이트 만들기",
+                "url": "block.com/login"
+              }
+            }
+          },
+          {
+            "type": "Feature",
+            "navTitle": "기능 소개",
+            "template": {
+              "theme": "Minimal",
+              "blockType": "Feature",
+              "layout": "Right"
+            },
+            "data": {
+              "image": {
+                "isRequired": false,
+                "src": "www.image.com/source/12312",
+                "alt": "image"
+              },
+              "caption": {
+                "isRequired": false,
+                "value": "빠른 시작 "
+              },
+              "header": {
+                "isRequired": false,
+                "value": "다양한 템플릿으로 웹사이트를 만들어보세요."
+              },
+              "body": {
+                "isRequired": false,
+                "value": "블록은 랜딩페이지부터 이력서까지 다양한 템플릿을 제공합니다."
+              }
+            }
+          }
+        ]
+      }
+    ]
+  });
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
 });

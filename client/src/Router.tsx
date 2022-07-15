@@ -10,6 +10,7 @@ import NotFound from "./components/NotFound";
 import FindPassword from "./pages/FindPassword";
 import Signin from "./pages/Signin";
 import Test from "./pages/Test";
+import Editor from "./pages/Editor";
 
 export function AppRouter() {
   return (
@@ -25,6 +26,7 @@ export function AppRouter() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/test" element={<Test />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/editor" element={<Editor />} />
       </Routes>
     </Router>
   );
