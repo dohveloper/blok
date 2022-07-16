@@ -8,6 +8,8 @@ siteRouter.get("/:siteIdentifier", siteController.getSiteInfo);
 
 siteRouter.get("/", siteController.getSitesInfo);
 
+siteRouter.get("/user/:userId", siteController.getUserSites);
+
 siteRouter.patch("/update/:siteIdentifier", siteController.updateSite);
 
 siteRouter.delete("/delete/:siteIdentifier", siteController.deleteSiteUsingId);

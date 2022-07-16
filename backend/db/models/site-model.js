@@ -26,9 +26,7 @@ export class SiteModel {
     return sites;
   }
   async findAllUserSites(userId) {
-    const sites = await Site.find({ domain: userId })
-      .populate("domain", "domain userName")
-      .exec();
+    const sites = await Site.find({ owner: userId });
     return sites;
   }
   async update({ id, update }) {

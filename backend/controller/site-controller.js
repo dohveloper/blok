@@ -32,6 +32,11 @@ const siteController = {
     const sites = await siteService.getSitesInfo();
     res.status(200).json(sites);
   }),
+  getUserSites: asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    const sites = await siteService.getSites(userId);
+    res.status(200).json(sites);
+  }),
   updateSite: asyncHandler(async (req, res) => {
     const siteIdentifier = parseInt(req.params.siteIdentifier);
     const name = req.body.name;
