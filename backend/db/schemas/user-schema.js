@@ -2,10 +2,10 @@ import { Schema } from "mongoose";
 
 const UserSchema = new Schema(
   {
-    userDomain: [
+    sites: [
       {
         type: Schema.Types.ObjectId,
-        ref: "domain",
+        ref: "sites",
       },
     ],
     userName: {

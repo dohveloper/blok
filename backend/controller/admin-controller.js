@@ -2,25 +2,25 @@ import { adminService, userService } from "../services";
 import { asyncHandler, s3Uploadv2 } from "../utils";
 
 const adminController = {
-  // 의사소통 문제로 잘못 구현. 삭제 예정
-  // getUsersInfoByPagenation: asyncHandler(async (req, res) => {
-  //   const page = Number(req.query.page || 1);
-  //   const perPage = Number(req.query.perPage || 10);
-  //   const [totalCount, users] = await adminService.getUsersInfoByPagenation(
-  //     page,
-  //     perPage
-  //   );
-  //   const totalPage = Math.ceil(totalCount / perPage);
-  //   res.status(200).json({ users, page, perPage, totalPage });
-  // }),
+  getUsersInfoByPagenation: asyncHandler(async (req, res) => {
+    const page = Number(req.query.page || 1);
+    const perPage = Number(req.query.perPage || 10);
+    const [totalCount, users] = await adminService.getUsersInfoByPagenation(
+      page,
+      perPage
+    );
+    const totalPage = Math.ceil(totalCount / perPage);
+    res.status(200).json({ users, page, perPage, totalPage });
+  }),
+
   getUserInfo: asyncHandler(async (req, res) => {
-    const _id = req.params._id;
-    const user = await userService.getUserInfo(_id);
+    const userId = req.params.userId;
+    const user = await userService.getUserInfo(userId);
     res.status(200).json(user);
   }),
 
   editUserInfo: asyncHandler(async (req, res) => {
-    const _id = req.params._id;
+    const userId = req.params.userId;
     let toUpdateUser = {
       ...req.body,
     };
@@ -38,13 +38,13 @@ const adminController = {
         profileImage: null,
       };
     }
-    const updatedUser = await adminService.editUserInfo(_id, toUpdateUser);
+    const updatedUser = await adminService.editUserInfo(userId, toUpdateUser);
     res.status(201).json(updatedUser);
   }),
 
   deleteUser: asyncHandler(async (req, res) => {
-    const _id = req.params._id;
-    const deletedUser = await userService.deleteUser(_id);
+    const userId = req.params.userId;
+    const deletedUser = await userService.deleteUser(userId);
     res.status(204).json(deletedUser);
   }),
 };

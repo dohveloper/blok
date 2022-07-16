@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const secret = process.env.JWT_SECRET_KEY;
 const JWT_COOKIE_KEY = "jwttoken";
-// jwt토큰을 만들어 주는 함수
+
 const setUserToken = (res, user) => {
   const jwttoken = jwt.sign(user, secret);
   // 만료시간 3일

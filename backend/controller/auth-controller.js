@@ -16,15 +16,16 @@ const authController = {
       passwordReset: req.user.passwordReset,
     });
   }),
+
   googleOauth: asyncHandler((req, res) => {
     setUserToken(res, req.user);
     res.status(201).json(req.user);
   }),
 
-  kakaoOauth: asyncHandler((req, res) => {
-    setUserToken(res, req.user);
-    res.status(201).json(req.user);
-  }),
+  // kakaoOauth: asyncHandler((req, res) => {
+  //   setUserToken(res, req.user);
+  //   res.status(201).json(req.user);
+  // }),
 };
 
 export { authController };
