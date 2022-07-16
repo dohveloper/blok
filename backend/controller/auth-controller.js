@@ -1,31 +1,23 @@
 import is from "@sindresorhus/is";
-import { setUserToken, asyncHandler } from "../utils";
+import { setUserToken } from "../utils";
 import { BadRequestError } from "../errors";
 
 const authController = {
-  login: asyncHandler(async (req, res) => {
+  login: (req, res) => {
     if (is.emptyObject(req.body)) {
       throw new BadRequestError(
         "headers의 Content-Type을 application/json으로 설정해주세요"
       );
     }
-    setUserToken(res, req.user);
-    res.status(200).json({
+    res.okWithSetToken(200, {
       message: "로그인 성공",
-      status: 200,
       passwordReset: req.user.passwordReset,
     });
-  }),
+  },
 
-  googleOauth: asyncHandler((req, res) => {
-    setUserToken(res, req.user);
-    res.status(201).json(req.user);
-  }),
-
-  // kakaoOauth: asyncHandler((req, res) => {
-  //   setUserToken(res, req.user);
-  //   res.status(201).json(req.user);
-  // }),
+  googleOauth: (req, res) => {
+    res.okWithSetToken(201, req.user);
+  },
 };
 
 export { authController };

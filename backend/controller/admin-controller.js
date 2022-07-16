@@ -1,5 +1,6 @@
 import { adminService, userService } from "../services";
 import { asyncHandler, s3Uploadv2 } from "../utils";
+import { BadRequestError } from "../errors";
 
 const adminController = {
   getUsersInfoByPagenation: asyncHandler(async (req, res) => {
@@ -13,13 +14,13 @@ const adminController = {
       searchQuery
     );
     const totalPage = Math.ceil(totalCount / perPage);
-    res.status(200).json({ page, perPage, totalPage, totalCount, users });
+    res.ok(200, { page, perPage, totalPage, totalCount, users });
   }),
 
   getUserInfo: asyncHandler(async (req, res) => {
     const userId = req.params.userId;
     const user = await userService.getUserInfo(userId);
-    res.status(200).json(user);
+    res.ok(200, user);
   }),
 
   editUserInfo: asyncHandler(async (req, res) => {
@@ -27,6 +28,9 @@ const adminController = {
     let toUpdateUser = {
       ...req.body,
     };
+    if (toUpdateUser.email) {
+      throw new BadRequestError("이메일은 변경할 수 없습니다.");
+    }
     if (req.file) {
       const results = await s3Uploadv2(req.file);
       const profileImage = results.Location;
@@ -42,13 +46,13 @@ const adminController = {
       };
     }
     const updatedUser = await adminService.editUserInfo(userId, toUpdateUser);
-    res.status(201).json(updatedUser);
+    res.ok(201, updatedUser);
   }),
 
   deleteUser: asyncHandler(async (req, res) => {
     const userId = req.params.userId;
-    const deletedUser = await userService.deleteUser(userId);
-    res.status(204).json(deletedUser);
+    await userService.deleteUser(userId);
+    res.ok(204);
   }),
 };
 

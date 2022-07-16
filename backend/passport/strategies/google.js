@@ -1,6 +1,7 @@
 import { Strategy } from "passport-google-oauth20";
 import { authService } from "../../services";
 import { userJWTObjectMaker } from "../../utils";
+import { AUTH_ENUM } from "./";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,13 +14,16 @@ const config = {
 const google = new Strategy(
   config,
   async (accessToken, refreshToken, profile, done) => {
-    const newUser = {
-      email: profile._json.email,
-      userName: profile.displayName,
-      profileImage: profile.photos[0].value,
-    };
     try {
-      const user = await authService.findOrCreateUser(newUser, "google");
+      const newUser = {
+        email: profile._json.email,
+        userName: profile.displayName,
+        profileImage: profile.photos[0].value,
+      };
+      const user = await authService.findOrCreateUser(
+        newUser,
+        AUTH_ENUM.GOOGLE
+      );
       done(null, userJWTObjectMaker(user));
     } catch (e) {
       done(e, null);

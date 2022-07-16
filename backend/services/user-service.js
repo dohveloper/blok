@@ -2,6 +2,7 @@ import { generateRandomPassword, sendMail } from "../utils";
 import bcrypt from "bcrypt";
 import { BadRequestError, ForbiddenError } from "../errors";
 import { userModel } from "../db";
+import { AUTH_ENUM } from "../passport";
 
 class UserService {
   constructor(userModel) {
@@ -18,8 +19,7 @@ class UserService {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUserInfo = { userName, email, password: hashedPassword };
-    const createdNewUser = await this.userModel.create(newUserInfo);
-    return createdNewUser;
+    return await this.userModel.create(newUserInfo);
   }
 
   async getUserInfo(userId) {
@@ -35,9 +35,7 @@ class UserService {
     if (!user) {
       throw new BadRequestError("존재하지 않는 유저입니다.");
     }
-    const changedUser = await this.userModel.update(userId, toUpdatedIamge);
-
-    return changedUser;
+    return await this.userModel.update(userId, toUpdatedIamge);
   }
 
   async changeUserPassword(userInfoRequired, toUpdate) {
@@ -63,8 +61,7 @@ class UserService {
     const newPasswordHash = await bcrypt.hash(password, 10);
     toUpdate.password = newPasswordHash;
     toUpdate.passwordReset = false;
-    user = await this.userModel.update(userId, toUpdate);
-    return user;
+    return await this.userModel.update(userId, toUpdate);
   }
 
   async passwordReset(userName, email) {
@@ -75,24 +72,23 @@ class UserService {
     if (user.userName !== userName) {
       throw new BadRequestError("입력하신 정보와 일치하는 사용자가 없습니다.");
     }
-    if (user.oauth !== "local") {
+    if (user.oauth !== AUTH_ENUM.LOCAL) {
       throw new ForbiddenError(
         "소셜 로그인 계정은 사용하실 수 없는 기능입니다."
       );
     }
-    let password = generateRandomPassword();
-
+    const randomPassword = generateRandomPassword();
     await sendMail(
       email,
       // 제목
       "[블록] 비밀번호가 변경되었습니다.",
       // 내용
-      `변경된 비밀번호는 ${password} 입니다.`
+      `변경된 비밀번호는 ${randomPassword} 입니다.`
     );
-    password = await bcrypt.hash(password, 10);
+    const randomHashedPassword = await bcrypt.hash(randomPassword, 10);
     const userId = user._id;
     const updatedUser = await userModel.update(userId, {
-      password,
+      password: randomHashedPassword,
       // 비밀번호 변경을 강제하는 로직을 위해 passwordReset을 true로 설정
       passwordReset: true,
     });

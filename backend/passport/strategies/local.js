@@ -3,6 +3,7 @@ import { Strategy } from "passport-local";
 import { userModel } from "../../db";
 import { BadRequestError } from "../../errors";
 import { userJWTObjectMaker } from "../../utils";
+import { AUTH_ENUM } from "../";
 
 const config = {
   usernameField: "email",
@@ -15,7 +16,7 @@ const local = new Strategy(config, async (email, password, done) => {
     if (!user) {
       throw new BadRequestError("회원을 찾을 수 없습니다.");
     }
-    if (user.oauth !== "local") {
+    if (user.oauth !== AUTH_ENUM.LOCAL) {
       throw new BadRequestError("소셜 로그인으로 가입된 이메일입니다.");
     }
     const correctPasswordHash = user.password;

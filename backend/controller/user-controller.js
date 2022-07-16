@@ -28,7 +28,6 @@ const userController = {
     const { userName, email } = req.body;
     await userService.passwordReset(userName, email);
     return res.ok(201, { message: "비밀번호가 초기화 되었습니다!" });
-    // res.status(201).json({ message: "비밀번호가 초기화 되었습니다!" });
   }),
 
   userDelete: asyncHandler(async (req, res) => {
@@ -40,16 +39,13 @@ const userController = {
     res.status(204).clearCookie(JWT_COOKIE_KEY).json(deletedUserInfo);
   }),
   // (jwttoken가 쿠키로 전달되기 때문에 클라이언트에선 변수 없이 호출)
-  logincheck: asyncHandler((req, res) => {
-    return res.status(200).json(req.user);
-  }),
+  logincheck: (req, res) => {
+    return res.ok(200, req.user);
+  },
 
-  logout: asyncHandler(async (req, res) => {
-    return res
-      .status(200)
-      .clearCookie("jwttoken")
-      .json({ message: "로그아웃에 성공했습니다!" });
-  }),
+  logout: (req, res) => {
+    return res.okWithSetToken(200, { message: "로그아웃에 성공했습니다!" });
+  },
 
   getUserInfo: asyncHandler(async (req, res) => {
     const userId = req.params.userId;
@@ -57,24 +53,20 @@ const userController = {
       throw new ForbiddenError("본인의 정보만 조회할 수 있습니다!");
     }
     const user = await userService.getUserInfo(userId);
-    res.status(200).json(user);
+    res.ok(200, user);
   }),
 
   changeProfileImage: asyncHandler(async (req, res) => {
-    // S3 이미지 처리 process
-    const results = await s3Uploadv2(req.file);
-    const profileImage = results.Location;
-    // S3 이미지 저장 주소
-    // await console.log(profileImage);
-    // Mongo DB 저장
     if (req.user.userId !== req.params.userId) {
       throw new ForbiddenError("본인의 정보만 수정할 수 있습니다!");
     }
+    const results = await s3Uploadv2(req.file);
+    const profileImage = results.Location;
     const userId = req.user.userId;
     const updatedUserInfo = await userService.changeProfileImage(userId, {
       profileImage: profileImage,
     });
-    res.status(201).json(updatedUserInfo);
+    res.ok(201, updatedUserInfo);
   }),
 
   changePassword: asyncHandler(async (req, res) => {
@@ -99,7 +91,7 @@ const userController = {
       userInfoRequired,
       toUpdate
     );
-    res.status(201).json(updatedUserInfo);
+    res.ok(201, updatedUserInfo);
   }),
 };
 
