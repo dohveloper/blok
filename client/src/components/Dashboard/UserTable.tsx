@@ -3,8 +3,9 @@ import { ControlButton } from "./DashboardBox";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Button from "./Button";
-import { MainTitle } from "../components/MyInfo";
+import Button from "../Button";
+import { MainTitle } from "./MyInfo";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div`
   .controlBox {
@@ -99,13 +100,15 @@ const Table = styled.table`
 `;
 
 export default function UserTable() {
+  const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [text, setText] = useState("");
   const [data, setData] = useState<any[]>([]);
   const [option, setOption] = useState("");
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerpage] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
 
   const handlePrevPage = () => {
     setPage(page - 1);
@@ -114,23 +117,23 @@ export default function UserTable() {
   const handleNextPage = () => {
     setPage(page + 1);
   };
-  const handleChangeRowsPerPage = (e: any) => {
-    setRowsPerPage(parseInt(e.target.value, 10));
-    setPage(0);
+  const handleChangeperPage = (e: any) => {
+    setPerpage(parseInt(e.target.value, 10));
+    setPage(1);
   };
 
-  let keys = ["name", "template", "domain", "siteName", "startDate"];
-  if (option) {
-    keys = keys.filter((key) => key === option);
-  }
-
   useEffect(() => {
-    const fetchUsers = async () => {
-      const res = await axios.get(`/sites?q=${query}`);
-      setData(res.data);
+    const getSites = async () => {
+      const res = query
+        ? await axios.get(
+            `/api/admin/user?page=${page}&perPage=${perPage}&serachKey=userName&serachValue=${query}`
+          )
+        : await axios.get(`/api/admin/user?page=${page}&perPage=${perPage}`);
+      setData(res.data.users);
+      setTotalCount(res.data.totalCount);
     };
-    fetchUsers();
-  }, [query]);
+    getSites();
+  }, [page, perPage, query, data]);
 
   const handleSearch = async (e: any) => {
     e.preventDefault();
@@ -138,36 +141,23 @@ export default function UserTable() {
     setText("");
   };
 
+  const handleDelete = async (_id: string) => {
+    console.log("delete user : ", _id);
+    await axios.delete(`/api/admin/user/${_id}`);
+    dispatch({ type: "alertOn", payload: "회원정보가 삭제되었습니다." });
+  };
+
   const handleReset = () => {
     setText("");
     setQuery("");
-    setPage(0);
-  };
-
-  const handleDelete = (id: any) => {
-    console.log("delete site : ", id);
-    setData(data.filter((item) => item.id !== id));
+    setPage(1);
   };
 
   return (
     <Container>
-      <MainTitle className="title">Site Management</MainTitle>
+      <MainTitle className="title">User Management</MainTitle>
 
       <div className="controlBox">
-        <div>
-          <select
-            name="Searchfilter"
-            value={option}
-            onChange={(e) => setOption(e.target.value)}
-          >
-            <option value="">모든 카테고리</option>
-            <option value="siteName">사이트명</option>
-            <option value="domain">도메인</option>
-            <option value="template">템플릿</option>
-            <option value="startDate">개설일</option>
-            <option value="name">소유자</option>
-          </select>
-        </div>
         <div>
           <form onSubmit={handleSearch} className="searchForm">
             <label htmlFor="search-query">Search: </label>
@@ -189,51 +179,50 @@ export default function UserTable() {
           <thead>
             <tr>
               <th>목록</th>
-              <th>사이트명</th>
-              <th>도메인</th>
-              <th>템플릿</th>
+              <th>이름</th>
+              <th>이메일</th>
+              <th>플랜</th>
               <th>개설일</th>
-              <th>소유자</th>
+              <th>소셜가입자</th>
+              <th>관리자</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {data.length > 0 ? (
-              data
-                .filter((item) => keys.some((key) => item[key].includes(query)))
-                .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                .map((e, idx) => (
-                  <tr key={e.id}>
-                    <td>{page * rowsPerPage + idx + 1}</td>
-                    <td>{e.siteName}</td>
-                    <td>{e.domain}</td>
-                    <td>{e.template}</td>
-                    <td>{e.startDate}</td>
-                    <td>{e.name}</td>
-                    <td>
-                      <Link
-                        to={"/user/" + e.userId}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <ControlButton
-                          className={"editButton"}
-                          rounding
-                          color="white"
-                        >
-                          Manage
-                        </ControlButton>
-                      </Link>
+              data.map((e, idx) => (
+                <tr key={e._id}>
+                  <td>{(page - 1) * perPage + idx + 1}</td>
+                  <td>{e.userName}</td>
+                  <td>{e.email}</td>
+                  <td>{e.plan}</td>
+                  <td>{e.createdAt.slice(0, 10)}</td>
+                  <td>{e.oauth}</td>
+                  <td>{e.role}</td>
+                  <td>
+                    <Link
+                      to={"/user/" + e._id}
+                      style={{ textDecoration: "none" }}
+                    >
                       <ControlButton
-                        className={"deleteButton"}
-                        onClick={() => handleDelete(e.id)}
-                        color="gray"
+                        className={"editButton"}
                         rounding
+                        color="white"
                       >
-                        Delete
+                        Update
                       </ControlButton>
-                    </td>
-                  </tr>
-                ))
+                    </Link>
+                    <ControlButton
+                      className={"deleteButton"}
+                      onClick={() => handleDelete(e._id)}
+                      color="gray"
+                      rounding
+                    >
+                      Delete
+                    </ControlButton>
+                  </td>
+                </tr>
+              ))
             ) : (
               <tr>
                 <td className="noSite" colSpan={7}>
@@ -247,7 +236,7 @@ export default function UserTable() {
       <div className="pagenationControlBox">
         <div className="perPageBox">
           <span>Rows per page: </span>
-          <select onChange={handleChangeRowsPerPage}>
+          <select onChange={handleChangeperPage}>
             {[10, 20, 30, 40, 50].map((pageSize) => (
               <option key={pageSize} value={pageSize}>
                 Show {pageSize}
@@ -262,22 +251,20 @@ export default function UserTable() {
             rounding
             className="border rounded p-1"
             onClick={() => handlePrevPage()}
-            disabled={page === 0 ? true : false}
+            disabled={page === 1 ? true : false}
           >
             {"<"}
           </Button>
           <span className="pageText">
-            <strong>{page + 1}</strong> / {Math.ceil(data.length / rowsPerPage)}{" "}
-            of {data.length}
+            <strong>{page}</strong> / {Math.ceil(totalCount / perPage)} of{" "}
+            {totalCount}
           </span>
           <Button
             outline
             rounding
             className="border rounded p-1"
             onClick={() => handleNextPage()}
-            disabled={
-              page === Math.ceil(data.length / rowsPerPage) - 1 ? true : false
-            }
+            disabled={page === Math.ceil(totalCount / perPage) ? true : false}
           >
             {">"}
           </Button>

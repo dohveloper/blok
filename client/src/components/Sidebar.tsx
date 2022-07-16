@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logoImg from "./../imgs/logo.png";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../reducers";
 
 // import icon
 import { CgClose } from "react-icons/cg";
@@ -64,7 +65,6 @@ const Hamburger = styled.span`
 
 const MenuContainer = styled.div`
   width: 200px;
-  height: 150px;
   background-color: white;
   border-radius: 16px;
   border: 1px solid E5E5E5;
@@ -81,7 +81,7 @@ const MenuContainer = styled.div`
     right: 0;
     left: auto;
     width: 100%;
-    height: 220px;
+    height: 290px;
     border-radius: 0;
     text-align: center;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
@@ -108,16 +108,17 @@ const List = styled.div`
 `;
 
 interface IMyProps {
-  isMobile: boolean;
-  setIsMobile: any;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
 const Menu = (props: IMyProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const closeMenuHandler = () => {
-    props.setIsMobile(!props.isMobile);
-  };
+
+  const userData = useSelector(
+    (state: RootState) => state.loginCheckReducer.loginData
+  );
 
   const logoutHandler = async () => {
     await axios.get("/api/user/logout");
@@ -126,20 +127,45 @@ const Menu = (props: IMyProps) => {
   };
 
   return (
-    <MenuContainer onMouseLeave={closeMenuHandler}>
+    <MenuContainer
+      onMouseLeave={props.onMouseLeave}
+      onMouseEnter={props.onMouseEnter}
+    >
       <Link to="/account" style={{ textDecoration: "none" }}>
         <List>
           <FaUserAlt color="black" />
           <span>Account</span>
         </List>
       </Link>
-      <Link to="/dashboard" style={{ textDecoration: "none" }}>
-        <List>
-          <MdOutlineSpaceDashboard color="black" />
-          <span>Dashboard</span>
-        </List>
-      </Link>
-      <Link to="/" onClick={logoutHandler} style={{ textDecoration: "none" }}>
+
+      {userData?.role === "admin" ? (
+        <>
+          <Link to="/site" style={{ textDecoration: "none" }}>
+            <List>
+              <MdOutlineSpaceDashboard color="black" />
+              <span>Manage Site</span>
+            </List>
+          </Link>
+          <Link to="/user" style={{ textDecoration: "none" }}>
+            <List>
+              <MdOutlineSpaceDashboard color="black" />
+              <span>Manage User</span>
+            </List>
+          </Link>
+        </>
+      ) : (
+        <Link to="/dashboard" style={{ textDecoration: "none" }}>
+          <List>
+            <MdOutlineSpaceDashboard color="black" />
+            <span>Dashboard</span>
+          </List>
+        </Link>
+      )}
+      <Link
+        to="/login"
+        onClick={logoutHandler}
+        style={{ textDecoration: "none" }}
+      >
         <List>
           <BiLogOut color="black" />
           <span>Logout</span>
@@ -152,10 +178,6 @@ const Menu = (props: IMyProps) => {
 export default function Sidebar() {
   const [isMobile, setIsMobile] = useState(false);
 
-  const showMenuHandler = () => {
-    setIsMobile(!isMobile);
-  };
-
   return (
     <Nav>
       <div className="navbarLogo">
@@ -163,13 +185,21 @@ export default function Sidebar() {
           <img src={logoImg} alt="logo" width={49} height={43} />
         </Link>
       </div>
-      <Hamburger onClick={showMenuHandler}>
+      <Hamburger onClick={() => setIsMobile(true)}>
         {isMobile ? <CgClose size={32} /> : <GrMenu size={32} />}
       </Hamburger>
-      <Profile onMouseEnter={showMenuHandler}>
+      <Profile
+        onMouseEnter={() => setIsMobile(true)}
+        onMouseLeave={() => setIsMobile(false)}
+      >
         <FaRegUserCircle size="48" color="#CCCCCC" />
       </Profile>
-      {isMobile && <Menu isMobile={isMobile} setIsMobile={setIsMobile} />}
+      {isMobile && (
+        <Menu
+          onMouseEnter={() => setIsMobile(true)}
+          onMouseLeave={() => setIsMobile(false)}
+        />
+      )}
     </Nav>
   );
 }

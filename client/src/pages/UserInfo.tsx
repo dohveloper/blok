@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Sidebar from "../components/Sidebar";
-import User from "../components/User";
+import User from "../components/Dashboard/UserUpdate";
 
 export const Container = styled.div`
   display: flex;

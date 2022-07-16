@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "./Button";
-import { RootState } from "../reducers";
+import Button from "../Button";
+import { RootState } from "../../reducers";
 import { useNavigate } from "react-router-dom";
 
 const MainContainer = styled.div`
@@ -74,31 +73,18 @@ const ControlButton = styled(Button)`
 `;
 
 export default function MyInfo() {
-  const [userId, setUserId] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [plan, setPlan] = useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const confirmState = useSelector(
     (state: RootState) => state.modalReducer.confirmState
   );
   const confirmAction = useSelector(
     (state: RootState) => state.modalReducer.confirmData
   );
-
-  const getUserInfo = async () => {
-    const res = await axios.get("/api/user/logincheck");
-    const user = res.data;
-    setUserId(user.userId);
-    setName(user.userName);
-    setEmail(user.email);
-    setPlan(user.plan);
-  };
-
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  const userData = useSelector(
+    (state: RootState) => state.loginCheckReducer.loginData
+  );
 
   const resethandler = () => {
     dispatch({
@@ -124,7 +110,9 @@ export default function MyInfo() {
 
   const resetPassword = async () => {
     try {
-      await axios.post("/api/user/reset-password", { name, email });
+      const data = { userName: userData?.userName, email: userData?.email };
+      console.log(data);
+      await axios.post("/api/user/reset-password", data);
       dispatch({ type: "CONFIRM/MODAL_OFF" });
       dispatch({ type: "alertOn", payload: "성공적으로 메일을 보냈습니다." });
       navigate("/ChangePassword");
@@ -135,7 +123,7 @@ export default function MyInfo() {
 
   const deleteUser = async () => {
     try {
-      await axios.delete(`/api/user/${userId}`);
+      await axios.delete(`/api/user/${userData?.userId}`);
       dispatch({ type: "CONFIRM/MODAL_OFF" });
       dispatch({ type: "alertOn", payload: "회원탈퇴 처리 되었습니다." });
       navigate("/login");
@@ -145,12 +133,12 @@ export default function MyInfo() {
   };
 
   if (confirmState) {
-    if (confirmAction.action === "reset") {
+    if (confirmAction?.action === "reset") {
       console.log("리샛");
       resetPassword();
     }
 
-    if (confirmAction.action === "delete") {
+    if (confirmAction?.action === "delete") {
       console.log("삭제");
       deleteUser();
     }
@@ -163,15 +151,15 @@ export default function MyInfo() {
         <Title>내 정보</Title>
         <ContentDiv className="content">
           <ContentTitle>이름</ContentTitle>
-          <Content>{name}</Content>
+          <Content>{userData?.userName}</Content>
         </ContentDiv>
         <ContentDiv className="content">
           <ContentTitle>이메일</ContentTitle>
-          <Content>{email}</Content>
+          <Content>{userData?.email}</Content>
         </ContentDiv>
         <ContentDiv>
           <ContentTitle>플랜</ContentTitle>
-          <Content>{plan}</Content>
+          <Content>{userData?.plan}</Content>
         </ContentDiv>
       </Container>
       <Container>

@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import { CgClose } from "react-icons/cg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TemplateCard } from "./TemplateCard";
-import Button from "./Button";
+import Button from "../Button";
 import { useState, useRef } from "react";
-import { InputDiv, Input, InputTitle } from "./User";
+import { RootState } from "../../reducers";
+import { InputDiv, Input, InputTitle } from "./UserUpdate";
+import { templateCardData } from "./TemplateData";
+import templateListData from "./TemplateData";
+import axios from "axios";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -135,51 +139,81 @@ const ButtonPadiing = styled(Button)`
   display: block;
   margin: auto;
 `;
-
-const templateData = [
-  { title: "랜딩페이지", description: "회사 웹사이트 템플릿 입니다." },
-  {
-    title: "이력서",
-    description: "이력서 템플릿 입니다.",
-    color1: "#2B9D67",
-    color2: "#CEF0E2",
-  },
-  {
-    title: "기업소개 웹사이트",
-    description: "기업소개 템플릿 입니다.",
-    color1: "#F5E44C",
-    color2: "#CEA9D3",
-  },
-  {
-    title: "기본 웹사이트",
-    description: "기업소개 템플릿 입니다.",
-    color1: "#F5E44C",
-    color2: "#CEA9D3",
-  },
-];
+type SiteData = {
+  owner: string | undefined;
+  name: string;
+  domain: string;
+  theme: string;
+  font: string;
+  colorSet: {
+    primary: string;
+    secondary: string;
+    background: string;
+    surface: string;
+  };
+  blocks: [];
+};
 
 export default function TemplateModal() {
   const dispatch = useDispatch();
-  const [template, setTemplate] = useState("");
+  const userData = useSelector(
+    (state: RootState) => state.loginCheckReducer.loginData
+  );
+
   const siteName = useRef<HTMLInputElement>(null);
   const domain = useRef<HTMLInputElement>(null);
   const siteDesc = useRef<HTMLTextAreaElement>(null);
   const [siteNameError, setSiteNameError] = useState(false);
   const [domainError, setDomainError] = useState(false);
-  const [data, setData] = useState({
-    siteName: "",
+  const [template, setTemplate] = useState("");
+  const [data, setData] = useState<SiteData>({
+    owner: userData?.userId,
+    name: "",
     domain: "",
-    template: "",
-    siteDesc: "",
+    theme: "",
+    font: "",
+    colorSet: {
+      primary: "",
+      secondary: "",
+      background: "",
+      surface: "",
+    },
+    blocks: [],
   });
 
   const onSelectHandler = (title: string) => {
+    console.log(title);
     setTemplate(title);
   };
 
   const selectTemplateHandler = () => {
+    // 템플릿 선택 시, 해당 하는 colorSet, font 등 추가
+    let selectedTemplate = {};
+    switch (template) {
+      case "랜딩페이지":
+        selectedTemplate = templateListData().landingPage;
+        break;
+      case "이력서":
+        selectedTemplate = templateListData().portfolio;
+        break;
+      case "기업소개 웹사이트":
+        selectedTemplate = templateListData().companyProfile;
+        break;
+      case "기본 웹사이트":
+        selectedTemplate = templateListData().basicWeb;
+        break;
+      default:
+        alert("어떤 값인지 파악이 되지 않습니다.");
+    }
+
+    console.log(selectedTemplate);
+
     setData((prev) => {
-      return { ...prev, template: template };
+      return {
+        ...prev,
+        ...selectedTemplate,
+        template: template,
+      };
     });
   };
 
@@ -205,7 +239,7 @@ export default function TemplateModal() {
     }
   };
 
-  const createSiteHandler = () => {
+  const createSiteHandler = async () => {
     if (siteName.current!.value === "" || domain.current!.value === "") {
       console.log("인풋없음");
       return;
@@ -213,11 +247,11 @@ export default function TemplateModal() {
     setData((prev) => {
       return {
         ...prev,
-        siteName: siteName.current!.value,
+        name: siteName.current!.value,
         domain: domain.current!.value,
-        siteDesc: siteDesc.current!.value,
       };
     });
+
     console.log(
       `template: ${template}, siteName: ${
         siteName.current!.value
@@ -225,6 +259,11 @@ export default function TemplateModal() {
         siteDesc.current!.value
       } => create web!`
     );
+
+    const res = await axios.post(`/api/site/addsite`, data);
+    console.log("POST 요청 - 사이트추가 : ", res.data);
+    dispatch({ type: "alertOn", payload: "사이트 추가되었습니다." });
+    // 에디터 페이지로 이동
   };
 
   const closeModalHandler = () => {
@@ -235,11 +274,11 @@ export default function TemplateModal() {
     <>
       <ModalContainer>
         <MainTitle>
-          {data.template === "" ? "템플릿 선택" : "도메인 설정"}
+          {data.theme === "" ? "템플릿 선택" : "도메인 설정"}
         </MainTitle>
-        {data.template === "" ? (
+        {data.theme === "" ? (
           <TemplateListContainer>
-            {templateData?.map((e) => (
+            {templateCardData?.map((e: any) => (
               <TemplateCardCustom
                 key={e.title}
                 className={e.title === template ? "selectedCard" : "card"}
@@ -301,7 +340,7 @@ export default function TemplateModal() {
         <div className="closeButton" onClick={closeModalHandler}>
           <CgClose size={30} color={"gray"} />
         </div>
-        {data.template === "" ? (
+        {data.theme === "" ? (
           <ButtonPadiing
             className="createButton"
             size="large"
