@@ -24,13 +24,13 @@ export class UserModel {
     return users;
   }
 
-  async countTotalUsers() {
-    const totalCount = await User.countDocuments({});
+  async countTotalUsers(searchQuery) {
+    const totalCount = await User.countDocuments(searchQuery);
     return totalCount;
   }
 
-  async pagenation(page, perPage) {
-    const users = await User.find({})
+  async pagenation(page, perPage, searchQuery) {
+    const users = await User.find(searchQuery)
       .sort({ createdAt: -1 })
       .skip(perPage * (page - 1))
       .limit(perPage);
