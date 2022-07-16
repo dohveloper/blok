@@ -56,8 +56,8 @@ const siteController = {
     res.status(200).json(updatedSiteInfo);
   }),
   deleteSiteUsingId: asyncHandler(async (req, res) => {
-    const siteIdentifier = parseInt(req.params.siteIdentifier);
-    const deletedSite = await siteService.deleteSiteById(siteIdentifier);
+    const siteIdentifier = req.params.siteIdentifier;
+    const deletedSite = await siteService.deleteByObjectId(siteIdentifier);
     res.status(200).json(deletedSite);
   }),
 };

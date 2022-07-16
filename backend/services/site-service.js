@@ -80,6 +80,15 @@ class SiteService {
 
     return site;
   }
+
+  async deleteSiteByObjectId(siteIdentifier) {
+    const site = await this.siteModel.deleteByObjectId(siteIdentifier);
+    if (!site) {
+      throw new ForbiddenError("삭제할 사이트가 없습니다.");
+    }
+
+    return site;
+  }
 }
 
 const siteService = new SiteService(siteModel);
