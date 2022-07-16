@@ -103,8 +103,9 @@ function Signinfield() {
     const logindata = JSON.stringify(data);
     localStorage.setItem('login', logindata);
     try {
-      const res = await axios.post('/api/user/register', data);
-      console.log(res);
+      await axios.post('/api/user/register', data);
+      alert('가입완료'); // 모달창구현
+      nav('/login');
     } catch (e: any) {
       setEmailErrormshg(e.response.data.reason);
       alert(e.response.data.reason);
