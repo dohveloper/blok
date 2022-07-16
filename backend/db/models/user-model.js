@@ -14,6 +14,24 @@ export class UserModel {
     return user;
   }
 
+  async createSiteById(userId, siteId) {
+    const user = await User.findOne({ _id: userId });
+    const addSite = await User.update(
+      { _id: userId },
+      { $push: { sites: siteId } }
+    );
+    return user;
+  }
+
+  async deleteSiteById(userId, siteId) {
+    const user = await User.findOne({ _id: userId });
+    const deleteSite = await User.update(
+      { _id: userId },
+      { $pull: { sites: siteId } }
+    );
+    return deleteSite;
+  }
+
   async create(userInfo) {
     const createdNewUser = await User.create(userInfo);
     return createdNewUser;

@@ -60,9 +60,9 @@ const siteController = {
     );
     res.status(200).json(updatedSiteInfo);
   }),
-  deleteSiteUsingId: asyncHandler(async (req, res) => {
-    const siteIdentifier = req.params.siteIdentifier;
-    const deletedSite = await siteService.deleteSiteByObjectId(siteIdentifier);
+  deleteSiteUsingObjId: asyncHandler(async (req, res) => {
+    const siteObjId = req.params.siteObjId;
+    const deletedSite = await siteService.deleteSiteByObjectId(siteObjId);
     res.status(200).json(deletedSite);
   }),
 };

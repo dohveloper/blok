@@ -12,6 +12,6 @@ siteRouter.get("/user/:userId", siteController.getUserSites);
 
 siteRouter.patch("/update/:siteIdentifier", siteController.updateSite);
 
-siteRouter.delete("/delete/:siteIdentifier", siteController.deleteSiteUsingId);
+siteRouter.delete("/delete/:siteObjId", siteController.deleteSiteUsingObjId);
 
 export { siteRouter };

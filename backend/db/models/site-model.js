@@ -1,12 +1,16 @@
 import { model } from "mongoose";
+import { userModel } from "./user-model";
 import { SiteSchema } from "../schemas/site-schema";
 
 const Site = model("sites", SiteSchema);
 
 export class SiteModel {
   async create(siteInfo) {
-    const owner = siteInfo.owner;
+    const userId = siteInfo.owner;
     const createdNewSite = await Site.create(siteInfo);
+    const siteId = JSON.stringify(createdNewSite._id).replace(/["]/g, "");
+    const user = await userModel.createSiteById(userId, siteId);
+
     return createdNewSite;
   }
   async findBySiteName(siteName) {
@@ -39,12 +43,20 @@ export class SiteModel {
   }
   async deleteById(id) {
     const filter = { no: id };
-    const site = await Site.find({ no: id }).populate("owner");
+    const site = await Site.find({ no: id });
     const deletedSite = await Site.findOneAndDelete(filter);
     return deletedSite;
   }
-  async deleteByObjectId(id) {
-    const filter = { _id: id };
+  async deleteByObjectId(siteId) {
+    const filter = { _id: siteId };
+    const site = await Site.find({ _id: siteId }).populate("owner");
+    const userId = JSON.stringify(site[0].owner._id).replace(/["]/g, "");
+    const user = await userModel.deleteSiteById(userId, siteId);
+    // //solve 1:
+    // const site = await Site.find({ _id: id });
+    // const userId = JSON.stringify(site[0].owner).replace(/["]/g, "");
+    // const user = await userModel.findById(userId);
+
     const deletedSite = await Site.findOneAndDelete(filter);
     return deletedSite;
   }
