@@ -6,7 +6,7 @@ const Site = model("sites", SiteSchema);
 
 export class SiteModel {
   async create(siteInfo) {
-    const userId = siteInfo.owner;
+    const userId = siteInfo.userId;
     const createdNewSite = await Site.create(siteInfo);
     const siteId = JSON.stringify(createdNewSite._id).replace(/["]/g, "");
     const user = await userModel.createSiteById(userId, siteId);
@@ -30,7 +30,7 @@ export class SiteModel {
     return sites;
   }
   async findAllUserSites(userId) {
-    const sites = await Site.find({ owner: userId });
+    const sites = await Site.find({ userId: userId });
     return sites;
   }
   async update({ id, update }) {

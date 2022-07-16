@@ -8,7 +8,7 @@ class SiteService {
 
   // 사이트 추가
   async addSite(siteInfo) {
-    const { owner, name, domain } = siteInfo;
+    const { userId, name, domain } = siteInfo;
     const siteNameCheck = await this.siteModel.findBySiteName(name);
     const siteDomainCheck = await this.siteModel.findBySiteDomain(domain);
     if (siteNameCheck) {
