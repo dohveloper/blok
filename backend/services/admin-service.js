@@ -6,16 +6,15 @@ class AdminService {
   constructor(userModel) {
     this.userModel = userModel;
   }
-  // 삭제 예정
-  // async getUsersInfoByPagenation(page, perPage) {
-  //   const [totalCount, users] = await Promise.all([
-  //     this.userModel.countTotalUsers(),
-  //     this.userModel.pagenation(page, perPage),
-  //   ]);
-  //   return [totalCount, users];
-  // }
-  async editUserInfo(_id, toUpdate) {
-    const user = await this.userModel.findById(_id);
+  async getUsersInfoByPagenation(page, perPage, searchQuery) {
+    const [totalCount, users] = await Promise.all([
+      this.userModel.countTotalUsers(searchQuery),
+      this.userModel.pagenation(page, perPage, searchQuery),
+    ]);
+    return [totalCount, users];
+  }
+  async editUserInfo(userId, toUpdate) {
+    const user = await this.userModel.findById(userId);
     if (!user) {
       throw new BadRequestError("존재하지 않는 유저입니다.");
     }
@@ -26,7 +25,7 @@ class AdminService {
     if (toUpdate.password) {
       toUpdate = { ...toUpdate, password: hashedPassword };
     }
-    const updatedUser = await this.userModel.update(_id, toUpdate);
+    const updatedUser = await this.userModel.update(userId, toUpdate);
     return updatedUser;
   }
 }

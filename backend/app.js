@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import { userRouter, adminRouter, authRouter } from "./routers";
+import { userRouter, adminRouter, authRouter, siteRouter } from "./routers";
 import { errorHandler, adminRequired, loginRequired } from "./middlewares";
 import passport from "passport";
 import passportStrategies from "./passport";
@@ -50,6 +50,7 @@ app.use((req, res, next) => {
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/admin", loginRequired, adminRequired, adminRouter);
+app.use("/api/site", siteRouter);
 
 app.listen(PORT, function () {
   console.log(`listening on http://localhost:${PORT}`);

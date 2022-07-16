@@ -22,27 +22,27 @@ class UserService {
     return createdNewUser;
   }
 
-  async getUserInfo(_id) {
-    const user = await this.userModel.findById(_id);
+  async getUserInfo(userId) {
+    const user = await this.userModel.findById(userId);
     if (!user) {
       throw new BadRequestError("존재하지 않는 유저입니다.");
     }
     return user;
   }
 
-  async changeProfileImage(_id, toUpdatedIamge) {
-    const user = await this.userModel.findById(_id);
+  async changeProfileImage(userId, toUpdatedIamge) {
+    const user = await this.userModel.findById(userId);
     if (!user) {
       throw new BadRequestError("존재하지 않는 유저입니다.");
     }
-    const changedUser = await this.userModel.update(_id, toUpdatedIamge);
+    const changedUser = await this.userModel.update(userId, toUpdatedIamge);
 
     return changedUser;
   }
 
   async changeUserPassword(userInfoRequired, toUpdate) {
-    const { _id, currentPassword } = userInfoRequired;
-    let user = await this.userModel.findById(_id);
+    const { userId, currentPassword } = userInfoRequired;
+    let user = await this.userModel.findById(userId);
     if (!user) {
       throw new BadRequestError(
         "가입 내역이 없습니다. 다시 한 번 확인해 주세요."
@@ -63,7 +63,7 @@ class UserService {
     const newPasswordHash = await bcrypt.hash(password, 10);
     toUpdate.password = newPasswordHash;
     toUpdate.passwordReset = false;
-    user = await this.userModel.update(_id, toUpdate);
+    user = await this.userModel.update(userId, toUpdate);
     return user;
   }
 
@@ -90,8 +90,8 @@ class UserService {
       `변경된 비밀번호는 ${password} 입니다.`
     );
     password = await bcrypt.hash(password, 10);
-    const _id = user._id;
-    const updatedUser = await userModel.update(_id, {
+    const userId = user._id;
+    const updatedUser = await userModel.update(userId, {
       password,
       // 비밀번호 변경을 강제하는 로직을 위해 passwordReset을 true로 설정
       passwordReset: true,
@@ -100,8 +100,8 @@ class UserService {
   }
 
   // 회원 삭제 구현, 추후 수정예정
-  async deleteUser(_id) {
-    const user = await this.userModel.delete(_id);
+  async deleteUser(userId) {
+    const user = await this.userModel.delete(userId);
     if (!user) {
       throw new BadRequestError("존재하지 않는 유저입니다!");
     }

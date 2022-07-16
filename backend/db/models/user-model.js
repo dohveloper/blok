@@ -8,38 +8,44 @@ export class UserModel {
     const user = await User.findOne({ email });
     return user;
   }
-  async findById(_id) {
-    const user = await User.findOne({ _id: _id });
+
+  async findById(userId) {
+    const user = await User.findOne({ _id: userId });
     return user;
   }
+
   async create(userInfo) {
     const createdNewUser = await User.create(userInfo);
     return createdNewUser;
   }
+
   async findAll() {
     const users = await User.find({});
     return users;
   }
-  // 삭제 예정
-  // async countTotalUsers() {
-  //   const totalCount = await User.countDocuments({});
-  //   return totalCount;
-  // }
-  // async pagenation(page, perPage) {
-  //   const users = await User.find({})
-  //     .sort({ createdAt: -1 })
-  //     .skip(perPage * (page - 1))
-  //     .limit(perPage);
-  //   return users;
-  // }
-  async update(_id, update) {
-    const filter = { _id };
+
+  async countTotalUsers(searchQuery) {
+    const totalCount = await User.countDocuments(searchQuery);
+    return totalCount;
+  }
+
+  async pagenation(page, perPage, searchQuery) {
+    const users = await User.find(searchQuery)
+      .sort({ createdAt: -1 })
+      .skip(perPage * (page - 1))
+      .limit(perPage);
+    return users;
+  }
+
+  async update(userId, update) {
+    const filter = { _id: userId };
     const option = { returnOriginal: false };
     const updatedUser = await User.findOneAndUpdate(filter, update, option);
     return updatedUser;
   }
-  async delete(_id) {
-    const filter = { _id };
+
+  async delete(userId) {
+    const filter = { _id: userId };
     const deletedUser = await User.findOneAndDelete(filter);
     return deletedUser;
   }
