@@ -1,4 +1,4 @@
-import { model } from "mongoose";
+import mongoose, { model } from "mongoose";
 import { UserSchema } from "../schemas/user-schema";
 
 const User = model("users", UserSchema);
@@ -10,8 +10,21 @@ export class UserModel {
   }
 
   async findById(userId) {
-    const user = await User.findOne({ _id: userId });
-    return user;
+    let user = await User.aggregate([
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(userId),
+        },
+      },
+      {
+        $addFields: {
+          userId: "$_id",
+        },
+      },
+      { $project: { _id: 0 } },
+    ]);
+    console.log(user[0]);
+    return user[0];
   }
 
   async createSiteById(userId, siteId) {
@@ -50,9 +63,19 @@ export class UserModel {
   }
 
   async pagenation(page, perPage, serachKey, searchValue) {
-    const users = await User.find({
-      [serachKey]: { $regex: searchValue, $options: "i" },
-    })
+    const users = await User.aggregate([
+      {
+        $match: {
+          [serachKey]: { $regex: searchValue, $options: "i" },
+        },
+      },
+      {
+        $addFields: {
+          userId: "$_id",
+        },
+      },
+      { $project: { _id: 0 } },
+    ])
       .sort({ createdAt: -1 })
       .skip(perPage * (page - 1))
       .limit(perPage);
