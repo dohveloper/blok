@@ -1,12 +1,13 @@
 import { generateRandomPassword, sendMail } from "../utils";
 import bcrypt from "bcrypt";
 import { BadRequestError, ForbiddenError } from "../errors";
-import { userModel } from "../db";
+import { userModel, siteModel } from "../db";
 import { AUTH_ENUM } from "../passport";
 
 class UserService {
   constructor(userModel) {
     this.userModel = userModel;
+    this.siteModel = siteModel;
   }
 
   async addUser(userInfo) {
@@ -95,13 +96,15 @@ class UserService {
     return updatedUser;
   }
 
-  // 회원 삭제 구현, 추후 수정예정
   async deleteUser(userId) {
-    const user = await this.userModel.delete(userId);
+    const user = await this.userModel.findById(userId);
     if (!user) {
       throw new BadRequestError("존재하지 않는 유저입니다!");
     }
-    return user;
+    for (const siteId of user.sites) {
+      await this.siteModel.deleteById({ _id: siteId });
+    }
+    return await this.userModel.delete(userId);
   }
 }
 
