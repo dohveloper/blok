@@ -47,6 +47,15 @@ export class SiteModel {
     const deletedSite = await Site.findOneAndDelete(filter);
     return deletedSite;
   }
+
+  async pagenation(page, perPage, searchQuery) {
+    const site = await Site.find(searchQuery)
+      .sort({ createdAt: -1 })
+      .skip(perPage * (page - 1))
+      .limit(perPage);
+    return site;
+  }
+
   async deleteByObjectId(siteId) {
     const filter = { _id: siteId };
     const site = await Site.find({ _id: siteId }).populate("owner");
