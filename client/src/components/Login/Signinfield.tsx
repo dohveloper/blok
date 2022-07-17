@@ -105,6 +105,7 @@ function Signinfield() {
     try {
       const res = await axios.post('/api/user/register', data);
       console.log(res);
+      alert('가입이 완료되었습니다.');
     } catch (e: any) {
       setEmailErrormshg(e.response.data.reason);
       alert(e.response.data.reason);
