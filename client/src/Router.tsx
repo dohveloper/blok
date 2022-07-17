@@ -30,7 +30,7 @@ export function AppRouter() {
         <Route path="/findpassword" element={<FindPassword />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/editor" element={<Editor />} />
+        <Route path="/editor/:siteId" element={<Editor />} />
       </Routes>
     </Router>
   );

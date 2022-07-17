@@ -2,6 +2,7 @@ type ConfirmDataType = {
   title: string;
   msg: string;
   action: string;
+  props?: string;
 };
 
 type ModalState = {
@@ -18,6 +19,7 @@ const initialState: ModalState = {
     title: "",
     msg: "",
     action: "",
+    props: "",
   },
   confirmState: false,
 };

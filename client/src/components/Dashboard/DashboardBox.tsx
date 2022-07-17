@@ -7,6 +7,7 @@ import { MainTitle } from "./MyInfo";
 import { TemplateCard } from "./TemplateCard";
 import { templateCardData } from "./TemplateData";
 import { RootState } from "../../reducers";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   margin-bottom: 10px;
@@ -114,36 +115,65 @@ export function TemplateList() {
 }
 
 export function DashboardInfo() {
-  const [domain, setDomain] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
   const dispatch = useDispatch();
 
   const userData = useSelector(
     (state: RootState) => state.loginCheckReducer.loginData
   );
 
-  const getUserInfo = async () => {
-    const res = await axios.get(`/api/site/user/${userData?.userId}`);
-    console.log(333, res);
-    // await setDomain(res.data[0].domain);
-  };
-
   useEffect(() => {
+    const getUserInfo = async () => {
+      if (userData?.userId === "") {
+        console.log("userId를 불러오지 못했습니다.");
+        return;
+      }
+      console.log("userId:", userData?.userId);
+      const res = await axios.get(`/api/site/user/${userData?.userId}`);
+      console.log("site Data:", res.data);
+      await setData(res.data);
+    };
     getUserInfo();
-  }, []);
+  }, [userData?.userId]);
 
   const showModalHandler = () => {
     dispatch({ type: "TEMPLATE/MODAL_ON" });
   };
 
-  const deleteHandler = () => {
+  const deleteHandler = (props: string) => {
     dispatch({
       type: "CONFIRM/MODAL_ON",
       payload: {
         title: "삭제",
         msg: "정말 삭제하시겠습니까?",
+        action: "deleteSite",
+        props: props,
       },
     });
   };
+
+  const modalAction = useSelector(
+    (state: RootState) => state.modalReducer.confirmData
+  );
+
+  const deleteSite = async () => {
+    try {
+      console.log("siteId:", modalAction?.props);
+      if (modalAction?.props === "") {
+        console.log("modolAction의 props를 불러오지 못했습니다.");
+        return;
+      }
+      // 사이트 삭제 API 통신 에러
+      await axios.delete(`/api/site/delete/${modalAction?.props}`);
+      dispatch({ type: "CONFIRM/MODAL_OFF" });
+      dispatch({ type: "alertOn", payload: "사이트가 삭제되었습니다." });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  if (modalAction?.action === "deleteSite") {
+    deleteSite();
+  }
 
   return (
     <Container>
@@ -158,26 +188,28 @@ export function DashboardInfo() {
             </tr>
           </thead>
           <tbody>
-            {domain.length > 0 ? (
-              domain.map((e, idx) => (
+            {data.length > 0 ? (
+              data.map((e, idx) => (
                 <tr key={idx}>
                   <td>
-                    {e.domainName}
+                    {e.name}
                     <br />
-                    <a href={e.link}>{e.link}</a>
+                    <a href={e.domain}>{e.domain}</a>
                   </td>
                   <td>Free</td>
                   <td>
-                    <ControlButton
-                      className={"editButton"}
-                      rounding
-                      color="white"
-                    >
-                      Edit
-                    </ControlButton>
+                    <Link to={`/editor/${e._id}`}>
+                      <ControlButton
+                        className={"editButton"}
+                        rounding
+                        color="white"
+                      >
+                        Edit
+                      </ControlButton>
+                    </Link>
                     <ControlButton
                       className={"deleteButton"}
-                      onClick={deleteHandler}
+                      onClick={() => deleteHandler(e._id)}
                       color="gray"
                       rounding
                     >

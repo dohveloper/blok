@@ -19,27 +19,26 @@ function App() {
   // 로그인 유저 정보 redux로 관리
   const dispatch = useDispatch();
 
-  const checkLoginUser = async () => {
-    const res = await axios.get("/api/user/logincheck");
-    const user = res.data;
-    dispatch({
-      type: "USER/LOGIN",
-      payload: {
-        userId: user.userId,
-        email: user.email,
-        role: user.role,
-        userName: user.userName,
-        oauth: user.oauth,
-        passwordReset: user.passwordReset,
-        profileImage: user.profileImage,
-        plan: user.plan,
-      },
-    });
-  };
-
   useEffect(() => {
+    const checkLoginUser = async () => {
+      const res = await axios.get("/api/user/logincheck");
+      const user = res.data;
+      dispatch({
+        type: "USER/LOGIN",
+        payload: {
+          userId: user.userId,
+          email: user.email,
+          role: user.role,
+          userName: user.userName,
+          oauth: user.oauth,
+          passwordReset: user.passwordReset,
+          profileImage: user.profileImage,
+          plan: user.plan,
+        },
+      });
+    };
     checkLoginUser();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">

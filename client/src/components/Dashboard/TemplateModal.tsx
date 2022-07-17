@@ -140,7 +140,7 @@ const ButtonPadiing = styled(Button)`
   margin: auto;
 `;
 type SiteData = {
-  owner: string | undefined;
+  userId: string | undefined;
   name: string;
   domain: string;
   theme: string;
@@ -167,7 +167,7 @@ export default function TemplateModal() {
   const [domainError, setDomainError] = useState(false);
   const [template, setTemplate] = useState("");
   const [data, setData] = useState<SiteData>({
-    owner: userData?.userId,
+    userId: userData?.userId,
     name: "",
     domain: "",
     theme: "",
@@ -181,6 +181,7 @@ export default function TemplateModal() {
     blocks: [],
   });
 
+  console.log(data);
   const onSelectHandler = (title: string) => {
     console.log(title);
     setTemplate(title);
