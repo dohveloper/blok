@@ -7,13 +7,12 @@ const adminController = {
     const page = Number(req.query.page || 1);
     const perPage = Number(req.query.perPage || 10);
     const { serachKey, serachValue } = req.query;
-    const users = await adminService.getUsersInfoByPagenation(
+    const [totalCount, users] = await adminService.getUsersInfoByPagenation(
       page,
       perPage,
       serachKey,
       serachValue
     );
-    const totalCount = users.length;
     const totalPage = Math.ceil(totalCount / perPage);
     res.ok(200, { page, perPage, totalPage, totalCount, users });
   }),
@@ -28,11 +27,11 @@ const adminController = {
     const page = Number(req.query.page || 1);
     const perPage = Number(req.query.perPage || 10);
     const { serachKey, serachValue } = req.query;
-    const searchQuery = { [serachKey]: serachValue };
     const [totalCount, sites] = await adminService.getSitesByPagenation(
       page,
       perPage,
-      searchQuery
+      serachKey,
+      serachValue
     );
     const totalPage = Math.ceil(totalCount / perPage);
     res.status(200).json({ page, perPage, totalPage, totalCount, sites });

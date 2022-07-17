@@ -42,11 +42,17 @@ export class UserModel {
     return users;
   }
 
+  async countTotalUsers(serachKey, searchValue) {
+    const totalCount = await User.countDocuments({
+      [serachKey]: { $regex: searchValue, $options: "i" },
+    });
+    return totalCount;
+  }
+
   async pagenation(page, perPage, serachKey, searchValue) {
     const users = await User.find({
       [serachKey]: { $regex: searchValue, $options: "i" },
     })
-
       .sort({ createdAt: -1 })
       .skip(perPage * (page - 1))
       .limit(perPage);
