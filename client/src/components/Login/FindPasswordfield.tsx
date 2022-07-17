@@ -71,7 +71,7 @@ function FindPasswordfield() {
     try {
       await axios.post('/api/user/reset-password/', data);
       alert('성공적으로 메일을 보내습니다.'); // 모달창구현
-      nav('/ChangePassword');
+      nav('/login');
     } catch (e) {
       console.log(e);
     }

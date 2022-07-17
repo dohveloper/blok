@@ -80,12 +80,13 @@ function Loginfield() {
     try {
       const res = await axios.post('/api/auth/login', data);
       const resdata = res.data;
-      console.log(res);
-      if (resdata.passwordReset) {
+      console.log(resdata.passwordReset);
+      if (resdata.passwordReset === true) {
         nav('/changepassword');
       }
-      nav('/main');
+      // nav('/main');
     } catch (e: any) {
+      console.log(e.response.data);
       alert(e.response.data.reason);
     }
   };
@@ -93,7 +94,7 @@ function Loginfield() {
   const googleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    alert('곧 구현될 예정입니다.');
+    alert('아직 구현되지않았습니다.');
     // try {
     //   const res = await axios.get('/api/user/google');
     //   nav('/main')
@@ -113,20 +114,19 @@ function Loginfield() {
   };
 
   useEffect(() => {
-    return () => {
-      async function loginCheck() {
-        const res = await axios.get('/api/user/logincheck');
-        if (res.data) {
-          if (res.data.passwordReset) {
-            nav('/changepassword');
-          }
-          console.log('이미 로그인 되어있습니다.');
-          nav('/main');
+    async function loginCheck() {
+      const res = await axios.get('/api/user/logincheck');
+      if (res.data) {
+        console.log(res.data);
+        if (res.data.passwordReset) {
+          nav('/changepassword');
         }
+        console.log('이미 로그인 되어있습니다.');
+        nav('/main');
       }
-      loginCheck();
-    };
-  });
+    }
+    loginCheck();
+  }, []);
   return (
     <Container>
       <LoginForm.Title>로그인</LoginForm.Title>
