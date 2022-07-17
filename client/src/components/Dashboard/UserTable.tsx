@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Button from "../Button";
 import { MainTitle } from "./MyInfo";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../reducers";
 
 const Container = styled.div`
   .controlBox {
@@ -100,7 +100,7 @@ const Table = styled.table`
 `;
 
 export default function UserTable() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [query, setQuery] = useState("");
   const [text, setText] = useState("");
   const [data, setData] = useState<any[]>([]);
@@ -124,11 +124,9 @@ export default function UserTable() {
 
   useEffect(() => {
     const getSites = async () => {
-      const res = query
-        ? await axios.get(
-            `/api/admin/user?page=${page}&perPage=${perPage}&serachKey=userName&serachValue=${query}`
-          )
-        : await axios.get(`/api/admin/user?page=${page}&perPage=${perPage}`);
+      const res = await axios.get(
+        `/api/admin/user?page=${page}&perPage=${perPage}&serachKey=userName&serachValue=${query}`
+      );
       setData(res.data.users);
       setTotalCount(res.data.totalCount);
     };
@@ -141,9 +139,9 @@ export default function UserTable() {
     setText("");
   };
 
-  const handleDelete = async (_id: string) => {
-    console.log("delete user : ", _id);
-    await axios.delete(`/api/admin/user/${_id}`);
+  const handleDelete = async (userId: string) => {
+    console.log("delete user : ", userId);
+    await axios.delete(`/api/admin/user/${userId}`);
     dispatch({ type: "alertOn", payload: "회원정보가 삭제되었습니다." });
   };
 
@@ -191,7 +189,7 @@ export default function UserTable() {
           <tbody>
             {data.length > 0 ? (
               data.map((e, idx) => (
-                <tr key={e._id}>
+                <tr key={e.userId}>
                   <td>{(page - 1) * perPage + idx + 1}</td>
                   <td>{e.userName}</td>
                   <td>{e.email}</td>
@@ -201,7 +199,7 @@ export default function UserTable() {
                   <td>{e.role}</td>
                   <td>
                     <Link
-                      to={"/user/" + e._id}
+                      to={"/user/" + e.userId}
                       style={{ textDecoration: "none" }}
                     >
                       <ControlButton
@@ -214,7 +212,7 @@ export default function UserTable() {
                     </Link>
                     <ControlButton
                       className={"deleteButton"}
-                      onClick={() => handleDelete(e._id)}
+                      onClick={() => handleDelete(e.userId)}
                       color="gray"
                       rounding
                     >
@@ -226,7 +224,7 @@ export default function UserTable() {
             ) : (
               <tr>
                 <td className="noSite" colSpan={7}>
-                  사이트가 존재하지 않습니다.
+                  조회된 유저가 존재하지 않습니다.
                 </td>
               </tr>
             )}

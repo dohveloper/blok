@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button";
 import { MainTitle } from "./MyInfo";
 import { TemplateCard } from "./TemplateCard";
 import { templateCardData } from "./TemplateData";
-import { RootState } from "../../reducers";
 import { Link } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../../reducers";
 
 const Container = styled.div`
   margin-bottom: 10px;
@@ -95,6 +94,10 @@ const AddButton = styled(Button)`
 `;
 
 export function TemplateList() {
+  const dispatch = useAppDispatch();
+  const showModalHandler = (template: string) => {
+    dispatch({ type: "TEMPLATE/MODAL_ON", template: template });
+  };
   return (
     <Container>
       <MainTitle className="title">Template</MainTitle>
@@ -106,6 +109,7 @@ export function TemplateList() {
               description={e.description}
               color1={e.color1}
               color2={e.color2}
+              onClick={() => showModalHandler(e.title)}
             />
           </div>
         ))}
@@ -116,25 +120,35 @@ export function TemplateList() {
 
 export function DashboardInfo() {
   const [data, setData] = useState<any[]>([]);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const userData = useSelector(
-    (state: RootState) => state.loginCheckReducer.loginData
-  );
+  const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
+
+  // userId 별 sites 데이터 조회, 재랜더링 문제로 아래와 같이 코드 수정, 사이트 삭제 시 getUserInfo() 호출하여 재랜더링됨.
+  const getUserInfo = async () => {
+    try {
+      console.log("userId:", userData!.userId);
+      const res = await axios.get(`/api/site/user/${userData!.userId}`);
+      console.log("site Data:", res.data);
+      setData(() => res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const getUserInfo = async () => {
-      if (userData?.userId === "") {
-        console.log("userId를 불러오지 못했습니다.");
-        return;
+      try {
+        console.log("userId:", userData!.userId);
+        const res = await axios.get(`/api/site/user/${userData!.userId}`);
+        console.log("site Data:", res.data);
+        setData(() => res.data);
+      } catch (error) {
+        console.log(error);
       }
-      console.log("userId:", userData?.userId);
-      const res = await axios.get(`/api/site/user/${userData?.userId}`);
-      console.log("site Data:", res.data);
-      await setData(res.data);
     };
     getUserInfo();
-  }, [userData?.userId]);
+  }, [userData]);
 
   const showModalHandler = () => {
     dispatch({ type: "TEMPLATE/MODAL_ON" });
@@ -145,34 +159,41 @@ export function DashboardInfo() {
       type: "CONFIRM/MODAL_ON",
       payload: {
         title: "삭제",
-        msg: "정말 삭제하시겠습니까?",
+        msg: "정말 삭제하시겠습니까!",
         action: "deleteSite",
         props: props,
       },
     });
   };
 
-  const modalAction = useSelector(
-    (state: RootState) => state.modalReducer.confirmData
+  const modalAction = useAppSelector((state) => state.modalReducer.confirmData);
+  const confirmState = useAppSelector(
+    (state) => state.modalReducer.confirmState
   );
 
   const deleteSite = async () => {
     try {
-      console.log("siteId:", modalAction?.props);
-      if (modalAction?.props === "") {
+      console.log("siteId:", modalAction!.props);
+      if (modalAction!.props === "") {
         console.log("modolAction의 props를 불러오지 못했습니다.");
         return;
       }
       // 사이트 삭제 API 통신 에러
-      await axios.delete(`/api/site/delete/${modalAction?.props}`);
+      await axios.delete(`/api/site/${modalAction!.props}`);
       dispatch({ type: "CONFIRM/MODAL_OFF" });
       dispatch({ type: "alertOn", payload: "사이트가 삭제되었습니다." });
     } catch (e) {
       console.log(e);
     }
   };
-  if (modalAction?.action === "deleteSite") {
-    deleteSite();
+
+  if (confirmState) {
+    if (modalAction!.action === "deleteSite") {
+      console.log("사이트삭제");
+      deleteSite();
+      // 사이트 데이터 변경 시, 재랜더링
+      getUserInfo();
+    }
   }
 
   return (

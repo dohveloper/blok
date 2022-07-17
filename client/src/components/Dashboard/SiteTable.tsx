@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { ControlButton } from "./DashboardBox";
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Button from "../Button";
 import { MainTitle } from "./MyInfo";
+// import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../reducers";
 
 const Container = styled.div`
   .controlBox {
@@ -100,7 +101,7 @@ const Table = styled.table`
 `;
 
 export default function SiteTable() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [query, setQuery] = useState("");
   const [text, setText] = useState("");
   const [data, setData] = useState<any[]>([]);
@@ -121,10 +122,10 @@ export default function SiteTable() {
     setPage(0);
   };
 
-  let keys = ["name", "template", "domain", "siteName", "startDate"];
-  if (option) {
-    keys = keys.filter((key) => key === option);
-  }
+  // let keys = ["name", "template", "domain", "siteName", "startDate"];
+  // if (option) {
+  //   keys = keys.filter((key) => key === option);
+  // }
 
   useEffect(() => {
     const getSites = async () => {
@@ -156,7 +157,7 @@ export default function SiteTable() {
 
   const handleDelete = async (_id: string) => {
     console.log("delete site : ", _id);
-    await axios.delete(`/api/site/delete/${_id}`);
+    await axios.delete(`/api/site/${_id}`);
     dispatch({ type: "alertOn", payload: "사이트가 삭제되었습니다." });
   };
 
@@ -208,7 +209,6 @@ export default function SiteTable() {
           <tbody>
             {data.length > 0 ? (
               data
-                // .filter((item) => keys.some((key) => item[key].includes(query)))
                 .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
                 .map((e, idx) => (
                   <tr key={e._id}>
@@ -216,7 +216,7 @@ export default function SiteTable() {
                     <td>{e.name}</td>
                     <td>{e.domain}</td>
                     <td>{e.createdAt.slice(0, 10)}</td>
-                    <td>{e.name}</td>
+                    <td>{e.userId?.userName}</td>
                     <td>
                       <ControlButton
                         className={"deleteButton"}

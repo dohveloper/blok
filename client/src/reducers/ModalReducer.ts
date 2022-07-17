@@ -7,6 +7,7 @@ type ConfirmDataType = {
 
 type ModalState = {
   isTemplateModal: boolean;
+  templateData?: string;
   isConfirmModal: boolean;
   confirmData?: ConfirmDataType;
   confirmState: boolean;
@@ -14,6 +15,7 @@ type ModalState = {
 
 const initialState: ModalState = {
   isTemplateModal: false,
+  templateData: "",
   isConfirmModal: false,
   confirmData: {
     title: "",
@@ -38,11 +40,11 @@ type ActionType = keyof typeof ActionTypes;
 
 export const modalReducer = (
   state = initialState,
-  action: { type: ActionType; payload?: ConfirmDataType }
+  action: { type: ActionType; payload?: ConfirmDataType; template?: string }
 ) => {
   switch (action.type) {
     case ActionTypes.TEMPLATE_ON:
-      return { ...state, isTemplateModal: true };
+      return { ...state, isTemplateModal: true, templateData: action.template };
     case ActionTypes.TEMPLATE_OFF:
       return { ...initialState };
     case ActionTypes.CONFIRM_ON:

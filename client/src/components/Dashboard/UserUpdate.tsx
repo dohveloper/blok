@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { MainTitle } from "./MyInfo";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../reducers";
 
 const Container = styled.div`
   margin-bottom: 10px;
@@ -102,7 +102,7 @@ interface IUser {
 
 export default function User() {
   const { userId } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [profileImage, setProfileImage] = useState("");
   const [role, setRole] = useState("");

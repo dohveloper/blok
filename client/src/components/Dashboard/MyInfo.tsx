@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button";
-import { RootState } from "../../reducers";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../../reducers";
 
 const MainContainer = styled.div`
   margin: 100px;
@@ -73,18 +72,16 @@ const ControlButton = styled(Button)`
 `;
 
 export default function MyInfo() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const confirmState = useSelector(
-    (state: RootState) => state.modalReducer.confirmState
+  const confirmState = useAppSelector(
+    (state) => state.modalReducer.confirmState
   );
-  const confirmAction = useSelector(
-    (state: RootState) => state.modalReducer.confirmData
+  const confirmAction = useAppSelector(
+    (state) => state.modalReducer.confirmData
   );
-  const userData = useSelector(
-    (state: RootState) => state.loginCheckReducer.loginData
-  );
+  const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
   const resethandler = () => {
     dispatch({
@@ -110,7 +107,7 @@ export default function MyInfo() {
 
   const resetPassword = async () => {
     try {
-      const data = { userName: userData?.userName, email: userData?.email };
+      const data = { userName: userData!.userName, email: userData!.email };
       console.log(data);
       await axios.post("/api/user/reset-password", data);
       dispatch({ type: "CONFIRM/MODAL_OFF" });

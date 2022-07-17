@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { CgClose } from "react-icons/cg";
-import { useDispatch, useSelector } from "react-redux";
 import { TemplateCard } from "./TemplateCard";
 import Button from "../Button";
-import { useState, useRef } from "react";
-import { RootState } from "../../reducers";
+import { useState, useRef, useEffect } from "react";
 import { InputDiv, Input, InputTitle } from "./UserUpdate";
 import { templateCardData } from "./TemplateData";
 import templateListData from "./TemplateData";
 import axios from "axios";
+import { useNavigate } from "react-router";
+import { useAppSelector, useAppDispatch } from "../../reducers";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -155,9 +155,11 @@ type SiteData = {
 };
 
 export default function TemplateModal() {
-  const dispatch = useDispatch();
-  const userData = useSelector(
-    (state: RootState) => state.loginCheckReducer.loginData
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
+  const directTemplate = useAppSelector(
+    (state) => state.modalReducer.templateData
   );
 
   const siteName = useRef<HTMLInputElement>(null);
@@ -165,7 +167,7 @@ export default function TemplateModal() {
   const siteDesc = useRef<HTMLTextAreaElement>(null);
   const [siteNameError, setSiteNameError] = useState(false);
   const [domainError, setDomainError] = useState(false);
-  const [template, setTemplate] = useState("");
+  const [template, setTemplate] = useState<any | null>(null);
   const [data, setData] = useState<SiteData>({
     userId: userData?.userId,
     name: "",
@@ -181,6 +183,13 @@ export default function TemplateModal() {
     blocks: [],
   });
 
+  // 대시보드에서 바로 템플릿 카드를 클릭했을 경우, 해당 템플릿 선택된 모달창 보여주기
+  useEffect(() => {
+    if (directTemplate !== "") {
+      setTemplate(directTemplate);
+    }
+  }, [directTemplate]);
+
   console.log(data);
   const onSelectHandler = (title: string) => {
     console.log(title);
@@ -188,7 +197,7 @@ export default function TemplateModal() {
   };
 
   const selectTemplateHandler = () => {
-    // 템플릿 선택 시, 해당 하는 colorSet, font 등 추가
+    // 템플릿 선택 시, 해당 하는 colorSet, font, theme 등 추가
     let selectedTemplate = {};
     switch (template) {
       case "랜딩페이지":
@@ -213,17 +222,22 @@ export default function TemplateModal() {
       return {
         ...prev,
         ...selectedTemplate,
-        template: template,
+        // template: template,
       };
     });
   };
 
+  // 사이트명, 도메인 인풋 검증
   const validation = !siteNameError && !domainError;
   const checkEnga = /[a-z]/;
+  const checkSpace = /[\s]/g;
+  const specialPattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
 
   const changeDomainHandler = (e: any) => {
     if (
       checkEnga.test(domain.current!.value) !== true ||
+      checkSpace.test(domain.current!.value) === true ||
+      specialPattern.test(domain.current!.value) === true ||
       domain.current!.value.length <= 1
     ) {
       setDomainError(true);
@@ -249,7 +263,7 @@ export default function TemplateModal() {
       return {
         ...prev,
         name: siteName.current!.value,
-        domain: domain.current!.value,
+        domain: `www.block.com/${domain.current!.value}`,
       };
     });
 
@@ -261,10 +275,14 @@ export default function TemplateModal() {
       } => create web!`
     );
 
-    const res = await axios.post(`/api/site/addsite`, data);
+    // 사이트 DB 추가, 저장
+    const res = await axios.post(`/api/site`, data);
     console.log("POST 요청 - 사이트추가 : ", res.data);
     dispatch({ type: "alertOn", payload: "사이트 추가되었습니다." });
+    dispatch({ type: "TEMPLATE/MODAL_OFF" });
+
     // 에디터 페이지로 이동
+    navigate(`/editor/${res.data._id}`);
   };
 
   const closeModalHandler = () => {

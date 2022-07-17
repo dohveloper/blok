@@ -1,5 +1,5 @@
 type LoginCheckData = {
-  userId: string | undefined;
+  userId: string;
   email: string;
   role: string;
   userName: string;
@@ -10,12 +10,12 @@ type LoginCheckData = {
 };
 
 type LoginState = {
-  state: boolean;
-  loginData?: LoginCheckData;
+  loginState: boolean;
+  loginData: LoginCheckData;
 };
 
 const initialState: LoginState = {
-  state: false,
+  loginState: false,
   loginData: {
     userId: "",
     email: "",
@@ -28,24 +28,28 @@ const initialState: LoginState = {
   },
 };
 
-const ActionTypes = {
-  LOGIN: "USER/LOGIN",
-  LOGOUT: "USER/LOGOUT",
+type LOGINACTION = {
+  type: "USER/LOGIN";
+  payload: LoginCheckData;
 };
 
-type ActionType = keyof typeof ActionTypes;
+type LOGOUTACTION = {
+  type: "USER/LOGOUT";
+};
 
-export function loginCheckReducer(
-  state = initialState,
-  action: { type: ActionType; payload?: LoginCheckData }
-) {
+type LoginCheckAction = LOGINACTION | LOGOUTACTION;
+
+export const loginCheckReducer = (
+  state: LoginState = initialState,
+  action: LoginCheckAction
+): LoginState => {
   switch (action.type) {
-    case ActionTypes.LOGIN:
-      return { state: true, loginData: action.payload };
-    case ActionTypes.LOGOUT:
-      return { state: false };
+    case "USER/LOGIN":
+      return { ...state, loginState: true, loginData: action.payload };
+    case "USER/LOGOUT":
+      return { ...state, loginState: false };
 
     default:
       return { ...state };
   }
-}
+};

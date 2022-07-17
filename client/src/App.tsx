@@ -2,22 +2,20 @@ import { AppRouter } from "./Router";
 import { ThemeProvider } from "styled-components";
 import ConfirmModal from "./components/ConfirmModal";
 import AlertModal from "./components/AlertModal";
-import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "./reducers";
 
 function App() {
-  const AlertModalState = useSelector((state: any) => state.alertReducer.state);
-  const alertData = useSelector((state: any) => state.alertReducer.alertData);
-  const ConfirmModalState = useSelector(
-    (state: any) => state.modalReducer.isConfirmModal
+  const AlertModalState = useAppSelector((state) => state.alertReducer.state);
+  const alertData = useAppSelector((state) => state.alertReducer.alertData);
+  const ConfirmModalState = useAppSelector(
+    (state) => state.modalReducer.isConfirmModal
   );
-  const confirmData = useSelector(
-    (state: any) => state.modalReducer.confirmData
-  );
+  const confirmData = useAppSelector((state) => state.modalReducer.confirmData);
 
   // 로그인 유저 정보 redux로 관리
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const checkLoginUser = async () => {
