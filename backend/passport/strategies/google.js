@@ -1,7 +1,7 @@
 import { Strategy } from "passport-google-oauth20";
 import { authService } from "../../services";
 import { userJWTObjectMaker } from "../../utils";
-import { AUTH_ENUM } from "./";
+import { AUTH_ENUM } from "../";
 import dotenv from "dotenv";
 
 dotenv.config();
