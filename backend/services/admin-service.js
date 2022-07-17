@@ -7,11 +7,12 @@ class AdminService {
     this.userModel = userModel;
   }
   async getUsersInfoByPagenation(page, perPage, searchKey, searchValue) {
-    const [totalCount, users] = await Promise.all([
-      this.userModel.countTotalUsers(searchKey, searchValue),
-      this.userModel.pagenation(page, perPage, searchKey, searchValue),
-    ]);
-    return [totalCount, users];
+    return await this.userModel.pagenation(
+      page,
+      perPage,
+      searchKey,
+      searchValue
+    );
   }
   async editUserInfo(userId, toUpdate) {
     const user = await this.userModel.findById(userId);
