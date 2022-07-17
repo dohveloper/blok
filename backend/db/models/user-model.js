@@ -5,12 +5,24 @@ const User = model("users", UserSchema);
 
 export class UserModel {
   async findByEmail(email) {
-    const user = await User.findOne({ email });
-    return user;
+    const user = await User.aggregate([
+      {
+        $match: {
+          email,
+        },
+      },
+      {
+        $addFields: {
+          userId: "$_id",
+        },
+      },
+      { $project: { _id: 0 } },
+    ]);
+    return user[0];
   }
 
   async findById(userId) {
-    let user = await User.aggregate([
+    const user = await User.aggregate([
       {
         $match: {
           _id: mongoose.Types.ObjectId(userId),
@@ -23,7 +35,6 @@ export class UserModel {
       },
       { $project: { _id: 0 } },
     ]);
-    console.log(user[0]);
     return user[0];
   }
 
