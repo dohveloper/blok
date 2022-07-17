@@ -2,7 +2,7 @@
 const userJWTObjectMaker = (user) => {
   console.log(user);
   return {
-    userId: user.userId.toString(),
+    userId: user._id.toString(),
     email: user.email,
     role: user.role,
     userName: user.userName,
