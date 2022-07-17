@@ -24,8 +24,8 @@ const siteController = {
     return res.status(201).json(newSite);
   }),
   getSiteInfo: asyncHandler(async (req, res) => {
-    const siteIdentifier = req.params.siteIdentifier;
-    const site = await siteService.getSiteInfo(siteIdentifier);
+    const siteId = req.params.siteId;
+    const site = await siteService.getSiteInfo(siteId);
     res.status(200).json(site);
   }),
   getSitesInfo: asyncHandler(async (req, res) => {
@@ -38,7 +38,7 @@ const siteController = {
     res.status(200).json(sites);
   }),
   updateSite: asyncHandler(async (req, res) => {
-    const siteIdentifier = parseInt(req.params.siteIdentifier);
+    const siteId = parseInt(req.params.siteId);
     const name = req.body.name;
     const domain = req.body.domain;
     const theme = req.body.theme;
@@ -54,15 +54,12 @@ const siteController = {
       ...(colorset && { colorset }),
       ...(blocks && { blocks }),
     };
-    const updatedSiteInfo = await siteService.updateSite(
-      siteIdentifier,
-      toUpdate
-    );
+    const updatedSiteInfo = await siteService.updateSite(siteId, toUpdate);
     res.status(200).json(updatedSiteInfo);
   }),
   deleteSiteUsingObjId: asyncHandler(async (req, res) => {
-    const siteObjId = req.params.siteObjId;
-    const deletedSite = await siteService.deleteSiteByObjectId(siteObjId);
+    const siteId = req.params.siteId;
+    const deletedSite = await siteService.deleteSiteByObjectId(siteId);
     res.status(200).json(deletedSite);
   }),
 };

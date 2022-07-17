@@ -13,16 +13,12 @@ export class SiteModel {
 
     return createdNewSite;
   }
-  async findBySiteName(siteName) {
-    const site = await Site.findOne({ name: siteName });
+  async findBySiteId(siteId) {
+    const site = await Site.findOne({ siteId: siteId });
     return site;
   }
   async findBySiteDomain(siteDomain) {
     const site = await Site.findOne({ domain: siteDomain });
-    return site;
-  }
-  async findBySiteId(siteId) {
-    const site = await Site.findOne({ no: siteId });
     return site;
   }
   async findAllSite() {
@@ -34,7 +30,7 @@ export class SiteModel {
     return sites;
   }
   async update({ id, update }) {
-    const filter = { no: id };
+    const filter = { _id: id };
     const option = { returnOriginal: false };
     const updatedSite = await Site.findOneAndUpdate(filter, update, option);
     console.log(filter, update, updatedSite);
@@ -42,8 +38,7 @@ export class SiteModel {
     return updatedSite;
   }
   async deleteById(id) {
-    const filter = { no: id };
-    const site = await Site.find({ no: id });
+    const filter = { _id: id };
     const deletedSite = await Site.findOneAndDelete(filter);
     return deletedSite;
   }
@@ -58,7 +53,7 @@ export class SiteModel {
 
   async deleteByObjectId(siteId) {
     const filter = { _id: siteId };
-    const site = await Site.find({ _id: siteId }).populate("owner");
+    const site = await Site.find({ _id: siteId }).populate("userId");
     const userId = JSON.stringify(site[0].owner._id).replace(/["]/g, "");
     const user = await userModel.deleteSiteById(userId, siteId);
     // //solve 1:

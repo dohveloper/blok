@@ -1,4 +1,4 @@
-import { userModel } from "../db";
+import { userModel, siteModel } from "../db";
 import { BadRequestError } from "../errors";
 import bcrypt from "bcrypt";
 
@@ -13,6 +13,15 @@ class AdminService {
     ]);
     return [totalCount, users];
   }
+
+  async getSitesByPagenation(page, perPage, searchQuery) {
+    const [totalCount, sites] = await Promise.all([
+      this.siteModel.countTotalSites(searchQuery),
+      this.siteModel.pagenation(page, perPage, searchQuery),
+    ]);
+    return [totalCount, sites];
+  }
+
   async editUserInfo(userId, toUpdate) {
     const user = await this.userModel.findById(userId);
     if (!user) {
