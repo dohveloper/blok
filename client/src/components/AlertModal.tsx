@@ -1,5 +1,7 @@
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Button from "./Button";
 
 const Background = styled.div`
   width: 100vw;
@@ -19,12 +21,18 @@ const Background = styled.div`
 const AlertBox = styled.div`
   background-color: white;
   opacity: 1;
-  padding: 15px 40px;
+  padding: 20px 40px;
+  font-size: 18px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  flex-direction: column;
   border-radius: 10px;
   font-weight: 550;
+`;
+
+const InnerBox = styled.div`
+  margin-top: 20px;
 `;
 
 interface IMyProps {
@@ -33,14 +41,31 @@ interface IMyProps {
 
 export default function AlertModal(props: IMyProps) {
   const dispatch = useDispatch();
+  const time = props.alertData.time ? props.alertData.time : 600;
 
   setTimeout(() => {
     dispatch({ type: "alertOff" });
-  }, 600);
+  }, time);
 
   return (
     <Background>
-      <AlertBox id="alert">{props.alertData}</AlertBox>
+      <AlertBox id="alert">
+        {props.alertData.msg}
+        {props.alertData.link && (
+          <InnerBox>
+            <Link
+              to={{
+                pathname: `/${props.alertData.link}`,
+              }}
+              style={{ textDecoration: "none" }}
+            >
+              <Button color="white" size="large" rounding>
+                페이지로 이동
+              </Button>
+            </Link>
+          </InnerBox>
+        )}
+      </AlertBox>
     </Background>
   );
 }

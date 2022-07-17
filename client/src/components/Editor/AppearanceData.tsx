@@ -6,7 +6,7 @@ export default function AppearanceData() {
         "primary": "#5754DE",
         "secondary": "#ABA9FF",
         "background": "#FFFFFF",
-        "surface": "#E2E2E2",
+        "surface": "#B0B0B0",
       },
     },
     {
@@ -15,7 +15,7 @@ export default function AppearanceData() {
         "primary": "#000000",
         "secondary": "#3B3B3B",
         "background": "#FFFFFF",
-        "surface": "#E2E2E2",
+        "surface": "#B0B0B0",
       },
     },
     {
@@ -24,7 +24,7 @@ export default function AppearanceData() {
         "primary": "#FFE400",
         "secondary": "#FFF289",
         "background": "#FFFFFF",
-        "surface": "#E2E2E2",
+        "surface": "#B0B0B0",
       },
     },
     {
@@ -33,7 +33,7 @@ export default function AppearanceData() {
         "primary": "#009D24",
         "secondary": "#96CAA2",
         "background": "#FFFFFF",
-        "surface": "#E2E2E2",
+        "surface": "#B0B0B0",
       },
     },
   ];

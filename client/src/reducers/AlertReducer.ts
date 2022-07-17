@@ -1,6 +1,6 @@
 type AlertState = {
   state: boolean;
-  alertData: string;
+  alertData: any;
 };
 
 const initialState: AlertState = {
