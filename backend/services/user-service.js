@@ -87,7 +87,7 @@ class UserService {
       `변경된 비밀번호는 ${randomPassword} 입니다.`
     );
     const randomHashedPassword = await bcrypt.hash(randomPassword, 10);
-    const userId = user._id;
+    const userId = user.userId;
     const updatedUser = await userModel.update(userId, {
       password: randomHashedPassword,
       // 비밀번호 변경을 강제하는 로직을 위해 passwordReset을 true로 설정
