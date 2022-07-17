@@ -7,11 +7,11 @@ const adminController = {
     const page = Number(req.query.page || 1);
     const perPage = Number(req.query.perPage || 10);
     const { serachKey, serachValue } = req.query;
-    const searchQuery = { [serachKey]: serachValue };
     const [totalCount, users] = await adminService.getUsersInfoByPagenation(
       page,
       perPage,
-      searchQuery
+      serachKey,
+      serachValue
     );
     const totalPage = Math.ceil(totalCount / perPage);
     res.ok(200, { page, perPage, totalPage, totalCount, users });

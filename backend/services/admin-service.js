@@ -6,10 +6,10 @@ class AdminService {
   constructor(userModel) {
     this.userModel = userModel;
   }
-  async getUsersInfoByPagenation(page, perPage, searchQuery) {
+  async getUsersInfoByPagenation(page, perPage, searchKey, searchValue) {
     const [totalCount, users] = await Promise.all([
-      this.userModel.countTotalUsers(searchQuery),
-      this.userModel.pagenation(page, perPage, searchQuery),
+      this.userModel.countTotalUsers(searchKey, searchValue),
+      this.userModel.pagenation(page, perPage, searchKey, searchValue),
     ]);
     return [totalCount, users];
   }
