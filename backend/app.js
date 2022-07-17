@@ -47,7 +47,7 @@ app.use((req, res, next) => {
     setUserToken(res, req.user);
     return res.status(statusCode).json(json);
   };
-  res.okWithDeleteToken = (statusCode, cookieName, json = {}) => {
+  res.okWithDeleteCookie = (statusCode, cookieName, json = {}) => {
     return res.status(statusCode).clearCookie(cookieName).json(json);
   };
   next();

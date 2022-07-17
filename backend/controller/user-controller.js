@@ -44,7 +44,9 @@ const userController = {
   },
 
   logout: (req, res) => {
-    return res.okWithSetToken(200, { message: "로그아웃에 성공했습니다!" });
+    return res.okWithDeleteCookie(200, JWT_COOKIE_KEY, {
+      message: "로그아웃에 성공했습니다!",
+    });
   },
 
   getUserInfo: asyncHandler(async (req, res) => {
