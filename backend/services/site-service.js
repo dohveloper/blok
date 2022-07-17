@@ -9,18 +9,18 @@ class SiteService {
   // 사이트 추가
   async addSite(siteInfo) {
     const { userId, name, domain } = siteInfo;
-    const siteNameCheck = await this.siteModel.findBySiteName(name);
-    const siteDomainCheck = await this.siteModel.findBySiteDomain(domain);
-    if (siteNameCheck) {
-      throw new BadRequestError(
-        "이 사이트의 이름은 현재 사용중입니다. 다른 사이트 이름을 입력해 주세요"
-      );
-    }
-    if (siteDomainCheck) {
-      throw new BadRequestError(
-        "이 사이트의 도메인은 현재 사용중입니다. 다른 도메인을 입력해 주세요"
-      );
-    }
+    // const siteNameCheck = await this.siteModel.findBySiteName(name);
+    // const siteDomainCheck = await this.siteModel.findBySiteDomain(domain);
+    // if (siteNameCheck) {
+    //   throw new BadRequestError(
+    //     "이 사이트의 이름은 현재 사용중입니다. 다른 사이트 이름을 입력해 주세요"
+    //   );
+    // }
+    // if (siteDomainCheck) {
+    //   throw new BadRequestError(
+    //     "이 사이트의 도메인은 현재 사용중입니다. 다른 도메인을 입력해 주세요"
+    //   );
+    // }
     const createdNewSite = await this.siteModel.create(siteInfo);
     return createdNewSite;
   }
@@ -81,8 +81,8 @@ class SiteService {
     return site;
   }
 
-  async deleteSiteByObjectId(siteObjId) {
-    const site = await this.siteModel.deleteByObjectId(siteObjId);
+  async deleteSiteBySiteId(siteId) {
+    const site = await this.siteModel.deleteSiteBySiteId(siteId);
     if (!site) {
       throw new ForbiddenError("삭제할 사이트가 없습니다.");
     }

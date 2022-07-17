@@ -38,7 +38,7 @@ const siteController = {
     res.status(200).json(sites);
   }),
   updateSite: asyncHandler(async (req, res) => {
-    const siteId = parseInt(req.params.siteId);
+    const siteId = req.params.siteId;
     const name = req.body.name;
     const domain = req.body.domain;
     const theme = req.body.theme;
@@ -57,9 +57,9 @@ const siteController = {
     const updatedSiteInfo = await siteService.updateSite(siteId, toUpdate);
     res.status(200).json(updatedSiteInfo);
   }),
-  deleteSiteUsingObjId: asyncHandler(async (req, res) => {
+  deleteSite: asyncHandler(async (req, res) => {
     const siteId = req.params.siteId;
-    const deletedSite = await siteService.deleteSiteByObjectId(siteId);
+    const deletedSite = await siteService.deleteSiteBySiteId(siteId);
     res.status(200).json(deletedSite);
   }),
 };
