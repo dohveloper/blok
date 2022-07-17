@@ -158,14 +158,21 @@ export const siteSlice = createSlice({
       const { order, block } = action.payload;
       const length = state.blocks.length;
 
-      if (order === -1) {
-        //order:-1 마지막에 추가(ex. Footer)
+      if (block.template.blockType === 'Nav') {
+        //Nav블록 -> 맨 앞에 추가
+        state.blocks.splice(0, 0, block);
+      } else if (block.template.blockType === 'Hero') {
+        //Hero블록 -> Nav 다음에 추가(Nav가 없을경우 맨 앞에 추가, Nav가 있을경우 두번째에 추가)
+        const isNavExist = state.blocks.find(
+          (block) => block.template.blockType === 'Nav'
+        );
+        const heroIndex = isNavExist ? 1 : 0;
+        state.blocks.splice(heroIndex, 0, block);
+      } else if (block.template.blockType === 'Footer') {
+        //마지막에 추가(ex. Footer)
         state.blocks.splice(length, 0, block);
-      } else if (order !== null && order >= 0) {
-        //order:0,1,2,3..... 특정 순서에 추가(ex.Nav, Hero)
-        state.blocks.splice(order, 0, block);
-      } else if (order === null) {
-        //order:null 특정 순서가 없는 블록 추가(Footer가 없을경우 마지막(-1), Footer가 있을경우 마지막 이전(-2))
+      } else {
+        //특정 순서가 없는 블록 추가 (Footer가 없을경우 마지막에 추가, Footer가 있을경우 마지막 이전에 추가)
         const isFooterExist = state.blocks.find(
           (block) => block.template.blockType === 'Footer'
         );
