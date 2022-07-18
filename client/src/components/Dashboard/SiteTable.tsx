@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import { ControlButton } from "./DashboardBox";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Button from "../Button";
-import { MainTitle } from "./MyInfo";
+import styled from 'styled-components';
+import { ControlButton } from './DashboardBox';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Button from '../Button';
+import { MainTitle } from './MyInfo';
 // import { useDispatch } from "react-redux";
-import { useAppDispatch } from "../../reducers";
+import { useAppDispatch } from '../../reducers';
 
 const Container = styled.div`
   .controlBox {
@@ -101,13 +101,14 @@ const Table = styled.table`
 
 export default function SiteTable() {
   const dispatch = useAppDispatch();
-  const [query, setQuery] = useState("");
-  const [text, setText] = useState("");
+  const [query, setQuery] = useState('');
+  const [text, setText] = useState('');
   const [data, setData] = useState<any[]>([]);
-  const [option, setOption] = useState("");
+  const [option, setOption] = useState('');
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerpage] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
 
   const handlePrevPage = () => {
     setPage(page - 1);
@@ -116,55 +117,49 @@ export default function SiteTable() {
   const handleNextPage = () => {
     setPage(page + 1);
   };
-  const handleChangeRowsPerPage = (e: any) => {
-    setRowsPerPage(parseInt(e.target.value, 10));
-    setPage(0);
+  const handleChangePerPage = (e: any) => {
+    setPerpage(parseInt(e.target.value, 10));
+    setPage(1);
   };
 
-  // let keys = ["name", "template", "domain", "siteName", "startDate"];
-  // if (option) {
-  //   keys = keys.filter((key) => key === option);
-  // }
-
   const getSites = async () => {
-    const res = await axios.get(`/api/site`);
-    console.log(res.data);
-    setData(res.data);
+    const res = await axios.get(
+      `/api/admin/site?page=${page}&perPage=${perPage}&serachKey=name&serachValue=${query}`
+    );
+    setData(res.data.sites);
+    setTotalCount(res.data.totalCount);
   };
 
   useEffect(() => {
     const getSites = async () => {
-      const res = await axios.get(`/api/site`);
-      console.log(res.data);
-      setData(res.data);
+      const res = await axios.get(
+        `/api/admin/site?page=${page}&perPage=${perPage}&serachKey=name&serachValue=${query}`
+      );
+      setData(res.data.sites);
+      setTotalCount(res.data.totalCount);
     };
     getSites();
-  }, []);
+  }, [query, page, perPage]);
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     const res = await axios.get(`/sites?q=${query}`);
-  //     setData(res.data);
-  //   };
-  //   fetchUsers();
-  // }, [query]);
+  console.log(data);
 
   const handleSearch = async (e: any) => {
     e.preventDefault();
     await setQuery(text);
-    setText("");
+    setText('');
   };
 
   const handleReset = () => {
-    setText("");
-    setQuery("");
-    setPage(0);
+    setText('');
+    setQuery('');
+    setPage(1);
   };
 
-  const handleDelete = async (_id: string) => {
-    console.log("delete site : ", _id);
-    await axios.delete(`/api/site/${_id}`);
-    dispatch({ type: "alertOn", payload: { msg: "사이트가 삭제되었습니다." } });
+  const handleDelete = async (siteId: string) => {
+    console.log('delete site : ', siteId);
+    await axios.delete(`/api/admin/site/${siteId}`);
+    dispatch({ type: 'alertOn', payload: { msg: '사이트가 삭제되었습니다.' } });
+    // 삭제 후 재랜더링
     getSites();
   };
 
@@ -215,27 +210,25 @@ export default function SiteTable() {
           </thead>
           <tbody>
             {data.length > 0 ? (
-              data
-                .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
-                .map((e, idx) => (
-                  <tr key={e._id}>
-                    <td>{page * rowsPerPage + idx + 1}</td>
-                    <td>{e.name}</td>
-                    <td>{e.domain}</td>
-                    <td>{e.createdAt.slice(0, 10)}</td>
-                    <td>{e.userId?.userName}</td>
-                    <td>
-                      <ControlButton
-                        className={"deleteButton"}
-                        onClick={() => handleDelete(e._id)}
-                        color="gray"
-                        rounding
-                      >
-                        Delete
-                      </ControlButton>
-                    </td>
-                  </tr>
-                ))
+              data.map((e, idx) => (
+                <tr key={e.siteId}>
+                  <td>{(page - 1) * perPage + idx + 1}</td>
+                  <td>{e.name}</td>
+                  <td>{e.domain}</td>
+                  <td>{e.createdAt.slice(0, 10)}</td>
+                  <td>{e.userId?.userName}</td>
+                  <td>
+                    <ControlButton
+                      className={'deleteButton'}
+                      onClick={() => handleDelete(e.siteId)}
+                      color="gray"
+                      rounding
+                    >
+                      Delete
+                    </ControlButton>
+                  </td>
+                </tr>
+              ))
             ) : (
               <tr>
                 <td className="noSite" colSpan={7}>
@@ -249,7 +242,7 @@ export default function SiteTable() {
       <div className="pagenationControlBox">
         <div className="perPageBox">
           <span>Rows per page: </span>
-          <select onChange={handleChangeRowsPerPage}>
+          <select onChange={handleChangePerPage}>
             {[10, 20, 30, 40, 50].map((pageSize) => (
               <option key={pageSize} value={pageSize}>
                 Show {pageSize}
@@ -264,24 +257,22 @@ export default function SiteTable() {
             rounding
             className="border rounded p-1"
             onClick={() => handlePrevPage()}
-            disabled={page === 0 ? true : false}
+            disabled={page === 1 ? true : false}
           >
-            {"<"}
+            {'<'}
           </Button>
           <span className="pageText">
-            <strong>{page + 1}</strong> / {Math.ceil(data.length / rowsPerPage)}{" "}
-            of {data.length}
+            <strong>{page}</strong> / {Math.ceil(totalCount / perPage)} of{' '}
+            {totalCount}
           </span>
           <Button
             outline
             rounding
             className="border rounded p-1"
             onClick={() => handleNextPage()}
-            disabled={
-              page === Math.ceil(data.length / rowsPerPage) - 1 ? true : false
-            }
+            disabled={page === Math.ceil(totalCount / perPage) ? true : false}
           >
-            {">"}
+            {'>'}
           </Button>
         </div>
       </div>

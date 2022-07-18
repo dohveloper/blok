@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Button from "../Button";
-import { MainTitle } from "./MyInfo";
-import { TemplateCard } from "./TemplateCard";
-import { templateCardData } from "./TemplateData";
-import { Link } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../reducers";
+import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Button from '../Button';
+import { MainTitle } from './MyInfo';
+import { TemplateCard } from './TemplateCard';
+import { templateCardData } from './TemplateData';
+import { Link } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../reducers';
 
 const Container = styled.div`
   margin-bottom: 10px;
@@ -96,7 +96,7 @@ const AddButton = styled(Button)`
 export function TemplateList() {
   const dispatch = useAppDispatch();
   const showModalHandler = (template: string) => {
-    dispatch({ type: "TEMPLATE/MODAL_ON", template: template });
+    dispatch({ type: 'TEMPLATE/MODAL_ON', template: template });
   };
   return (
     <Container>
@@ -121,15 +121,16 @@ export function TemplateList() {
 export function DashboardInfo() {
   const [data, setData] = useState<any[]>([]);
   const dispatch = useAppDispatch();
-
+  const modalAction = useAppSelector((state) => state.modalReducer.confirmData);
+  const confirmState = useAppSelector(
+    (state) => state.modalReducer.confirmState
+  );
   const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
   // userId 별 sites 데이터 조회, 재랜더링 문제로 아래와 같이 코드 수정, 사이트 삭제 시 getUserInfo() 호출하여 재랜더링됨.
   const getUserInfo = async () => {
     try {
-      console.log("userId:", userData!.userId);
       const res = await axios.get(`/api/site/user/${userData.userId}`);
-      console.log("site Data:", res.data);
       setData(() => res.data);
     } catch (error) {
       console.log(error);
@@ -139,51 +140,41 @@ export function DashboardInfo() {
   useEffect(() => {
     const getUserInfo = async () => {
       try {
-        console.log("userId:", userData.userId);
-        const res = await axios.get(`/api/site/user/${userData.userId}`);
-        console.log("site Data:", res.data);
+        console.log('userId:', userData!.userId);
+        const res = await axios.get(`/api/site/user/${userData!.userId}`);
+        console.log('site Data:', res.data);
         setData(() => res.data);
       } catch (error) {
         console.log(error);
       }
     };
     getUserInfo();
-  }, [userData]);
+  }, []);
 
   const showModalHandler = () => {
-    dispatch({ type: "TEMPLATE/MODAL_ON" });
+    dispatch({ type: 'TEMPLATE/MODAL_ON' });
   };
 
   const deleteHandler = (props: string) => {
     dispatch({
-      type: "CONFIRM/MODAL_ON",
+      type: 'CONFIRM/MODAL_ON',
       payload: {
-        title: "삭제",
-        msg: "정말 삭제하시겠습니까!",
-        action: "deleteSite",
+        title: '삭제',
+        msg: '정말 삭제하시겠습니까!',
+        action: 'deleteSite',
         props: props,
       },
     });
   };
 
-  const modalAction = useAppSelector((state) => state.modalReducer.confirmData);
-  const confirmState = useAppSelector(
-    (state) => state.modalReducer.confirmState
-  );
-
   const deleteSite = async () => {
     try {
-      console.log("siteId:", modalAction!.props);
-      if (modalAction!.props === "") {
-        console.log("modolAction의 props를 불러오지 못했습니다.");
-        return;
-      }
-      // 사이트 삭제 API 통신 에러
+      console.log('siteId:', modalAction!.props);
       await axios.delete(`/api/site/${modalAction!.props}`);
-      dispatch({ type: "CONFIRM/MODAL_OFF" });
+      dispatch({ type: 'CONFIRM/MODAL_OFF' });
       dispatch({
-        type: "alertOn",
-        payload: { msg: "사이트가 삭제되었습니다." },
+        type: 'alertOn',
+        payload: { msg: '사이트가 삭제되었습니다.' },
       });
     } catch (e) {
       console.log(e);
@@ -191,8 +182,8 @@ export function DashboardInfo() {
   };
 
   if (confirmState) {
-    if (modalAction!.action === "deleteSite") {
-      console.log("사이트삭제");
+    if (modalAction!.action === 'deleteSite') {
+      console.log('사이트삭제');
       deleteSite();
       // 사이트 데이터 변경 시, 재랜더링
       getUserInfo();
@@ -224,7 +215,7 @@ export function DashboardInfo() {
                   <td>
                     <Link to={`/editor/${e._id}`}>
                       <ControlButton
-                        className={"editButton"}
+                        className={'editButton'}
                         rounding
                         color="white"
                       >
@@ -232,7 +223,7 @@ export function DashboardInfo() {
                       </ControlButton>
                     </Link>
                     <ControlButton
-                      className={"deleteButton"}
+                      className={'deleteButton'}
                       onClick={() => deleteHandler(e._id)}
                       color="gray"
                       rounding

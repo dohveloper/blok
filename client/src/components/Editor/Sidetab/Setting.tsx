@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../Button';
 import { TextInput } from '../../Input';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import { RootState } from '../../../reducers';
 
 const ButtonContainer = styled.div`
@@ -23,6 +23,7 @@ const Container = styled.div`
 
 export default function Setting() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const data = useSelector((state: RootState) => state.site);
   
   const [domain, setDomain] = useState(data.domain);
@@ -33,14 +34,14 @@ export default function Setting() {
 
   const { siteId } = useParams();
 
-  const deleteHandler = (props: string) => {
+  const deleteHandler = () => {
+    console.log(siteId);
     dispatch({
       type: 'CONFIRM/MODAL_ON',
       payload: {
         title: '삭제',
         msg: '정말 삭제하시겠습니까?',
         action: 'deleteSite',
-        props: props,
       },
     });
   };
@@ -51,15 +52,13 @@ export default function Setting() {
 
   const deleteSite = async () => {
     try {
-      console.log('siteId:', modalAction?.props);
-      if (modalAction?.props === '') {
-        console.log('modolAction의 props를 불러오지 못했습니다.');
-        return;
-      }
-      // 사이트 삭제 API 통신 에러
-      await axios.delete(`/api/site/delete/${modalAction?.props}`);
+      await axios.delete(`/api/site/${siteId}`);
       dispatch({ type: 'CONFIRM/MODAL_OFF' });
-      dispatch({ type: 'alertOn', payload: '사이트가 삭제되었습니다.' });
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: '사이트가 삭제되었습니다.' },
+      });
+      navigate('/dashboard');
     } catch (e) {
       console.log(e);
     }
@@ -73,18 +72,18 @@ export default function Setting() {
     <>
       <Container>
         <TextInput
-          title='도메인'
+          title="도메인"
           required={true}
           value={domain}
-          guideline='도메인을 변경할 수 있습니다.'
+          guideline="도메인을 변경할 수 있습니다."
           onChange={(e: any) => setDomain(e.target.value)}
         ></TextInput>
       </Container>
       <ButtonContainer>
         <Button
-          onClick={() => deleteHandler(siteId!)}
-          color='black'
-          size='large'
+          onClick={() => deleteHandler()}
+          color="black"
+          size="large"
           rounding
           fullWidth
         >

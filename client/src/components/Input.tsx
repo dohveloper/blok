@@ -1,10 +1,16 @@
 import styled from 'styled-components';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, forwardRef } from 'react';
 import ReactSelect from 'react-select';
 
 const Width100 = styled.div`
   width: 100%;
   margin-top: 28px;
+`;
+
+const Width90 = styled.div`
+  width: 90%;
+  margin-top: 28px;
+  margin: 28px 1% 0 1%;
 `;
 
 const DisplayNone = styled.div`
@@ -45,6 +51,9 @@ interface ImgInputprops {
   required?: boolean;
   placeholder?: string;
   guideline?: string;
+  defaultValue?: string;
+  ref?: React.RefObject<HTMLInputElement>;
+  key?: string;
 }
 interface Inputprops {
   title?: string;
@@ -54,6 +63,8 @@ interface Inputprops {
   guideline?: string;
   value?: string;
   ref?: React.RefObject<HTMLInputElement>;
+  defaultValue?: string;
+  key?: string;
 }
 
 export const Input = styled.input`
@@ -82,35 +93,73 @@ export const Guideline = styled.div`
   margin-left: 1px;
 `;
 
-export function TextInput(props: Inputprops) {
-  return (
-    <Width100>
-      {props.title ? (
-        <Label required={props.required}>
-          {props.title}
-          <Required>*</Required>
-        </Label>
-      ) : (
-        <DisplayNone />
-      )}
-      <Input
-        placeholder={
-          props.placeholder
-            ? props.placeholder
-            : '안에 들어갈 내용을 입력하세요'
-        }
-        value={props.value && props.value}
-        onChange={props.onChange}
-        ref={props.ref}
-      />
-      {props.guideline ? (
-        <Guideline>{props.guideline}</Guideline>
-      ) : (
-        <DisplayNone />
-      )}
-    </Width100>
-  );
-}
+export const TextInput = forwardRef<HTMLInputElement, Inputprops>(
+  (props: Inputprops, ref) => {
+    return (
+      <Width100>
+        {props.title ? (
+          <Label required={props.required}>
+            {props.title}
+            <Required>*</Required>
+          </Label>
+        ) : (
+          <DisplayNone />
+        )}
+        <Input
+          placeholder={
+            props.placeholder
+              ? props.placeholder
+              : '안에 들어갈 내용을 입력하세요'
+          }
+          value={props.value && props.value}
+          onChange={props.onChange}
+          key={props.key}
+          ref={ref}
+          defaultValue={props.defaultValue}
+        />
+        {props.guideline ? (
+          <Guideline>{props.guideline}</Guideline>
+        ) : (
+          <DisplayNone />
+        )}
+      </Width100>
+    );
+  }
+);
+
+export const TextInputWidth90 = forwardRef<HTMLInputElement, Inputprops>(
+  (props: Inputprops, ref) => {
+    return (
+      <Width90>
+        {props.title ? (
+          <Label required={props.required}>
+            {props.title}
+            <Required>*</Required>
+          </Label>
+        ) : (
+          <DisplayNone />
+        )}
+        <Input
+          placeholder={
+            props.placeholder
+              ? props.placeholder
+              : '안에 들어갈 내용을 입력하세요'
+          }
+          value={props.value && props.value}
+          onChange={props.onChange}
+          key={props.key}
+          ref={ref}
+          defaultValue={props.defaultValue}
+        />
+        {props.guideline ? (
+          <Guideline>{props.guideline}</Guideline>
+        ) : (
+          <DisplayNone />
+        )}
+      </Width90>
+    );
+  }
+);
 
 export const SelectBox = styled(ReactSelect)`
   width: 100%;
@@ -156,6 +205,8 @@ export const CustomSelect = (props: any) => {
         styles={customStyles}
         options={props.options}
         onChange={props.onChange}
+        key={props.key}
+        defaultValue={props.defaultValue}
       />
       {props.guideline ? (
         <Guideline>{props.guideline}</Guideline>
@@ -166,18 +217,32 @@ export const CustomSelect = (props: any) => {
   );
 };
 
-export const ImgInput = (props: ImgInputprops) => {
-  // const [ImgLoading, setImgLoading] = useState<boolean>(false);
-  const ImgRef = useRef<HTMLInputElement>(null);
-  const [Img, setImg] = useState<any>(null);
-  const onImgChange = async (event: any) => {
-    // setImgLoading(true);
-    setImg(URL.createObjectURL(event.target.files[0]));
-    // const response = axios.post(URL.createObjectURL(event.target.files[0]))
-    // setImgLoading(false);
-  };
+export const CustomSelectWidth90 = (props: any) => {
+  const customStyles = useMemo(
+    () => ({
+      option: (provided: any, state: any) => ({
+        ...provided,
+        width: '100%',
+        color: state.data.color,
+        opacity: 0.8,
+        padding: 20,
+      }),
+      control: (provided: any) => ({
+        ...provided,
+        border: '1px solid #ececec',
+        height: 48,
+        width: '100%',
+      }),
+      singleValue: (provided: any, state: any) => ({
+        ...provided,
+        color: state.data.color,
+        width: '100%',
+      }),
+    }),
+    []
+  );
   return (
-    <Width100>
+    <Width90>
       {props.title ? (
         <Label required={props.required}>
           {props.title}
@@ -186,20 +251,61 @@ export const ImgInput = (props: ImgInputprops) => {
       ) : (
         <DisplayNone />
       )}
-      <InputImg
-        ref={ImgRef}
-        type='file'
-        className='imgInput'
-        accept='image/*'
-        name='file'
-        onChange={onImgChange}
+      <SelectBox
+        placeholder={props.placeholder}
+        value={props.value}
+        styles={customStyles}
+        options={props.options}
+        onChange={props.onChange}
+        key={props.key}
+        defaultValue={props.defaultValue}
       />
       {props.guideline ? (
         <Guideline>{props.guideline}</Guideline>
       ) : (
         <DisplayNone />
       )}
-      {Img !== null ? <PreviewImg src={Img} /> : <DisplayNone />}
-    </Width100>
+    </Width90>
   );
 };
+
+export const ImgInput = forwardRef<HTMLInputElement, ImgInputprops>(
+  (props: ImgInputprops, ref) => {
+    // const [ImgLoading, setImgLoading] = useState<boolean>(false);
+    // const ImgRef = useRef<HTMLInputElement>(null);
+    const [Img, setImg] = useState<any>(null);
+    const onImgChange = async (event: any) => {
+      // setImgLoading(true);
+      setImg(URL.createObjectURL(event.target.files[0]));
+      // const response = axios.post(URL.createObjectURL(event.target.files[0]))
+      // setImgLoading(false);
+    };
+    return (
+      <Width100>
+        {props.title ? (
+          <Label required={props.required}>
+            {props.title}
+            <Required>*</Required>
+          </Label>
+        ) : (
+          <DisplayNone />
+        )}
+        <InputImg
+          key={props.key}
+          ref={ref}
+          type="file"
+          className="imgInput"
+          accept="image/*"
+          name="file"
+          onChange={onImgChange}
+        />
+        {props.guideline ? (
+          <Guideline>{props.guideline}</Guideline>
+        ) : (
+          <DisplayNone />
+        )}
+        {Img !== null ? <PreviewImg src={Img} /> : <DisplayNone />}
+      </Width100>
+    );
+  }
+);
