@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../../reducers';
@@ -54,22 +55,24 @@ export default function Appearance() {
   const themeList = AppearanceData().themeData;
 
   const data = useSelector((state: RootState) => state.site);
+  const dispatch = useDispatch();
+
   const [colorSet, setColorSet] = useState(data.colorSet);
   const [font, setFont] = useState(data.font);
   const [theme, setTheme] = useState(data.theme);
 
   // siteReducer 완성시 dispatch 추가 예정
-  // useEffect(() => {
-  //   console.log(colorSet);
-  // }, [colorSet]);
+  useEffect(() => {
+    dispatch({ type: 'site/updateColorSet', payload: colorSet });
+  }, [colorSet]);
 
-  // useEffect(() => {
-  //   console.log(font);
-  // }, [font]);
+  useEffect(() => {
+    dispatch({ type: 'site/updateFont', payload: font });
+  }, [font]);
 
-  // useEffect(() => {
-  //   console.log(theme);
-  // }, [theme]);
+  useEffect(() => {
+    dispatch({ type: 'site/updateTheme', payload: theme });
+  }, [theme]);
 
   return (
     <>

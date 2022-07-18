@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../../Button';
@@ -24,7 +24,12 @@ const Container = styled.div`
 export default function Setting() {
   const dispatch = useDispatch();
   const data = useSelector((state: RootState) => state.site);
+  
   const [domain, setDomain] = useState(data.domain);
+
+  useEffect(() => {
+    dispatch({type: 'site/updateDomain', payload: domain});
+  }, [domain]);
 
   const { siteId } = useParams();
 

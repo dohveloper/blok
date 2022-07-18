@@ -63,12 +63,10 @@ const SaveButton = styled.button`
 
 export default function PublishBar() {
   const dispatch = useDispatch();
-  const data = useSelector((state: RootState) => state.site);
-  const [domain] = useState(data.domain);
+  const data = useSelector((state: RootState) => state.site.domain);
+  const [domain, setDomain] = useState(data);
   let msg = '';
   const { siteId } = useParams();
-
-  console.log(data);
 
   async function saveHandler() {
     try {
@@ -89,12 +87,16 @@ export default function PublishBar() {
     try {
       await navigator.clipboard.writeText(domain);
       msg = '클립보드에 복사되었습니다.';
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
       msg = '잠시 후 시도해주세요.';
     }
     dispatch({ type: 'alertOn', payload: { msg: msg } });
   }
+
+  useEffect(() => {
+    setDomain(data);
+  }, [data]);
 
   return (
     <Container>

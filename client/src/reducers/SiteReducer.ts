@@ -5,137 +5,137 @@ import { Site, Block } from '../components/Blocks/blockValidator';
 //Initial Value
 const initialState: Site = {
   id: null,
-  name: "",
-  domain: "",
-  theme: "",
-  font: "",
+  name: '',
+  domain: '',
+  theme: '',
+  font: '',
   colorSet: {
-    primary: "",
-    secondary: "",
-    surface: "",
-    background: "",
+    primary: '',
+    secondary: '',
+    surface: '',
+    background: '',
   },
   blocks: [],
 };
 const initialStateSample: Site = {
   id: 2,
-  name: "First Site",
-  domain: "firstSite",
-  theme: "Simple",
-  font: "Roboto",
+  name: 'First Site',
+  domain: 'firstSite',
+  theme: 'Simple',
+  font: 'Roboto',
   colorSet: {
-    primary: "#5754DE",
-    secondary: "#ABA9FF",
-    background: "#FFFFFF",
-    surface: "#B0B0B0",
+    primary: '#5754DE',
+    secondary: '#ABA9FF',
+    background: '#FFFFFF',
+    surface: '#B0B0B0',
   },
   //blocks: [],
   blocks: [
     {
       id: 1,
       template: {
-        theme: "Simple",
-        blockType: "Nav",
+        theme: 'Simple',
+        blockType: 'Nav',
         layout: null,
       },
       data: {
-        navTitle: "",
+        navTitle: '',
         style: {
-          value: "스타일1",
+          value: '스타일1',
         },
         logoImage: {
-          src: "www.image.com/source/12312",
-          alt: "logo",
+          src: 'www.image.com/source/12312',
+          alt: 'logo',
         },
         logoText: {
-          value: "블록",
+          value: '블록',
         },
         button: {
-          title: "지원하기",
-          url: "form.google.com/joinTeam",
+          title: '지원하기',
+          url: 'form.google.com/joinTeam',
         },
       },
     },
     {
       id: 2,
       template: {
-        theme: "Simple",
-        blockType: "Hero",
+        theme: 'Simple',
+        blockType: 'Hero',
         layout: null,
       },
       data: {
-        navTitle: "홈",
+        navTitle: '홈',
         style: {
-          value: "",
+          value: '',
         },
         image: {
-          src: "www.image.com/source/12312",
-          alt: "logo",
+          src: 'www.image.com/source/12312',
+          alt: 'logo',
         },
         caption: {
-          value: "노코드 웹사이트 빌더",
+          value: '노코드 웹사이트 빌더',
         },
         header: {
-          value: "블록으로 웹사이트를 만들어보세요",
+          value: '블록으로 웹사이트를 만들어보세요',
         },
 
         body: {
           value:
-            "블록은 노코드 웹사이트 빌더입니다. 빠르고 쉽게 웹사이트를 만들어보세요.",
+            '블록은 노코드 웹사이트 빌더입니다. 빠르고 쉽게 웹사이트를 만들어보세요.',
         },
         button: {
-          title: "웹사이트 만들기",
-          url: "block.com/login",
+          title: '웹사이트 만들기',
+          url: 'block.com/login',
         },
       },
     },
     {
       id: 3,
       template: {
-        theme: "Simple",
-        blockType: "Feature",
-        layout: "RightImg",
+        theme: 'Simple',
+        blockType: 'Feature',
+        layout: 'RightImg',
       },
       data: {
-        navTitle: "기능1",
+        navTitle: '기능1',
         style: {
-          value: "",
+          value: '',
         },
         image: {
-          src: "www.image.com/source/12312",
-          alt: "logo",
+          src: 'www.image.com/source/12312',
+          alt: 'logo',
         },
         caption: {
-          value: "노코드 웹사이트 빌더",
+          value: '노코드 웹사이트 빌더',
         },
         header: {
-          value: "블록으로 웹사이트를 만들어보세요",
+          value: '블록으로 웹사이트를 만들어보세요',
         },
         body: {
           value:
-            "블록은 노코드 웹사이트 빌더입니다. 빠르고 쉽게 웹사이트를 만들어보세요.",
+            '블록은 노코드 웹사이트 빌더입니다. 빠르고 쉽게 웹사이트를 만들어보세요.',
         },
         button: {
-          title: "웹사이트 만들기",
-          url: "block.com/login",
+          title: '웹사이트 만들기',
+          url: 'block.com/login',
         },
       },
     },
     {
       id: 4,
       template: {
-        theme: "Simple",
-        blockType: "Footer",
+        theme: 'Simple',
+        blockType: 'Footer',
         layout: null,
       },
       data: {
-        navTitle: "",
-        style: { value: "" },
+        navTitle: '',
+        style: { value: '' },
         rightText: {
-          value: "다양한 템플릿으로 웹사이트를 만들어보세요.",
+          value: '다양한 템플릿으로 웹사이트를 만들어보세요.',
         },
         leftText: {
-          value: "블록은 랜딩페이지부터 이력서까지 다양한 템플릿을 제공합니다.",
+          value: '블록은 랜딩페이지부터 이력서까지 다양한 템플릿을 제공합니다.',
         },
       },
     },
@@ -144,7 +144,7 @@ const initialStateSample: Site = {
 
 //Create Slice
 export const siteSlice = createSlice({
-  name: "site",
+  name: 'site',
   initialState: initialStateSample,
   reducers: {
     addBlock: (state, action: PayloadAction<Block>) => {
@@ -185,9 +185,28 @@ export const siteSlice = createSlice({
     removeBlock: (state, action: PayloadAction<number>) => {
       state.blocks.splice(action.payload, 1);
     },
+    updateColorSet: (state, action) => {
+      state.colorSet = action.payload;
+    },
+    updateFont: (state, action) => {
+      state.font = action.payload;
+    },
+    updateTheme: (state, action) => {
+      state.theme = action.payload;
+    },
+    updateDomain: (state, action) => {
+      state.domain = action.payload;
+    },
   },
 });
 
 //Action creators are generated for each case reducer function
-export const { addBlock, removeBlock } = siteSlice.actions;
+export const {
+  addBlock,
+  removeBlock,
+  updateColorSet,
+  updateFont,
+  updateTheme,
+  updateDomain,
+} = siteSlice.actions;
 export default siteSlice.reducer;

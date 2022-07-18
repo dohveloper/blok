@@ -75,10 +75,6 @@ export default function AppearanceData() {
 
   const themeData = [
     {
-      label: 'Minimal',
-      value: 'Minimal',
-    },
-    {
       label: 'Simple',
       value: 'Simple',
     },
