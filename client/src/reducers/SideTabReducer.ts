@@ -1,6 +1,10 @@
 const toolList = ["Block", "Appearance", "Setting"];
 
-export function sidetabReducer(state = "", action: any) {
+type ToolType = string;
+
+const initialState = toolList[0];
+
+export function sidetabReducer(state = initialState, action: {type: ToolType}) {
   switch (action.type) {
     case toolList[0]:
       return state = toolList[0];

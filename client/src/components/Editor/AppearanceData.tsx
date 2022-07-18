@@ -3,37 +3,37 @@ export default function AppearanceData() {
     {
       label: "블루 컬러 세트",
       value: {
-        "primary": "#5754DE",
-        "secondary": "#ABA9FF",
-        "background": "#FFFFFF",
-        "surface": "#B0B0B0",
+        primary: "#5754DE",
+        secondary: "#ABA9FF",
+        background: "#FFFFFF",
+        surface: "#B0B0B0",
       },
     },
     {
       label: "블랙 컬러 세트",
       value: {
-        "primary": "#000000",
-        "secondary": "#3B3B3B",
-        "background": "#FFFFFF",
-        "surface": "#B0B0B0",
+        primary: "#000000",
+        secondary: "#3B3B3B",
+        background: "#FFFFFF",
+        surface: "#B0B0B0",
       },
     },
     {
       label: "옐로우 컬러 세트",
       value: {
-        "primary": "#FFE400",
-        "secondary": "#FFF289",
-        "background": "#FFFFFF",
-        "surface": "#B0B0B0",
+        primary: "#FFE400",
+        secondary: "#FFF289",
+        background: "#FFFFFF",
+        surface: "#B0B0B0",
       },
     },
     {
       label: "그린 컬러 세트",
       value: {
-        "primary": "#009D24",
-        "secondary": "#96CAA2",
-        "background": "#FFFFFF",
-        "surface": "#B0B0B0",
+        primary: "#009D24",
+        secondary: "#96CAA2",
+        background: "#FFFFFF",
+        surface: "#B0B0B0",
       },
     },
   ];

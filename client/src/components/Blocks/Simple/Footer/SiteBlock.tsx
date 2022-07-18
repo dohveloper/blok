@@ -9,7 +9,8 @@ export default function SiteBlock(props: any) {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 40px;
+    font-size: 0.8rem;
 
     @media screen and (max-width: 1120px) {
       font-size: 1.5vw;

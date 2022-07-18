@@ -5,20 +5,41 @@ export default function SiteBlock(props: any) {
     background-color: ${props.colorSet.background};
     font-family: ${props.font};
     color: ${props.colorSet.surface};
+
+    padding: 100px 40px;
+    margin: 0 auto;
+
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
   `;
 
-  const InnerContainer = styled.div`
-    padding: 90px 40px;
+  const TextContainer = styled.div`
     vertical-align: middle;
+    padding-bottom: 30px;
+
+    @media screen and (max-width: 1120px) {
+      width: 400px;
+    }
+  `;
+
+  const Img = styled.img`
+    width: 400px;
+    padding-left: 20px;
+    padding-bottom: 30px;
+
+    @media screen and (max-width: 1120px) {
+      width: 400px;
+      padding-left: 0;
+    }
   `;
 
   const Caption = styled.div`
     font-size: 1rem;
-    font-weight: 510;
+    font-weight: 600;
     color: ${props.colorSet.primary};
+    margin-bottom: 10px;
 
     @media screen and (max-width: 1120px) {
       font-size: 1.4vw;
@@ -27,7 +48,7 @@ export default function SiteBlock(props: any) {
 
   const Header = styled.div`
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
     color: black;
     margin-bottom: 10px;
 
@@ -59,6 +80,7 @@ export default function SiteBlock(props: any) {
 
     @media screen and (max-width: 1120px) {
       font-size: 1.4vw;
+      padding: 1vw 2vw;
     }
   `;
 
@@ -69,7 +91,7 @@ export default function SiteBlock(props: any) {
   return (
     <>
       <Container id={props.data.navTitle}>
-        <InnerContainer>
+        <TextContainer>
           {props.data.caption.value && (
             <Caption>{props.data.caption.value}</Caption>
           )}
@@ -82,14 +104,12 @@ export default function SiteBlock(props: any) {
               {props.data.button.title}
             </Button>
           )}
-        </InnerContainer>
+        </TextContainer>
         {props.data.image.src && (
-          <InnerContainer>
-            <img
-              src={props.data.image.src}
-              alt={props.data.image.alt ? props.data.image.alt : ""}
-            />
-          </InnerContainer>
+          <Img
+            src={props.data.image.src}
+            alt={props.data.image.alt ? props.data.image.alt : ""}
+          />
         )}
       </Container>
     </>

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { RootState } from '../../../reducers';
 
 const Container = styled.div`
   padding: 0 20px;
@@ -61,37 +63,27 @@ const SaveButton = styled.button`
 
 export default function PublishBar() {
   const dispatch = useDispatch();
-  const [domain, setDomain] = useState('');
-  let msg = '';
+  const data = useSelector((state: RootState) => state.site);
+  const [domain] = useState(data.domain);
+  let msg = "";
+  const { siteId } = useParams();
 
-  const getDomainInfo = async () => {
-    try {
-      axios.get('/site/2').then((res): void => {
-        const domain = res.data.sites[0].domain;
-        setDomain(domain);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  console.log(data)
 
   async function saveHandler() {
-    const data = '';
     try {
-      await axios.put('/site/2', data);
-      msg = '페이지가 저장되었습니다.';
+      await axios.patch(`/api/site/${siteId}`, data);
+      // await axios.patch(`http://localhost:3001/api/site/62d3c3597c3dd17b1efca050`, data);
+      msg = "페이지가 저장되었습니다.";
       dispatch({
         type: 'alertOn',
         payload: { msg: msg, link: domain, time: 2000 },
       });
-    } catch (err) {
-      dispatch({ type: 'alertOn', payload: { msg: '잠시 후 시도해주세요.' } });
+    } catch (e) {
+      console.log(e)
+      dispatch({ type: "alertOn", payload: { msg: "잠시 후 시도해주세요." } });
     }
   }
-
-  useEffect(() => {
-    getDomainInfo();
-  }, []);
 
   async function copyHandler() {
     try {

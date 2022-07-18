@@ -23,21 +23,10 @@ const Container = styled.div`
 
 export default function Setting() {
   const dispatch = useDispatch();
-  const [domain, setDomain] = useState('');
+  const data = useSelector((state: RootState) => state.site);
+  const [domain, setDomain] = useState(data.domain);
 
   const { siteId } = useParams();
-
-  async function getDomainInfo() {
-    try {
-      // const res = await axios.get(`/api/site/${siteId}`);
-      // console.log(res.data);
-      // // Site API 연동 에러, 백엔드 수정 필요
-      // const domain = res.data.sites[0].domain;
-      // setDomain(domain);
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   const deleteHandler = (props: string) => {
     dispatch({
@@ -74,11 +63,7 @@ export default function Setting() {
   if (modalAction?.action === 'deleteSite') {
     deleteSite();
   }
-
-  useEffect(() => {
-    getDomainInfo();
-  }, []);
-
+  
   return (
     <>
       <Container>
