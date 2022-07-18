@@ -96,7 +96,7 @@ function ChangePasswordfield() {
     } else {
       const data = {
         currentPassword: current,
-        password: newpsw,
+        toEditPassword: newpsw,
       };
       try {
         await axios.patch(`/api/user/change-password/${userId}`, data);
@@ -119,7 +119,7 @@ function ChangePasswordfield() {
       const res = await axios.get('/api/user/logincheck');
       if (res.data) {
         console.log(res.data.passwordReset);
-        setUserId(res.data._id);
+        setUserId(() => res.data.userId);
       } else {
         nav('login');
       }

@@ -1,6 +1,15 @@
-import { defaultProps } from 'react-select/dist/declarations/src/Select';
 import styled from 'styled-components';
 import { PxVw } from '../utils/cssconvert';
+
+type colorSetProps = {
+  colorSet: {
+    primary: string;
+    secondary: string;
+    background: string;
+    surface: string;
+  };
+};
+
 const initialStateSample = {
   id: 2,
   name: 'First Site',
@@ -124,7 +133,43 @@ const initialStateSample = {
   ],
 };
 
+const NavBarContainer = styled.div`
+  font-family: 'Roboto';
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 18px 28px;
+  @media screen and (max-width: 1120px) {
+    height: ${PxVw(60)}vw;
+    padding: ${PxVw(18)}vw ${PxVw(28)}vw;
+  }
+`;
+
+const LogoBox = styled.div`
+  display: flex;
+`;
+const LogoImg = styled.img`
+  width: 33px;
+  height: 33px;
+  @media screen and (max-width: 1120px) {
+    width: ${PxVw(33)}vw;
+    height: ${PxVw(33)}vw;
+  }
+`;
+const LogoTitle = styled.div`
+  font-weight: 900;
+  font-size: 32px;
+  margin-left: 12px;
+  color: #000000;
+  @media screen and (max-width: 1120px) {
+    font-size: ${PxVw(32)}vw;
+    margin-left: ${PxVw(12)}vw;
+  }
+`;
+
 const Container = styled.div`
+  font-family: 'Roboto';
   background-color: #f7f7f9;
   border-radius: 10px;
   display: flex;
@@ -136,7 +181,7 @@ const Container = styled.div`
   padding: 10%;
 `;
 
-const HeroMenuName = styled.div`
+const HeroMenuName = styled.div<{ colorSet?: colorSetProps }>`
   color: #2420e1;
   font-weight: 900;
   font-size: 22px;
@@ -147,7 +192,7 @@ const HeroMenuName = styled.div`
   }
 `;
 
-const HeadLine = styled.div`
+const HeadLine = styled.div<{ colorSet?: colorSetProps }>`
   $vwpx: 100/1120;
   color: #000000;
   font-weight: 900;
@@ -158,7 +203,7 @@ const HeadLine = styled.div`
     line-height: ${PxVw(87)}vw;
   }
 `;
-const HeadLineText = styled.div`
+const HeadLineText = styled.div<{ colorSet?: colorSetProps }>`
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;
@@ -169,8 +214,8 @@ const HeadLineText = styled.div`
     line-height: ${PxVw(24)}vw;
   }
 `;
-const Button = styled.a`
-  background: #2420e1;
+const Button = styled.a<{ colorSet?: colorSetProps }>`
+  background: ${(props) => props.colorSet?.colorSet.background || '#2420e1'};
   border-radius: 8px;
   padding: 16px 24px;
   font-size: 16px;
@@ -213,6 +258,13 @@ type datatype = {
   };
 };
 HeroSite.defaultProps = {
+  font: 'Roboto',
+  colorSet: {
+    primary: '#482924',
+    secondary: '#123456',
+    background: '#123456',
+    surface: '#123456',
+  },
   navTitle: '홈',
   style: {
     value: '',
@@ -237,13 +289,27 @@ HeroSite.defaultProps = {
   },
 };
 
-export default function HeroSite(data: datatype) {
+export function NavBar() {
   return (
-    <Container>
-      <HeroMenuName>{data.caption.value}</HeroMenuName>
-      <HeadLine>{data.header.value}</HeadLine>
-      <HeadLineText>{data.body.value}</HeadLineText>
-      <Button href={data.button.url}>{data.button.title}</Button>
-    </Container>
+    <NavBarContainer>
+      <LogoBox>
+        <LogoImg src='../icons/Logo.png' alt='로고' />
+        <LogoTitle>Bloc</LogoTitle>
+      </LogoBox>
+    </NavBarContainer>
+  );
+}
+
+export function HeroSite(data: datatype) {
+  return (
+    <>
+      <NavBar></NavBar>
+      <Container>
+        <HeroMenuName>{data.caption.value}</HeroMenuName>
+        <HeadLine>{data.header.value}</HeadLine>
+        <HeadLineText>{data.body.value}</HeadLineText>
+        <Button href={data.button.url}>{data.button.title}</Button>
+      </Container>
+    </>
   );
 }

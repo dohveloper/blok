@@ -84,7 +84,7 @@ function Loginfield() {
       if (resdata.passwordReset === true) {
         nav('/changepassword');
       }
-      // nav('/main');
+      nav('/dashboard');
     } catch (e: any) {
       console.log(e.response.data);
       alert(e.response.data.reason);
@@ -94,13 +94,24 @@ function Loginfield() {
   const googleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    alert('아직 구현되지않았습니다.');
-    // try {
-    //   const res = await axios.get('/api/user/google');
-    //   nav('/main')
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    try {
+      const new_popup = window.open(
+        'http://localhost:3000/api/auth/google',
+        '_blank',
+        'height=400,width=377,top=100,left=200,scrollbars=yes,resizable=yes'
+      );
+      const timer = setInterval(async () => {
+        const res = await axios.get('/api/user/logincheck');
+        if (res) {
+          console.log(res);
+          new_popup!.close();
+          clearInterval(timer);
+          nav('/dashboard');
+        }
+      }, 300);
+    } catch (e) {
+      console.log(e);
+    }
   };
   const toSigninClick = (
     e: React.MouseEvent<HTMLHyperlinkElementUtils, MouseEvent>

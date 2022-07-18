@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import logoImg from "./../imgs/logo.png";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import logoImg from './../imgs/logo.png';
+import { MdOutlineSpaceDashboard } from 'react-icons/md';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../reducers';
 
 // import icon
-import { CgClose } from "react-icons/cg";
-import { BiLogOut } from "react-icons/bi";
-import { FaUserAlt } from "react-icons/fa";
-import { GrMenu } from "react-icons/gr";
-import { FaRegUserCircle } from "react-icons/fa";
+import { CgClose } from 'react-icons/cg';
+import { BiLogOut } from 'react-icons/bi';
+import { FaUserAlt } from 'react-icons/fa';
+import { GrMenu } from 'react-icons/gr';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 const Nav = styled.nav`
   width: 72px;
@@ -74,7 +74,6 @@ const MenuContainer = styled.div`
   position: fixed;
   bottom: 54px;
   left: 54px;
-  }
 
   @media screen and (max-width: 780px) {
     top: 51px;
@@ -121,12 +120,12 @@ const Menu = (props: IMyProps) => {
   );
 
   const logoutHandler = async () => {
-    await axios.get("/api/user/logout");
+    await axios.get('/api/user/logout');
     dispatch({
-      type: "alertOn",
-      payload: { msg: "로그아웃 처리 되었습니다." },
+      type: 'alertOn',
+      payload: { msg: '로그아웃 처리 되었습니다.' },
     });
-    navigate("/login");
+    navigate('/login');
   };
 
   return (
@@ -134,43 +133,43 @@ const Menu = (props: IMyProps) => {
       onMouseLeave={props.onMouseLeave}
       onMouseEnter={props.onMouseEnter}
     >
-      <Link to="/account" style={{ textDecoration: "none" }}>
+      <Link to='/account' style={{ textDecoration: 'none' }}>
         <List>
-          <FaUserAlt color="black" />
+          <FaUserAlt color='black' />
           <span>Account</span>
         </List>
       </Link>
 
-      {userData?.role === "admin" ? (
+      {userData?.role === 'admin' ? (
         <>
-          <Link to="/site" style={{ textDecoration: "none" }}>
+          <Link to='/site' style={{ textDecoration: 'none' }}>
             <List>
-              <MdOutlineSpaceDashboard color="black" />
+              <MdOutlineSpaceDashboard color='black' />
               <span>Manage Site</span>
             </List>
           </Link>
-          <Link to="/user" style={{ textDecoration: "none" }}>
+          <Link to='/user' style={{ textDecoration: 'none' }}>
             <List>
-              <MdOutlineSpaceDashboard color="black" />
+              <MdOutlineSpaceDashboard color='black' />
               <span>Manage User</span>
             </List>
           </Link>
         </>
       ) : (
-        <Link to="/dashboard" style={{ textDecoration: "none" }}>
+        <Link to='/dashboard' style={{ textDecoration: 'none' }}>
           <List>
-            <MdOutlineSpaceDashboard color="black" />
+            <MdOutlineSpaceDashboard color='black' />
             <span>Dashboard</span>
           </List>
         </Link>
       )}
       <Link
-        to="/login"
+        to='/login'
         onClick={logoutHandler}
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: 'none' }}
       >
         <List>
-          <BiLogOut color="black" />
+          <BiLogOut color='black' />
           <span>Logout</span>
         </List>
       </Link>
@@ -183,9 +182,9 @@ export default function Sidebar() {
 
   return (
     <Nav>
-      <div className="navbarLogo">
-        <Link to="/">
-          <img src={logoImg} alt="logo" width={49} height={43} />
+      <div className='navbarLogo'>
+        <Link to='/'>
+          <img src={logoImg} alt='logo' width={49} height={43} />
         </Link>
       </div>
       <Hamburger onClick={() => setIsMobile(true)}>
@@ -195,7 +194,7 @@ export default function Sidebar() {
         onMouseEnter={() => setIsMobile(true)}
         onMouseLeave={() => setIsMobile(false)}
       >
-        <FaRegUserCircle size="48" color="#CCCCCC" />
+        <FaRegUserCircle size='48' color='#CCCCCC' />
       </Profile>
       {isMobile && (
         <Menu

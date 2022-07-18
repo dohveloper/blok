@@ -89,7 +89,7 @@ function FindPasswordfield() {
         const res = await axios.get('/api/user/logincheck');
         if (res.data) {
           console.log('이미 로그인 되어있습니다.');
-          nav('/main');
+          nav('/dashboard');
         }
       }
       loginCheck();

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import HeroSite from '../components/Sitebox';
+import { HeroSite, NavBar } from '../components/Sitebox';
 
 const Container = styled.div`
   padding-top: 50px;
@@ -15,6 +15,13 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
 `;
+const font = 'Roboto';
+const colorSet = {
+  primary: '#482924',
+  secondary: '#123456',
+  background: '#123456',
+  surface: '#123456',
+};
 
 function Test() {
   return (
