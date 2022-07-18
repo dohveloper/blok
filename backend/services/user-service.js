@@ -41,7 +41,7 @@ class UserService {
 
   async changeUserPassword(userInfoRequired, toUpdate) {
     const { userId, currentPassword } = userInfoRequired;
-    let user = await this.userModel.findById(userId);
+    const user = await this.userModel.findById(userId);
     if (!user) {
       throw new BadRequestError(
         "가입 내역이 없습니다. 다시 한 번 확인해 주세요."
