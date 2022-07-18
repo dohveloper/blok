@@ -72,8 +72,7 @@ export default function Setting() {
     <>
       <Container>
         <TextInput
-          title="도메인"
-          required={true}
+          title='도메인'
           value={domain}
           guideline="도메인을 변경할 수 있습니다."
           onChange={(e: any) => setDomain(e.target.value)}

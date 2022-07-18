@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import Block from './Block';
 import Appearance from './Appearance';
 import Setting from './Setting';
+import { useAppSelector } from '../../../reducers/hooks';
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -20,7 +20,7 @@ const Container = styled.div`
 `;
 
 export default function SidetabHeader() {
-  const now = useSelector((state: any) => state.sidetabReducer);
+  const now = useAppSelector((state) => state.sidetabReducer);
   const tools = ['Block', 'Appearance', 'Setting'];
 
   return (

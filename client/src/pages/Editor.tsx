@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import Sidebar from '../components/Sidebar';
 import Sidetab from '../components/Editor/Sidetab';
 import EditorSection from '../components/Editor/EditorSection';
-import { useSelector } from 'react-redux';
 import AlertModal from '../components/AlertModal';
 import ConfirmModal from '../components/ConfirmModal';
 import AddModal from '../components/Editor/AddModal/AddModal';
 import Button from '../components/Button';
 import { Link } from 'react-router-dom';
 import type { RootState } from '../reducers/store';
+import { useAppSelector } from '../reducers/hooks';
 
 const DesktopContainer = styled.div`
   width: 100vw;
@@ -37,17 +37,17 @@ const MobileContainer = styled.div`
 `;
 
 export default function Editor() {
-  const AlertModalState = useSelector((state: any) => state.alertReducer.state);
-  const alertData = useSelector((state: any) => state.alertReducer.alertData);
+  const AlertModalState = useAppSelector((state) => state.alertReducer.state);
+  const alertData = useAppSelector((state) => state.alertReducer.alertData);
 
-  const ConfirmModalState = useSelector(
-    (state: any) => state.modalReducer.isConfirmModal
+  const ConfirmModalState = useAppSelector(
+    (state) => state.modalReducer.isConfirmModal
   );
-  const confirmData = useSelector(
-    (state: any) => state.modalReducer.confirmData
+  const confirmData = useAppSelector(
+    (state) => state.modalReducer.confirmData
   );
 
-  const AddModalState = useSelector(
+  const AddModalState = useAppSelector(
     (state: RootState) => state.modalReducer.isAddModal
   );
 

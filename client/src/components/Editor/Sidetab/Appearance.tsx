@@ -77,7 +77,7 @@ export default function Appearance() {
   return (
     <>
       <Container>
-        <Label required={true}>
+        <Label required>
           색상조합
           <Required>*</Required>
         </Label>
@@ -95,7 +95,7 @@ export default function Appearance() {
         />
       </Container>
       <Container>
-        <Label required={true}>
+        <Label required>
           폰트
           <Required>*</Required>
         </Label>
@@ -109,7 +109,7 @@ export default function Appearance() {
         />
       </Container>
       <Container>
-        <Label required={true}>
+        <Label required>
           테마
           <Required>*</Required>
         </Label>
