@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export default function SiteBlock(props: any) {
   const Container = styled.div`
@@ -13,6 +13,10 @@ export default function SiteBlock(props: any) {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+
+    @media screen and (max-width: 1120px) {
+      justify-content: flex-start;
+    }
   `;
 
   const TextContainer = styled.div`
@@ -46,11 +50,10 @@ export default function SiteBlock(props: any) {
     }
   `;
 
-  const Header = styled.div`
+  const Header = styled.span`
     font-size: 2rem;
     font-weight: 700;
     color: black;
-    margin-bottom: 10px;
 
     @media screen and (max-width: 1120px) {
       font-size: 2.8vw;
@@ -59,6 +62,7 @@ export default function SiteBlock(props: any) {
 
   const Body = styled.div`
     color: ${props.colorSet.surface};
+    margin-top: 10px;
 
     @media screen and (max-width: 1120px) {
       font-size: 1.4vw;
@@ -85,7 +89,40 @@ export default function SiteBlock(props: any) {
   `;
 
   function buttonHandler() {
-    window.location.href = props.data.button.url ? props.data.button.url : "";
+    window.location.href = props.data.button.url ? props.data.button.url : '';
+  }
+
+  function highlightHandler(header: string, keyword: string) {
+    const HeaderHighlight = styled.span`
+      font-size: 2rem;
+      font-weight: 700;
+      color: ${props.colorSet.primary};
+
+      @media screen and (max-width: 1120px) {
+        font-size: 2.8vw;
+      }
+    `;
+
+    let result = [];
+
+    if (header.includes(keyword)) {
+      const splitedByKeyword = header.split(keyword);
+      for (let i = 0; i < splitedByKeyword.length - 1; i++) {
+        result.push(
+          <>
+            <Header>{splitedByKeyword[i]}</Header>
+            <HeaderHighlight>{keyword}</HeaderHighlight>
+          </>
+        );
+      }
+      result.push(
+        <Header>{splitedByKeyword[splitedByKeyword.length - 1]}</Header>
+      );
+    } else {
+      result.push(<Header>{header}</Header>);
+    }
+
+    return result.map((item) => item);
   }
 
   return (
@@ -95,9 +132,15 @@ export default function SiteBlock(props: any) {
           {props.data.caption.value && (
             <Caption>{props.data.caption.value}</Caption>
           )}
-          {props.data.header.value && (
-            <Header>{props.data.header.value}</Header>
-          )}
+          {props.data.header.value &&
+            (props.data.headerHighlight ? (
+              highlightHandler(
+                props.data.header.value,
+                props.data.headerHighlight.value
+              )
+            ) : (
+              <Header>{props.data.header.value}</Header>
+            ))}
           {props.data.body.value && <Body>{props.data.body.value}</Body>}
           {props.data.button.title && (
             <Button color={props.colorSet.primary} onClick={buttonHandler}>
@@ -105,10 +148,10 @@ export default function SiteBlock(props: any) {
             </Button>
           )}
         </TextContainer>
-        {props.data.image.src && (
+        {props.data.image && (
           <Img
             src={props.data.image.src}
-            alt={props.data.image.alt ? props.data.image.alt : ""}
+            alt={props.data.image.alt ? props.data.image.alt : ''}
           />
         )}
       </Container>

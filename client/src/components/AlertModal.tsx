@@ -1,7 +1,7 @@
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import Button from "./Button";
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Button from './Button';
 
 const Background = styled.div`
   width: 100vw;
@@ -44,7 +44,7 @@ export default function AlertModal(props: IMyProps) {
   const time = props.alertData.time ? props.alertData.time : 600;
 
   setTimeout(() => {
-    dispatch({ type: "alertOff" });
+    dispatch({ type: 'alertOff' });
   }, time);
 
   return (
@@ -57,7 +57,7 @@ export default function AlertModal(props: IMyProps) {
               to={{
                 pathname: `/${props.alertData.link}`,
               }}
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
               <Button color="white" size="large" rounding>
                 페이지로 이동

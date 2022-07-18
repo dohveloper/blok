@@ -5,16 +5,16 @@ type AlertState = {
 
 const initialState: AlertState = {
   state: false,
-  alertData: "",
+  alertData: '',
 };
 
 export function alertReducer(state = initialState, action: any) {
   switch (action.type) {
-    case "alertOn":
+    case 'alertOn':
       return { state: true, alertData: action.payload };
-    case "alertOff":
+    case 'alertOff':
       return { state: false, alertData: action.payload };
-      
+
     default:
       return { ...state };
   }

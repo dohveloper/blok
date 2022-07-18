@@ -63,7 +63,7 @@ export default function Setting() {
   if (modalAction?.action === 'deleteSite') {
     deleteSite();
   }
-  
+
   return (
     <>
       <Container>

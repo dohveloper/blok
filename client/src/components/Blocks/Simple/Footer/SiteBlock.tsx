@@ -15,9 +15,6 @@ export default function SiteBlock(props: any) {
     @media screen and (max-width: 1120px) {
       font-size: 1.5vw;
     }
-    & p {
-      color: white;
-    }
   `;
 
   return (

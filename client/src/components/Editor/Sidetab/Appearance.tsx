@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import styled from "styled-components";
-import { RootState } from "../../../reducers";
-import ColorSetExample from "../../ColorSetExample";
-import { CustomSelect } from "../../Input";
-import AppearanceData from "../AppearanceData";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { RootState } from '../../../reducers';
+import ColorSetExample from '../../ColorSetExample';
+import { CustomSelect } from '../../Input';
+import AppearanceData from '../AppearanceData';
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -27,7 +27,7 @@ const Label = styled.div<{ required?: boolean }>`
   line-height: 16px;
   margin-bottom: 12px;
   span {
-    display: ${(props) => (props.required === true ? "static" : "none")};
+    display: ${(props) => (props.required === true ? 'static' : 'none')};
   }
 `;
 
@@ -114,7 +114,7 @@ export default function Appearance() {
           value={themeList.filter((item: any) => item.value === theme)[0]}
           onChange={(e: any) => setTheme(e.value)}
           options={themeList}
-          guideline={"❗️테마에 블록 타입이 없을 시 블록이 삭제될 수 있습니다."}
+          guideline={'❗️테마에 블록 타입이 없을 시 블록이 삭제될 수 있습니다.'}
         />
       </Container>
     </>

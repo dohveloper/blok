@@ -65,23 +65,23 @@ export default function PublishBar() {
   const dispatch = useDispatch();
   const data = useSelector((state: RootState) => state.site);
   const [domain] = useState(data.domain);
-  let msg = "";
+  let msg = '';
   const { siteId } = useParams();
 
-  console.log(data)
+  console.log(data);
 
   async function saveHandler() {
     try {
       await axios.patch(`/api/site/${siteId}`, data);
       // await axios.patch(`http://localhost:3001/api/site/62d3c3597c3dd17b1efca050`, data);
-      msg = "페이지가 저장되었습니다.";
+      msg = '페이지가 저장되었습니다.';
       dispatch({
         type: 'alertOn',
         payload: { msg: msg, link: domain, time: 2000 },
       });
     } catch (e) {
-      console.log(e)
-      dispatch({ type: "alertOn", payload: { msg: "잠시 후 시도해주세요." } });
+      console.log(e);
+      dispatch({ type: 'alertOn', payload: { msg: '잠시 후 시도해주세요.' } });
     }
   }
 
