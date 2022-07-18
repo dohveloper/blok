@@ -2,7 +2,7 @@ import is from "@sindresorhus/is";
 import { siteService } from "../services";
 import { asyncHandler } from "../utils";
 
-import { BadRequestError, ForbiddenError } from "../errors";
+import { BadRequestError } from "../errors";
 
 const siteController = {
   addsite: asyncHandler(async (req, res, next) => {
@@ -25,22 +25,22 @@ const siteController = {
   }),
 
   getSiteInfo: asyncHandler(async (req, res) => {
-    if (is.emptyObject(req.body)) {
-      throw new BadRequestError(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
-    }
+    // if (is.emptyObject(req.body)) {
+    //   throw new BadRequestError(
+    //     "headers의 Content-Type을 application/json으로 설정해주세요"
+    //   );
+    // }
     const siteId = req.params.siteId;
     const site = await siteService.getSiteInfo(siteId);
     return res.ok(200, site);
   }),
 
   getUserSites: asyncHandler(async (req, res) => {
-    if (is.emptyObject(req.body)) {
-      throw new BadRequestError(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
-    }
+    // if (is.emptyObject(req.body)) {
+    //   throw new BadRequestError(
+    //     "headers의 Content-Type을 application/json으로 설정해주세요"
+    //   );
+    // }
     const userId = req.params.userId;
     const sites = await siteService.getSites(userId);
     return res.ok(200, sites);
@@ -73,11 +73,11 @@ const siteController = {
   }),
 
   deleteSite: asyncHandler(async (req, res) => {
-    if (is.emptyObject(req.body)) {
-      throw new BadRequestError(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
-    }
+    // if (is.emptyObject(req.body)) {
+    //   throw new BadRequestError(
+    //     "headers의 Content-Type을 application/json으로 설정해주세요"
+    //   );
+    // }
     const siteId = req.params.siteId;
     const deletedSite = await siteService.deleteSiteBySiteId(siteId);
     return res.ok(200, deletedSite);

@@ -10,11 +10,9 @@ const userController = {
         "headers의 Content-Type을 application/json으로 설정해주세요"
       );
     }
-    const { userName, email, password } = req.body;
+    // { userName, email, password }
     const newUser = await userService.addUser({
-      userName,
-      email,
-      password,
+      ...req.body,
     });
     return res.ok(200, newUser);
   }),
@@ -35,8 +33,8 @@ const userController = {
     if (req.user.userId !== userId) {
       throw new ForbiddenError("본인의 계정만 삭제할 수 있습니다.");
     }
-    const deletedUserInfo = await userService.deleteUser(userId);
-    res.status(204).clearCookie(JWT_COOKIE_KEY).json(deletedUserInfo);
+    await userService.deleteUser(userId);
+    res.okWithDeleteCookie(204, JWT_COOKIE_KEY);
   }),
   // (jwttoken가 쿠키로 전달되기 때문에 클라이언트에선 변수 없이 호출)
   logincheck: (req, res) => {

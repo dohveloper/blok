@@ -34,13 +34,13 @@ const adminController = {
       searchValue
     );
     const totalPage = Math.ceil(totalCount / perPage);
-    res.status(200).json({ page, perPage, totalPage, totalCount, sites });
+    res.ok(200, { page, perPage, totalPage, totalCount, sites });
   }),
 
   deleteSite: asyncHandler(async (req, res) => {
     const siteId = req.params.siteId;
-    const sites = await siteService.deleteSiteBySiteId(siteId);
-    res.status(200).json(sites);
+    const site = await siteService.getSites(siteId);
+    res.ok(200, site);
   }),
 
   editUserInfo: asyncHandler(async (req, res) => {

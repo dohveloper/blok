@@ -1,5 +1,7 @@
 import { Schema } from "mongoose";
-
+import { AUTH_ENUM } from "../../passport";
+// 왜 undefined지?
+// console.log(AUTH_ENUM);
 const UserSchema = new Schema(
   {
     sites: [
