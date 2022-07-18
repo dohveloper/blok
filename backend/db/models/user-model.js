@@ -66,18 +66,18 @@ export class UserModel {
     return users;
   }
 
-  async countTotalUsers(serachKey, searchValue) {
+  async countTotalUsers(searchKey, searchValue) {
     const totalCount = await User.countDocuments({
-      [serachKey]: { $regex: searchValue, $options: "i" },
+      [searchKey]: { $regex: searchValue, $options: "i" },
     });
     return totalCount;
   }
 
-  async pagenation(page, perPage, serachKey, searchValue) {
+  async pagenation(page, perPage, searchKey, searchValue) {
     const users = await User.aggregate([
       {
         $match: {
-          [serachKey]: { $regex: searchValue, $options: "i" },
+          [searchKey]: { $regex: searchValue, $options: "i" },
         },
       },
       {

@@ -6,12 +6,12 @@ const adminController = {
   getUsersInfoByPagenation: asyncHandler(async (req, res) => {
     const page = Number(req.query.page || 1);
     const perPage = Number(req.query.perPage || 10);
-    const { serachKey, serachValue } = req.query;
+    const { searchKey, searchValue } = req.query;
     const [totalCount, users] = await adminService.getUsersInfoByPagenation(
       page,
       perPage,
-      serachKey,
-      serachValue
+      searchKey,
+      searchValue
     );
     const totalPage = Math.ceil(totalCount / perPage);
     res.ok(200, { page, perPage, totalPage, totalCount, users });
@@ -26,12 +26,12 @@ const adminController = {
   getSitesByPagenation: asyncHandler(async (req, res) => {
     const page = Number(req.query.page || 1);
     const perPage = Number(req.query.perPage || 10);
-    const { serachKey, serachValue } = req.query;
+    const { searchKey, searchValue } = req.query;
     const [totalCount, sites] = await adminService.getSitesByPagenation(
       page,
       perPage,
-      serachKey,
-      serachValue
+      searchKey,
+      searchValue
     );
     const totalPage = Math.ceil(totalCount / perPage);
     res.status(200).json({ page, perPage, totalPage, totalCount, sites });

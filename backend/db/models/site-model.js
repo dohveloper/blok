@@ -62,18 +62,18 @@ export class SiteModel {
     return deletedSite;
   }
 
-  async countTotalSites(serachKey, searchValue) {
+  async countTotalSites(searchKey, searchValue) {
     const totalCount = await Site.countDocuments({
-      [serachKey]: { $regex: searchValue, $options: "i" },
+      [searchKey]: { $regex: searchValue, $options: "i" },
     });
     return totalCount;
   }
 
-  async pagenation(page, perPage, serachKey, searchValue) {
+  async pagenation(page, perPage, searchKey, searchValue) {
     const sites = await Site.aggregate([
       {
         $match: {
-          [serachKey]: { $regex: searchValue, $options: "i" },
+          [searchKey]: { $regex: searchValue, $options: "i" },
         },
       },
       {

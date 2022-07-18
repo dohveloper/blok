@@ -43,13 +43,16 @@ app.use((req, res, next) => {
   res.ok = (statusCode, json = {}) => {
     return res.status(statusCode).json(json);
   };
+
   res.okWithSetToken = (statusCode, json = {}) => {
     setUserToken(res, req.user);
     return res.status(statusCode).json(json);
   };
+
   res.okWithDeleteCookie = (statusCode, cookieName, json = {}) => {
     return res.status(statusCode).clearCookie(cookieName).json(json);
   };
+
   next();
 });
 
