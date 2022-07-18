@@ -70,9 +70,19 @@ export class SiteModel {
   }
 
   async pagenation(page, perPage, serachKey, searchValue) {
-    const sites = await Site.find({
-      [serachKey]: { $regex: searchValue, $options: "i" },
-    })
+    const sites = await Site.aggregate([
+      {
+        $match: {
+          [serachKey]: { $regex: searchValue, $options: "i" },
+        },
+      },
+      {
+        $addFields: {
+          siteId: "$_id",
+        },
+      },
+      { $project: { _id: 0 } },
+    ])
       .sort({ createdAt: -1 })
       .skip(perPage * (page - 1))
       .limit(perPage);
