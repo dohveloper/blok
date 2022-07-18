@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../Button';
 import { useSelector, useDispatch } from 'react-redux';
