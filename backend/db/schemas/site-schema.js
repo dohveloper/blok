@@ -6,7 +6,7 @@ autoIncrement.initialize(mongoose);
 const SiteSchema = new Schema(
   {
     no: Number,
-    owner: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "users",
     },

@@ -15,7 +15,7 @@ class AuthService {
     if (user) {
       return user;
     }
-    const created = await userModel.create({
+    return await userModel.create({
       userName,
       email,
       profileImage,
@@ -23,7 +23,6 @@ class AuthService {
       password: "OAUTH",
       oauth: oauth,
     });
-    return created;
   }
 }
 

@@ -26,7 +26,9 @@ const UserSchema = new Schema(
     },
     oauth: {
       type: String,
-      enum: ["local", "kakao", "google"],
+      // enum: [AUTH_ENUM.LOCAL, AUTH_ENUM.GOOGLE],
+      // default: AUTH_ENUM.LOCAL,
+      enum: ["local", "google"],
       default: "local",
     },
     role: {

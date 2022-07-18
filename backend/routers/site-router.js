@@ -1,13 +1,16 @@
+import { loginRequired } from "../middlewares";
 import { siteController } from "../controller";
 import { Router } from "express";
 const siteRouter = Router();
 
-siteRouter.post("/addsite", siteController.addsite);
+siteRouter.post("/", loginRequired, siteController.addsite);
 
-siteRouter.get("/:siteIdentifier", siteController.getSiteInfo);
+siteRouter.get("/:siteId", siteController.getSiteInfo);
 
-siteRouter.patch("/update/:siteIdentifier", siteController.updateSite);
+siteRouter.get("/user/:userId", loginRequired, siteController.getUserSites);
 
-siteRouter.delete("/delete/:siteIdentifier", siteController.deleteSiteById);
+siteRouter.patch("/:siteId", loginRequired, siteController.updateSite);
+
+siteRouter.delete("/:siteId", loginRequired, siteController.deleteSite);
 
 export { siteRouter };

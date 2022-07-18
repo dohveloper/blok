@@ -1,17 +1,59 @@
-import { model } from "mongoose";
+import mongoose, { model } from "mongoose";
 import { UserSchema } from "../schemas/user-schema";
 
 const User = model("users", UserSchema);
 
 export class UserModel {
   async findByEmail(email) {
-    const user = await User.findOne({ email });
-    return user;
+    const user = await User.aggregate([
+      {
+        $match: {
+          email,
+        },
+      },
+      {
+        $addFields: {
+          userId: "$_id",
+        },
+      },
+      { $project: { _id: 0 } },
+    ]);
+    return user[0];
   }
 
   async findById(userId) {
+    const user = await User.aggregate([
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(userId),
+        },
+      },
+      {
+        $addFields: {
+          userId: "$_id",
+        },
+      },
+      { $project: { _id: 0 } },
+    ]);
+    return user[0];
+  }
+
+  async createSiteById(userId, siteId) {
     const user = await User.findOne({ _id: userId });
+    const addSite = await User.update(
+      { _id: userId },
+      { $push: { sites: siteId } }
+    );
     return user;
+  }
+
+  async deleteSiteById(userId, siteId) {
+    const user = await User.findOne({ _id: userId });
+    const deleteSite = await User.update(
+      { _id: userId },
+      { $pull: { sites: siteId } }
+    );
+    return deleteSite;
   }
 
   async create(userInfo) {
@@ -24,13 +66,27 @@ export class UserModel {
     return users;
   }
 
-  async countTotalUsers(searchQuery) {
-    const totalCount = await User.countDocuments(searchQuery);
+  async countTotalUsers(serachKey, searchValue) {
+    const totalCount = await User.countDocuments({
+      [serachKey]: { $regex: searchValue, $options: "i" },
+    });
     return totalCount;
   }
 
-  async pagenation(page, perPage, searchQuery) {
-    const users = await User.find(searchQuery)
+  async pagenation(page, perPage, serachKey, searchValue) {
+    const users = await User.aggregate([
+      {
+        $match: {
+          [serachKey]: { $regex: searchValue, $options: "i" },
+        },
+      },
+      {
+        $addFields: {
+          userId: "$_id",
+        },
+      },
+      { $project: { _id: 0 } },
+    ])
       .sort({ createdAt: -1 })
       .skip(perPage * (page - 1))
       .limit(perPage);

@@ -7,6 +7,9 @@ const adminRouter = Router();
 adminRouter.get("/user", adminController.getUsersInfoByPagenation);
 adminRouter.get("/user/:userId", adminController.getUserInfo);
 
+adminRouter.get("/site", adminController.getSitesByPagenation);
+adminRouter.delete("/site/:siteId", adminController.deleteSite);
+
 adminRouter.patch(
   "/user/:userId",
   upload.single("profileImage"),
