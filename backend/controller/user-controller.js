@@ -2,6 +2,7 @@ import is from "@sindresorhus/is";
 import { userService } from "../services";
 import { JWT_COOKIE_KEY, asyncHandler, s3Uploadv2 } from "../utils";
 import { BadRequestError, ForbiddenError } from "../errors";
+import passport from "passport";
 
 const userController = {
   register: asyncHandler(async (req, res) => {
@@ -37,8 +38,13 @@ const userController = {
     res.okWithDeleteCookie(204, JWT_COOKIE_KEY);
   }),
   // (jwttoken가 쿠키로 전달되기 때문에 클라이언트에선 변수 없이 호출)
-  logincheck: (req, res) => {
-    return res.ok(200, req.user);
+  logincheck: (req, res, next) => {
+    return passport.authenticate("jwt", { session: false }, (authErr, user) => {
+      if (!user) {
+        return res.ok(200);
+      }
+      return res.ok(200, user);
+    })(req, res, next);
   },
 
   logout: (req, res) => {

@@ -15,7 +15,7 @@ userRouter.post("/reset-password", userController.resetPassword);
 
 userRouter.delete("/:userId", loginRequired, userController.userDelete);
 
-userRouter.get("/logincheck", loginRequired, userController.logincheck);
+userRouter.get("/logincheck", userController.logincheck);
 
 userRouter.get("/logout", loginRequired, userController.logout);
 
