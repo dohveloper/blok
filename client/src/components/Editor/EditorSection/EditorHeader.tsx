@@ -71,7 +71,6 @@ export default function PublishBar() {
   async function saveHandler() {
     try {
       await axios.patch(`/api/site/${siteId}`, data);
-      // await axios.patch(`http://localhost:3001/api/site/62d3c3597c3dd17b1efca050`, data);
       msg = '페이지가 저장되었습니다.';
       dispatch({
         type: 'alertOn',
