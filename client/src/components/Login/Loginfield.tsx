@@ -67,11 +67,6 @@ function Loginfield() {
   const handleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log(
-      `email: ${emailRef.current!.value}, password: ${
-        passwordRef.current!.value
-      } `
-    );
     const data = {
       email: emailRef.current!.value,
       password: passwordRef.current!.value,
@@ -103,7 +98,6 @@ function Loginfield() {
       const timer = setInterval(async () => {
         const res = await axios.get('/api/user/logincheck');
         if (res) {
-          console.log(res);
           new_popup!.close();
           clearInterval(timer);
           nav('/dashboard');
@@ -128,12 +122,11 @@ function Loginfield() {
     async function loginCheck() {
       const res = await axios.get('/api/user/logincheck');
       if (res.data) {
-        console.log(res.data);
         if (res.data.passwordReset) {
           nav('/changepassword');
         }
         console.log('이미 로그인 되어있습니다.');
-        nav('/main');
+        nav('/dashboard');
       }
     }
     loginCheck();

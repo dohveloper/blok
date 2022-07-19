@@ -61,9 +61,6 @@ function FindPasswordfield() {
   const handleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log(
-      `email: ${emailRef.current!.value}, userName: ${nameRef.current!.value} `
-    );
     const data = {
       userName: nameRef.current!.value,
       email: emailRef.current!.value,

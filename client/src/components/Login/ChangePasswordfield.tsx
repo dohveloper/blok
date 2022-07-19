@@ -116,12 +116,16 @@ function ChangePasswordfield() {
 
   useEffect(() => {
     async function loginCheck() {
-      const res = await axios.get('/api/user/logincheck');
-      if (res.data) {
-        console.log(res.data.passwordReset);
-        setUserId(() => res.data.userId);
-      } else {
-        nav('login');
+      try {
+        const res = await axios.get('/api/user/logincheck');
+
+        if (res.data) {
+          setUserId(() => res.data.userId);
+        } else {
+          nav('/login');
+        }
+      } catch (e) {
+        nav('/login');
       }
     }
     loginCheck();

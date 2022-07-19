@@ -90,11 +90,6 @@ function Signinfield() {
   const handleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log(
-      `userName: ${nameRef.current!.value}, 
-       email: ${emailRef.current!.value}, 
-       password: ${passwordRef.current!.value} `
-    );
     const data = {
       userName: nameRef.current!.value,
       email: emailRef.current!.value,
@@ -103,10 +98,11 @@ function Signinfield() {
     const logindata = JSON.stringify(data);
     localStorage.setItem('login', logindata);
     try {
-      const res = await axios.post('/api/user/register', data);
-      console.log(res);
+      await axios.post('/api/user/register', data);
       alert('가입이 완료되었습니다.');
+      nav('/login');
     } catch (e: any) {
+      console.log('가입에러');
       setEmailErrormshg(e.response.data.reason);
       alert(e.response.data.reason);
       setEmailError(true);
@@ -119,17 +115,15 @@ function Signinfield() {
     nav('/login');
   };
   useEffect(() => {
-    return () => {
-      async function loginCheck() {
-        const res = await axios.get('/api/user/logincheck');
-        if (res.data) {
-          console.log('이미 로그인 되어있습니다.');
-          nav('/main');
-        }
+    async function loginCheck() {
+      const res = await axios.get('/api/user/logincheck');
+      if (res.data) {
+        console.log('로그아웃 이후 사용해주세요.'); // 모달창구현
+        nav('/dashboard');
       }
-      loginCheck();
-    };
-  });
+    }
+    loginCheck();
+  }, []);
   return (
     <Container>
       <LoginForm.Title>회원가입</LoginForm.Title>

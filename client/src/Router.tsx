@@ -13,7 +13,6 @@ import Signin from './pages/Signin';
 import Editor from './pages/Editor';
 import ChangePassword from './pages/ChangePassword';
 import Main from './pages/Main';
-import Test from './pages/Test';
 
 export function AppRouter() {
   return (
@@ -32,7 +31,6 @@ export function AppRouter() {
         <Route path='/signin' element={<Signin />} />
         <Route path='*' element={<NotFound />} />
         <Route path='/editor/:siteId' element={<Editor />} />
-        <Route path='/test' element={<Test />} />
       </Routes>
     </Router>
   );

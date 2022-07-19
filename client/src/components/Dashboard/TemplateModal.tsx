@@ -9,12 +9,21 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useAppSelector, useAppDispatch } from '../../reducers';
 
+<<<<<<< HEAD
+const PxtoVw = (px: number) => {
+  return (100 * px) / 780 + 'vw';
+};
+const RemVw = (px: number, rem: number) => {
+  return (rem * 100 * px) / 780 + 'vw';
+};
+=======
 // const PxtoVw = (px: number) => {
 //   return (100 * px) / 780 + 'vw';
 // };
 // const RemtoVw = (px: number, rem: number) => {
 //   return (rem * 100 * px) / 780 + 'vw';
 // };
+>>>>>>> front
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -51,6 +60,13 @@ const ModalContainer = styled.div`
     }
   }
   @media screen and (max-width: 780px) {
+<<<<<<< HEAD
+    max-height: 100%;
+    overflow-y: auto;
+    width: PxtoVw(660);
+    height: PxtoVw(520);
+    border-radius: PxtoVw(10);
+=======
     position: absolute;
     width: 460px;
     height: 90%;
@@ -58,6 +74,7 @@ const ModalContainer = styled.div`
     flex-direction: column;
     overflow-y: scroll;
     box-sizing: border-box;
+>>>>>>> front
   }
 `;
 
@@ -335,65 +352,65 @@ export default function TemplateModal() {
         ) : (
           <DomainContainer>
             <CustomInputDiv>
-              <CustomInputTitle htmlFor="">사이트명</CustomInputTitle>
-              <div className="inputBox">
+              <CustomInputTitle htmlFor=''>사이트명</CustomInputTitle>
+              <div className='inputBox'>
                 <CustomInput
-                  type="text"
-                  placeholder="사이트명을 입력하세요"
+                  type='text'
+                  placeholder='사이트명을 입력하세요'
                   ref={siteName}
                   onChange={(e) => {
                     changeSiteHandler(e);
                   }}
                 />
-                <span className="validationText">
+                <span className='validationText'>
                   {siteNameError && '유효하지 않은 사이트명 입니다.'}
                 </span>
               </div>
             </CustomInputDiv>
             <CustomInputDiv>
-              <CustomInputTitle htmlFor="">도메인 주소</CustomInputTitle>
-              <div className="inputBox">
+              <CustomInputTitle htmlFor=''>도메인 주소</CustomInputTitle>
+              <div className='inputBox'>
                 <p>block.com/</p>
                 <CustomInput
-                  className="domainInput"
-                  type="text"
-                  placeholder="도메인 주소"
+                  className='domainInput'
+                  type='text'
+                  placeholder='도메인 주소'
                   ref={domain}
                   onInput={(e) => {
                     changeDomainHandler(e);
                   }}
                 />
-                <span className="validationText">
+                <span className='validationText'>
                   {domainError && '유효하지 않은 도메인 입니다.'}
                 </span>
               </div>
             </CustomInputDiv>
             <CustomInputDiv>
-              <CustomInputTitle htmlFor="">사이트 설명</CustomInputTitle>
+              <CustomInputTitle htmlFor=''>사이트 설명</CustomInputTitle>
               <textarea
-                className="siteDescription"
-                placeholder="만드실 사이트를 설명해주세요"
+                className='siteDescription'
+                placeholder='만드실 사이트를 설명해주세요'
                 ref={siteDesc}
               />
             </CustomInputDiv>
           </DomainContainer>
         )}
 
-        <div className="closeButton" onClick={closeModalHandler}>
+        <div className='closeButton' onClick={closeModalHandler}>
           <CgClose size={30} color={'gray'} />
         </div>
         {data.theme === '' ? (
           <ButtonPadiing
-            className="createButton"
-            size="large"
+            className='createButton'
+            size='large'
             onClick={selectTemplateHandler}
           >
             다음
           </ButtonPadiing>
         ) : (
           <ButtonPadiing
-            className="createButton"
-            size="large"
+            className='createButton'
+            size='large'
             onClick={createSiteHandler}
             disabled={!validation}
           >
