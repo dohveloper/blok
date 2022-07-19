@@ -1,7 +1,7 @@
 export default function AppearanceData() {
   const colorSetData = [
     {
-      label: '블루 컬러 세트',
+      label: '파란색 조합',
       value: {
         primary: '#5754DE',
         secondary: '#ABA9FF',
@@ -10,28 +10,64 @@ export default function AppearanceData() {
       },
     },
     {
-      label: '블랙 컬러 세트',
+      label: '남색 조합',
+      value: {
+        primary: '#0A51A2',
+        secondary: '#6692C4',
+        background: '#FFFFFF',
+        surface: '#9FAEBF',
+      },
+    },
+    {
+      label: '노란색 조합',
+      value: {
+        primary: '#F0BA1A',
+        secondary: '#EDD077',
+        background: '#FFFFFF',
+        surface: '#BFBAAA',
+      },
+    },
+    {
+      label: '초록색 조합',
+      value: {
+        primary: '#2B5E27',
+        secondary: '#668C62',
+        background: '#FFFFFF',
+        surface: '#9DA89D',
+      },
+    },
+    {
+      label: '청록색 조합',
+      value: {
+        primary: '#358873',
+        secondary: '#6BAF92',
+        background: '#FFFFFF',
+        surface: '#95A3A0',
+      },
+    },
+    {
+      label: '보라색 조합',
+      value: {
+        primary: '#6A498E',
+        secondary: '#BA9CCF',
+        background: '#FFFFFF',
+        surface: '#A29DA8',
+      },
+    },
+    {
+      label: '갈색 조합',
+      value: {
+        primary: '#755043',
+        secondary: '#B3998F',
+        background: '#FFFFFF',
+        surface: '#B8B2B0',
+      },
+    },
+    {
+      label: '검은색 조합',
       value: {
         primary: '#000000',
         secondary: '#3B3B3B',
-        background: '#FFFFFF',
-        surface: '#B0B0B0',
-      },
-    },
-    {
-      label: '옐로우 컬러 세트',
-      value: {
-        primary: '#FFE400',
-        secondary: '#FFF289',
-        background: '#FFFFFF',
-        surface: '#B0B0B0',
-      },
-    },
-    {
-      label: '그린 컬러 세트',
-      value: {
-        primary: '#009D24',
-        secondary: '#96CAA2',
         background: '#FFFFFF',
         surface: '#B0B0B0',
       },
