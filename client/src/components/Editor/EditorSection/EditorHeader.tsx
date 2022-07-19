@@ -63,8 +63,8 @@ const SaveButton = styled.button`
 
 export default function PublishBar() {
   const dispatch = useDispatch();
-  const data = useSelector((state: RootState) => state.site.domain);
-  const [domain, setDomain] = useState(data);
+  const data = useSelector((state: RootState) => state.site);
+  const [domain, setDomain] = useState(data.domain);
   let msg = '';
   const { siteId } = useParams();
 
@@ -94,7 +94,7 @@ export default function PublishBar() {
   }
 
   useEffect(() => {
-    setDomain(data);
+    setDomain(data.domain);
   }, [data]);
 
   return (

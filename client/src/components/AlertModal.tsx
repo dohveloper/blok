@@ -43,6 +43,10 @@ export default function AlertModal(props: IMyProps) {
   const dispatch = useDispatch();
   const time = props.alertData.time ? props.alertData.time : 600;
 
+  function handleClick() {
+    window.location.href = '../' + props.alertData.link;
+  }
+
   setTimeout(() => {
     dispatch({ type: 'alertOff' });
   }, time);
@@ -53,16 +57,9 @@ export default function AlertModal(props: IMyProps) {
         {props.alertData.msg}
         {props.alertData.link && (
           <InnerBox>
-            <Link
-              to={{
-                pathname: `/${props.alertData.link}`,
-              }}
-              style={{ textDecoration: 'none' }}
-            >
-              <Button color="white" size="large" rounding>
+              <Button color="white" size="large" rounding onClick={handleClick}>
                 페이지로 이동
               </Button>
-            </Link>
           </InnerBox>
         )}
       </AlertBox>
