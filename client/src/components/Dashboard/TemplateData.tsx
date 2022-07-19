@@ -1,5 +1,3 @@
-import AppearanceData from '../Editor/AppearanceData';
-
 export const templateCardData = [
   { title: '랜딩페이지', description: '회사 웹사이트 템플릿 입니다.' },
   {
@@ -17,8 +15,8 @@ export const templateCardData = [
   {
     title: '기본 웹사이트',
     description: '기업소개 템플릿 입니다.',
-    color1: '#F5E44C',
-    color2: '#CEA9D3',
+    color1: '#585858',
+    color2: '#8c929c',
   },
 ];
 
@@ -29,23 +27,20 @@ export default function templateListData() {
     theme: 'Minimal',
     font: 'Roboto',
     colorSet: {
-      primary: '#482924',
-      secondary: '#123456',
-      background: '#123456',
-      surface: '#123456',
+      primary: '#5754DE',
+      secondary: '#ABA9FF',
+      background: '#FFFFFF',
+      surface: '#B0B0B0',
     },
     blocks: [
       {
         template: {
           theme: 'Simple',
           blockType: 'Nav',
-          layout: null,
+          layout: '',
         },
-        data: {
+        defaultData: {
           navTitle: null,
-          style: {
-            value: '',
-          },
           logoImage: {
             src: 'www.image.com/source/12312',
             alt: 'logo',
@@ -53,37 +48,29 @@ export default function templateListData() {
           logoText: {
             value: '블록',
           },
-          button: {
-            title: '지원하기',
-            url: 'form.google.com/joinTeam',
-          },
         },
       },
       {
         template: {
           theme: 'Simple',
           blockType: 'Hero',
-          layout: null,
+          layout: '',
         },
-        data: {
+        defaultData: {
           navTitle: '홈',
-          image: {
-            src: 'www.image.com/source/12312',
-            alt: 'logo',
-          },
           caption: {
-            value: '노코드 웹사이트 빌더',
+            value: '노코드 웹사이트 빌더 플랫폼',
           },
           header: {
-            value: '블록으로 웹사이트를 만들어보세요',
+            value: '여기에 블록에 입력한 제목이 들어갑니다. 여러줄도 오케이',
           },
           body: {
             value:
-              '블록은 노코드 웹사이트 빌더입니다. 빠르고 쉽게 웹사이트를 만들어보세요.',
+              '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
           },
           button: {
-            title: '웹사이트 만들기',
-            url: 'block.com/login',
+            title: '여기에는 버튼명',
+            url: 'www.google.com',
           },
         },
       },
@@ -91,23 +78,43 @@ export default function templateListData() {
         template: {
           theme: 'Simple',
           blockType: 'Feature',
-          layout: 'Right',
+          layout: '',
         },
-        data: {
-          navTitle: '기능 소개',
+        defaultData: {
+          navTitle: '기능 1',
           image: {
-            src: 'www.image.com/source/12312',
+            src: '',
             alt: 'image',
           },
           caption: {
-            value: '빠른 시작 ',
+            value: '여기는 캡션',
           },
           header: {
-            value: '다양한 템플릿으로 웹사이트를 만들어보세요.',
+            value: '여기에 Feature 블록에서 입력한 값이 들어갑니다.',
           },
           body: {
             value:
-              '블록은 랜딩페이지부터 이력서까지 다양한 템플릿을 제공합니다.',
+              '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
+          },
+          button: {
+            title: '버튼',
+            url: 'naver.com',
+          },
+        },
+      },
+      {
+        template: {
+          theme: 'Simple',
+          blockType: 'Footer',
+          layout: '',
+        },
+        defaultData: {
+          navTitle: null,
+          leftText: {
+            value: '노코드 웹사이트 빌더 플랫폼',
+          },
+          rightText: {
+            value: '여기에 블록에 입력한 제목이 들어갑니다. 여러줄도 오케이',
           },
         },
       },

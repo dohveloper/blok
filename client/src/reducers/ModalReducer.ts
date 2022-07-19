@@ -3,6 +3,7 @@ type ConfirmDataType = {
   msg: string;
   action: string;
   props?: string;
+  onConfirm?: (props?: string) => void;
 };
 
 type ModalState = {
@@ -16,7 +17,7 @@ type ModalState = {
 
 const initialState: ModalState = {
   isTemplateModal: false,
-  templateData: "",
+  templateData: '',
   isConfirmModal: false,
   isAddModal: false,
   confirmData: {
@@ -35,8 +36,6 @@ const ActionTypes = {
   TEMPLATE_OFF: 'TEMPLATE/MODAL_OFF',
   CONFIRM_ON: 'CONFIRM/MODAL_ON',
   CONFIRM_OFF: 'CONFIRM/MODAL_OFF',
-  CONFIRM_YES: 'CONFIRM/CONFIRM_YES',
-  CONFIRM_RESET: 'CONFIRM/CONFIRM_RESET',
   ADD_ON: 'ADD/MODAL_ON',
   ADD_OFF: 'ADD/MODAL_OFF',
 };
@@ -60,10 +59,6 @@ export const modalReducer = (
       return { ...state, isAddModal: true };
     case ActionTypes.ADD_OFF:
       return { ...initialState };
-    case ActionTypes.CONFIRM_YES:
-      return { ...state, confirmState: true };
-    case ActionTypes.CONFIRM_RESET:
-      return { ...state, confirmState: false };
     default:
       return { ...state };
   }

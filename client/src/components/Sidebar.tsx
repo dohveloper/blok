@@ -5,8 +5,7 @@ import logoImg from './../imgs/logo.png';
 import { MdOutlineSpaceDashboard } from 'react-icons/md';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../reducers';
+import { useAppSelector, useAppDispatch } from '../reducers';
 
 // import icon
 import { CgClose } from 'react-icons/cg';
@@ -80,7 +79,7 @@ const MenuContainer = styled.div`
     right: 0;
     left: auto;
     width: 100%;
-    height: 290px;
+    height: fit-content;
     border-radius: 0;
     text-align: center;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
@@ -113,11 +112,9 @@ interface IMyProps {
 
 const Menu = (props: IMyProps) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const userData = useSelector(
-    (state: RootState) => state.loginCheckReducer.loginData
-  );
+  const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
   const logoutHandler = async () => {
     await axios.get('/api/user/logout');

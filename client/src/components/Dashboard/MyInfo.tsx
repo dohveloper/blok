@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import axios from "axios";
-import Button from "../Button";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../reducers";
+import styled from 'styled-components';
+import axios from 'axios';
+import Button from '../Button';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../reducers';
 
 const MainContainer = styled.div`
   margin: 100px;
@@ -75,32 +75,26 @@ export default function MyInfo() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const confirmState = useAppSelector(
-    (state) => state.modalReducer.confirmState
-  );
-  const confirmAction = useAppSelector(
-    (state) => state.modalReducer.confirmData
-  );
   const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
   const resethandler = () => {
     dispatch({
-      type: "CONFIRM/MODAL_ON",
+      type: 'CONFIRM/MODAL_ON',
       payload: {
-        title: "비밀번호 초기화",
-        msg: "정말 초기화하시겠습니까?",
-        action: "reset",
+        title: '비밀번호 초기화',
+        msg: '정말 초기화하시겠습니까?',
+        onConfirm: resetPassword,
       },
     });
   };
 
   const deleteHandler = () => {
     dispatch({
-      type: "CONFIRM/MODAL_ON",
+      type: 'CONFIRM/MODAL_ON',
       payload: {
-        title: "계정탈퇴",
-        msg: "정말 탈퇴하시겠습니까?",
-        action: "delete",
+        title: '계정탈퇴',
+        msg: '정말 탈퇴하시겠습니까?',
+        onConfirm: deleteUser,
       },
     });
   };
@@ -108,14 +102,13 @@ export default function MyInfo() {
   const resetPassword = async () => {
     try {
       const data = { userName: userData!.userName, email: userData!.email };
-      console.log(data);
-      await axios.post("/api/user/reset-password", data);
-      dispatch({ type: "CONFIRM/MODAL_OFF" });
+      await axios.post('/api/user/reset-password', data);
+      dispatch({ type: 'CONFIRM/MODAL_OFF' });
       dispatch({
-        type: "alertOn",
-        payload: { msg: "성공적으로 메일을 보냈습니다." },
+        type: 'alertOn',
+        payload: { msg: '성공적으로 메일을 보냈습니다.' },
       });
-      navigate("/ChangePassword");
+      navigate('/ChangePassword');
     } catch (e) {
       console.log(e);
     }
@@ -124,28 +117,16 @@ export default function MyInfo() {
   const deleteUser = async () => {
     try {
       await axios.delete(`/api/user/${userData?.userId}`);
-      dispatch({ type: "CONFIRM/MODAL_OFF" });
+      dispatch({ type: 'CONFIRM/MODAL_OFF' });
       dispatch({
-        type: "alertOn",
-        payload: { msg: "회원탈퇴 처리 되었습니다." },
+        type: 'alertOn',
+        payload: { msg: '회원탈퇴 처리 되었습니다.' },
       });
-      navigate("/login");
+      navigate('/login');
     } catch (e) {
       console.log(e);
     }
   };
-
-  if (confirmState) {
-    if (confirmAction?.action === "reset") {
-      console.log("리샛");
-      resetPassword();
-    }
-
-    if (confirmAction?.action === "delete") {
-      console.log("삭제");
-      deleteUser();
-    }
-  }
 
   return (
     <MainContainer>

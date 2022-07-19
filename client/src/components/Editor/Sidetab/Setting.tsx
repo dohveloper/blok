@@ -35,20 +35,15 @@ export default function Setting() {
   const { siteId } = useParams();
 
   const deleteHandler = () => {
-    console.log(siteId);
     dispatch({
       type: 'CONFIRM/MODAL_ON',
       payload: {
         title: '삭제',
-        msg: '정말 삭제하시겠습니까?',
-        action: 'deleteSite',
+        msg: '정말 삭제하시겠습니까!',
+        onConfirm: deleteSite,
       },
     });
   };
-
-  const modalAction = useSelector(
-    (state: RootState) => state.modalReducer.confirmData
-  );
 
   const deleteSite = async () => {
     try {
@@ -63,10 +58,6 @@ export default function Setting() {
       console.log(e);
     }
   };
-
-  if (modalAction?.action === 'deleteSite') {
-    deleteSite();
-  }
 
   return (
     <>

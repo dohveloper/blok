@@ -1,11 +1,12 @@
-import styled from "styled-components";
-import { ControlButton } from "./DashboardBox";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Button from "../Button";
-import { MainTitle } from "./MyInfo";
-import { useAppDispatch } from "../../reducers";
+import styled from 'styled-components';
+import { ControlButton } from './DashboardBox';
+import { useState, useEffect, useMemo } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Button from '../Button';
+import { MainTitle } from './MyInfo';
+import { useAppDispatch } from '../../reducers';
+import ReactSelect from 'react-select';
 
 const Container = styled.div`
   .controlBox {
@@ -20,10 +21,14 @@ const Container = styled.div`
     align-items: center;
     margin-top: 1rem;
 
-    .perPageBox {
+    .perPageBox,
+    .pagenationBox,
+    .div {
+      flex: 1;
     }
 
     .pagenationBox {
+      text-align: center;
     }
 
     .pageText {
@@ -44,7 +49,7 @@ const Container = styled.div`
 
 const SearchInput = styled.input`
   width: 300px;
-  height: 28px;
+  height: 38px;
   border: 1px solid #ececec;
   box-sizing: border-box;
   padding: 0 10px;
@@ -99,12 +104,56 @@ const Table = styled.table`
   }
 `;
 
+const options = [
+  { value: 'userName', label: 'userName' },
+  { value: 'email', label: 'email' },
+];
+
+export const CustomSelect = (props: any) => {
+  const customStyles = useMemo(
+    () => ({
+      option: (provided: any, state: any) => ({
+        ...provided,
+        width: '100%',
+        color: state.data.color,
+        opacity: 0.8,
+      }),
+      control: (provided: any) => ({
+        ...provided,
+        border: '1px solid #ececec',
+        height: 24,
+        width: 240,
+      }),
+      singleValue: (provided: any, state: any) => ({
+        ...provided,
+        color: state.data.color,
+        width: '100%',
+      }),
+    }),
+    []
+  );
+  return (
+    <ReactSelect
+      placeholder={props.placeholder}
+      value={props.value}
+      options={props.options}
+      styles={customStyles}
+      onChange={props.onChange}
+      key={props.key}
+      defaultValue={props.defaultValue}
+    />
+  );
+};
+
 export default function UserTable() {
   const dispatch = useAppDispatch();
-  const [query, setQuery] = useState("");
-  const [text, setText] = useState("");
+  const [query, setQuery] = useState('');
+  const [text, setText] = useState('');
   const [data, setData] = useState<any[]>([]);
-  const [option, setOption] = useState("");
+  const [option, setOption] = useState({
+    value: 'userName',
+    label: 'userName',
+  });
 
   const [page, setPage] = useState(1);
   const [perPage, setPerpage] = useState(10);
@@ -125,7 +174,7 @@ export default function UserTable() {
   useEffect(() => {
     const getSites = async () => {
       const res = await axios.get(
-        `/api/admin/user?page=${page}&perPage=${perPage}&serachKey=userName&serachValue=${query}`
+        `/api/admin/user?page=${page}&perPage=${perPage}&searchKey=${option.value}&searchValue=${query}`
       );
       setData(res.data.users);
       setTotalCount(res.data.totalCount);
@@ -136,21 +185,21 @@ export default function UserTable() {
   const handleSearch = async (e: any) => {
     e.preventDefault();
     await setQuery(text);
-    setText("");
+    setText('');
   };
 
   const handleDelete = async (userId: string) => {
-    console.log("delete user : ", userId);
+    console.log('delete user : ', userId);
     await axios.delete(`/api/admin/user/${userId}`);
     dispatch({
-      type: "alertOn",
-      payload: { msg: "회원정보가 삭제되었습니다." },
+      type: 'alertOn',
+      payload: { msg: '회원정보가 삭제되었습니다.' },
     });
   };
 
   const handleReset = () => {
-    setText("");
-    setQuery("");
+    setText('');
+    setQuery('');
     setPage(1);
   };
 
@@ -159,6 +208,17 @@ export default function UserTable() {
       <MainTitle className="title">User Management</MainTitle>
 
       <div className="controlBox">
+        <div>
+          <CustomSelect
+            name="Searchfilter"
+            value={option}
+            options={options}
+            onChange={(e: any) => setOption(() => e)}
+          >
+            <option value="userName">이름</option>
+            <option value="email">이메일</option>
+          </CustomSelect>
+        </div>
         <div>
           <form onSubmit={handleSearch} className="searchForm">
             <label htmlFor="search-query">Search: </label>
@@ -169,8 +229,12 @@ export default function UserTable() {
               name="search-query"
               placeholder="검색어를 입력하세요"
             />
-            <Button type="submit">Search</Button>
-            <Button onClick={() => handleReset()}>Reset</Button>
+            <Button type="submit" size="medium">
+              Search
+            </Button>
+            <Button size="medium" onClick={() => handleReset()}>
+              Reset
+            </Button>
           </form>
         </div>
       </div>
@@ -202,11 +266,11 @@ export default function UserTable() {
                   <td>{e.role}</td>
                   <td>
                     <Link
-                      to={"/user/" + e.userId}
-                      style={{ textDecoration: "none" }}
+                      to={'/user/' + e.userId}
+                      style={{ textDecoration: 'none' }}
                     >
                       <ControlButton
-                        className={"editButton"}
+                        className={'editButton'}
                         rounding
                         color="white"
                       >
@@ -214,7 +278,7 @@ export default function UserTable() {
                       </ControlButton>
                     </Link>
                     <ControlButton
-                      className={"deleteButton"}
+                      className={'deleteButton'}
                       onClick={() => handleDelete(e.userId)}
                       color="gray"
                       rounding
@@ -254,10 +318,10 @@ export default function UserTable() {
             onClick={() => handlePrevPage()}
             disabled={page === 1 ? true : false}
           >
-            {"<"}
+            {'<'}
           </Button>
           <span className="pageText">
-            <strong>{page}</strong> / {Math.ceil(totalCount / perPage)} of{" "}
+            <strong>{page}</strong> / {Math.ceil(totalCount / perPage)} of{' '}
             {totalCount}
           </span>
           <Button
@@ -267,9 +331,10 @@ export default function UserTable() {
             onClick={() => handleNextPage()}
             disabled={page === Math.ceil(totalCount / perPage) ? true : false}
           >
-            {">"}
+            {'>'}
           </Button>
         </div>
+        <div className="div"></div>
       </div>
     </Container>
   );

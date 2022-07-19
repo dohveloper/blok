@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { CgClose } from "react-icons/cg";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "./Button";
+import styled from 'styled-components';
+import { CgClose } from 'react-icons/cg';
+import Button from './Button';
+import { useAppSelector, useAppDispatch } from '../reducers';
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -55,14 +55,17 @@ interface IMyProps {
 }
 
 export default function ConfirmModal(props: IMyProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const onConfirm = useAppSelector(
+    (state) => state.modalReducer.confirmData?.onConfirm
+  );
 
   const closeModalHandler = () => {
-    dispatch({ type: "CONFIRM/MODAL_OFF" });
+    dispatch({ type: 'CONFIRM/MODAL_OFF' });
   };
 
-  const conFirmHandler = () => {
-    dispatch({ type: "CONFIRM/CONFIRM_YES" });
+  const conFirmHandler = (props?: string) => {
+    onConfirm?.(props);
   };
 
   return (
@@ -71,7 +74,7 @@ export default function ConfirmModal(props: IMyProps) {
         <div className="confirmHeader">
           <div className="confirmTitle">{props.confirmData.title}</div>
           <div className="closeButton" onClick={closeModalHandler}>
-            <CgClose size={23} color={"gray"} />
+            <CgClose size={23} color={'gray'} />
           </div>
         </div>
         <div className="confirmText">{props.confirmData.msg}</div>

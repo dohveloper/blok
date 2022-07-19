@@ -11,6 +11,10 @@ import { useAppSelector, useAppDispatch } from '../../reducers';
 const Container = styled.div`
   margin-bottom: 10px;
 
+  .dashboardTitle {
+    margin-top: 72px;
+  }
+
   @media screen and (max-width: 780px) {
     .title {
       margin-top: 102px;
@@ -19,6 +23,8 @@ const Container = styled.div`
 
   @media screen and (max-width: 1120px) {
     width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
   }
 `;
 
@@ -98,11 +104,21 @@ export function TemplateList() {
   const showModalHandler = (template: string) => {
     dispatch({ type: 'TEMPLATE/MODAL_ON', template: template });
   };
+
+  // 템플릿 데이터 3개만 불러오기
+  function DashboardTemplateList() {
+    let list = [];
+    for (let i = 0; i < templateCardData.length - 1; i++) {
+      list.push(templateCardData[i]);
+    }
+    return list;
+  }
+
   return (
     <Container>
       <MainTitle className="title">Template</MainTitle>
       <TemplateBox>
-        {templateCardData?.map((e: any, idx: number) => (
+        {DashboardTemplateList()?.map((e: any, idx: number) => (
           <div key={idx}>
             <TemplateCard
               title={e.title}
@@ -121,16 +137,14 @@ export function TemplateList() {
 export function DashboardInfo() {
   const [data, setData] = useState<any[]>([]);
   const dispatch = useAppDispatch();
-  const modalAction = useAppSelector((state) => state.modalReducer.confirmData);
-  const confirmState = useAppSelector(
-    (state) => state.modalReducer.confirmState
-  );
   const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
-  // userId 별 sites 데이터 조회, 재랜더링 문제로 아래와 같이 코드 수정, 사이트 삭제 시 getUserInfo() 호출하여 재랜더링됨.
+  // userId 별 sites 데이터 조회
   const getUserInfo = async () => {
     try {
+      console.log('userId:', userData!.userId);
       const res = await axios.get(`/api/site/user/${userData.userId}`);
+      console.log('site Data:', res.data);
       setData(() => res.data);
     } catch (error) {
       console.log(error);
@@ -138,57 +152,40 @@ export function DashboardInfo() {
   };
 
   useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        console.log('userId:', userData!.userId);
-        const res = await axios.get(`/api/site/user/${userData!.userId}`);
-        console.log('site Data:', res.data);
-        setData(() => res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getUserInfo();
-  }, []);
+  }, [userData]);
 
+  // 사이트 추가 버튼 클릭 시, 템플릿 모달 보여짐
   const showModalHandler = () => {
     dispatch({ type: 'TEMPLATE/MODAL_ON' });
   };
 
+  // ********* 확인 버튼 누르기 전에 삭제되는 문제가 있음 확인 필요 ****************
+  // 사이트 삭제 시, ConfirmModal로 확인 후 삭제
   const deleteHandler = (props: string) => {
     dispatch({
       type: 'CONFIRM/MODAL_ON',
       payload: {
         title: '삭제',
         msg: '정말 삭제하시겠습니까!',
-        action: 'deleteSite',
-        props: props,
+        onConfirm: deleteSite(props),
       },
     });
   };
 
-  const deleteSite = async () => {
+  const deleteSite = async (props: string) => {
     try {
-      console.log('siteId:', modalAction!.props);
-      await axios.delete(`/api/site/${modalAction!.props}`);
+      await axios.delete(`/api/site/${props}`);
       dispatch({ type: 'CONFIRM/MODAL_OFF' });
       dispatch({
         type: 'alertOn',
         payload: { msg: '사이트가 삭제되었습니다.' },
       });
+      getUserInfo();
     } catch (e) {
       console.log(e);
     }
   };
-
-  if (confirmState) {
-    if (modalAction!.action === 'deleteSite') {
-      console.log('사이트삭제');
-      deleteSite();
-      // 사이트 데이터 변경 시, 재랜더링
-      getUserInfo();
-    }
-  }
 
   return (
     <Container>

@@ -6,6 +6,7 @@ import Button from '../Button';
 import { MainTitle } from './MyInfo';
 // import { useDispatch } from "react-redux";
 import { useAppDispatch } from '../../reducers';
+import { CustomSelect } from './UserTable';
 
 const Container = styled.div`
   .controlBox {
@@ -20,10 +21,14 @@ const Container = styled.div`
     align-items: center;
     margin-top: 1rem;
 
-    .perPageBox {
+    .perPageBox,
+    .pagenationBox,
+    .div {
+      flex: 1;
     }
 
     .pagenationBox {
+      text-align: center;
     }
 
     .pageText {
@@ -44,7 +49,7 @@ const Container = styled.div`
 
 const SearchInput = styled.input`
   width: 300px;
-  height: 28px;
+  height: 38px;
   border: 1px solid #ececec;
   box-sizing: border-box;
   padding: 0 10px;
@@ -104,7 +109,11 @@ export default function SiteTable() {
   const [query, setQuery] = useState('');
   const [text, setText] = useState('');
   const [data, setData] = useState<any[]>([]);
-  const [option, setOption] = useState('');
+  const [option, setOption] = useState({ value: 'name', label: 'name' });
+  const options = [
+    { value: 'name', label: 'name' },
+    { value: 'domain', label: 'domain' },
+  ];
 
   const [page, setPage] = useState(1);
   const [perPage, setPerpage] = useState(10);
@@ -124,20 +133,13 @@ export default function SiteTable() {
 
   const getSites = async () => {
     const res = await axios.get(
-      `/api/admin/site?page=${page}&perPage=${perPage}&serachKey=name&serachValue=${query}`
+      `/api/admin/site?page=${page}&perPage=${perPage}&searchKey=${option.value}&searchValue=${query}`
     );
     setData(res.data.sites);
     setTotalCount(res.data.totalCount);
   };
 
   useEffect(() => {
-    const getSites = async () => {
-      const res = await axios.get(
-        `/api/admin/site?page=${page}&perPage=${perPage}&serachKey=name&serachValue=${query}`
-      );
-      setData(res.data.sites);
-      setTotalCount(res.data.totalCount);
-    };
     getSites();
   }, [query, page, perPage]);
 
@@ -152,6 +154,7 @@ export default function SiteTable() {
   const handleReset = () => {
     setText('');
     setQuery('');
+    // setOption('name'); 카테고리 이름으로 조회되게 초기화
     setPage(1);
   };
 
@@ -169,16 +172,12 @@ export default function SiteTable() {
 
       <div className="controlBox">
         <div>
-          <select
+          <CustomSelect
             name="Searchfilter"
             value={option}
-            onChange={(e) => setOption(e.target.value)}
-          >
-            <option value="">모든 카테고리</option>
-            <option value="siteName">사이트명</option>
-            <option value="domain">도메인</option>
-            <option value="name">소유자</option>
-          </select>
+            options={options}
+            onChange={(e: any) => setOption(() => e)}
+          ></CustomSelect>
         </div>
         <div>
           <form onSubmit={handleSearch} className="searchForm">
@@ -190,8 +189,12 @@ export default function SiteTable() {
               name="search-query"
               placeholder="검색어를 입력하세요"
             />
-            <Button type="submit">Search</Button>
-            <Button onClick={() => handleReset()}>Reset</Button>
+            <Button type="submit" size="medium">
+              Search
+            </Button>
+            <Button onClick={() => handleReset()} size="medium">
+              Reset
+            </Button>
           </form>
         </div>
       </div>
@@ -275,6 +278,7 @@ export default function SiteTable() {
             {'>'}
           </Button>
         </div>
+        <div className="div"></div>
       </div>
     </Container>
   );
