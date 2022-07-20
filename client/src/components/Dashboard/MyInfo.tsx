@@ -17,12 +17,14 @@ export const MainTitle = styled.div`
   font-size: 2rem;
   text-align: center;
   margin-bottom: 70px;
+  user-select: none;
 `;
 
 export const Title = styled.div`
   font-weight: 500;
   font-size: 1.5rem;
   margin-bottom: 32px;
+  user-select: none;
 `;
 
 export const ContentDiv = styled.div`
@@ -34,10 +36,11 @@ export const ContentDiv = styled.div`
 `;
 
 export const ContentTitle = styled.div`
+  flex: 1;
   font-size: 18px;
   text-align: center;
   margin-right: 28px;
-  flex: 1;
+  user-select: none;
 `;
 
 export const Content = styled.div`

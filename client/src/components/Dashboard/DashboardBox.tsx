@@ -33,6 +33,7 @@ const Table = styled.table`
   border-collapse: collapse;
   width: 1120px;
   min-height: 100px;
+  user-select: none;
 
   tbody {
     height: 120px;
@@ -66,7 +67,7 @@ const TemplateBox = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 5;
-  over-flow: hidden;
+  overflow: hidden;
 
   @media screen and (max-width: 780px) {
     flex-direction: column;
@@ -79,7 +80,7 @@ const TemplateBox = styled.div`
 
 export const ControlButton = styled(Button)`
   pointer-events: auto;
-  pointer: cursor;
+  cursor: pointer;
 
   @media screen and (max-width: 780px) {
     margin-right: 0;
@@ -139,6 +140,7 @@ export function DashboardInfo() {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
+  const profile = userData.profileImage;
   // userId 별 sites 데이터 조회
   const getUserInfo = async () => {
     try {
@@ -167,7 +169,7 @@ export function DashboardInfo() {
       type: 'CONFIRM/MODAL_ON',
       payload: {
         title: '삭제',
-        msg: '정말 삭제하시겠습니까!',
+        msg: '정말 삭제하시겠습니까?',
         onConfirm: deleteSite(props),
       },
     });

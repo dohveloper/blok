@@ -101,8 +101,8 @@ const Table = styled.table`
 `;
 
 const options = [
-  { value: 'userName', label: 'userName' },
-  { value: 'email', label: 'email' },
+  { value: 'userName', label: '이름' },
+  { value: 'email', label: '이메일' },
 ];
 
 export const CustomSelect = (props: any) => {
@@ -146,10 +146,7 @@ export default function UserTable() {
   const [query, setQuery] = useState('');
   const [text, setText] = useState('');
   const [data, setData] = useState<any[]>([]);
-  const [option, setOption] = useState({
-    value: 'userName',
-    label: 'userName',
-  });
+  const [option, setOption] = useState({ value: 'userName', label: '이름' });
 
   const [page, setPage] = useState(1);
   const [perPage, setPerpage] = useState(10);

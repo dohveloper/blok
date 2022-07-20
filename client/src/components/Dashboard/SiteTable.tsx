@@ -109,10 +109,11 @@ export default function SiteTable() {
   const [query, setQuery] = useState('');
   const [text, setText] = useState('');
   const [data, setData] = useState<any[]>([]);
-  const [option, setOption] = useState({ value: 'name', label: 'name' });
+  const [option, setOption] = useState({ value: 'name', label: '사이트명' });
   const options = [
-    { value: 'name', label: 'name' },
-    { value: 'domain', label: 'domain' },
+    { value: 'name', label: '사이트명' },
+    { value: 'domain', label: '도메인' },
+    { value: 'user.userName', label: '소유자' },
   ];
 
   const [page, setPage] = useState(1);
@@ -154,7 +155,7 @@ export default function SiteTable() {
   const handleReset = () => {
     setText('');
     setQuery('');
-    // setOption('name'); 카테고리 이름으로 조회되게 초기화
+    setOption({ value: 'name', label: '사이트명' });
     setPage(1);
   };
 
@@ -219,7 +220,7 @@ export default function SiteTable() {
                   <td>{e.name}</td>
                   <td>{e.domain}</td>
                   <td>{e.createdAt.slice(0, 10)}</td>
-                  <td>{e.userId?.userName}</td>
+                  <td>{e.user[0]?.userName}</td>
                   <td>
                     <ControlButton
                       className={'deleteButton'}

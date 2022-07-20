@@ -52,7 +52,7 @@ const ModalContainer = styled.div`
   }
   @media screen and (max-width: 780px) {
     position: absolute;
-    width: 460px;
+    width: 80%;
     height: 90%;
     padding: 30px 0;
     flex-direction: column;
@@ -120,43 +120,43 @@ const DomainContainer = styled.div`
     font-size: 18px;
     height: 80px;
   }
+  @media screen and (max-width: 780px) {
+    padding: 0 60px;
+  }
+  @media screen and (max-width: 500px) {
+    padding: 0 40px;
+  }
 `;
 
 const CustomInputDiv = styled.div`
   display: flex;
-  margin-bottom: 18px;
   flex-direction: column;
+  margin-bottom: 18px;
 
   .inputBox {
     height: 60px;
   }
 `;
 const CustomInput = styled.input`
-  flex: 2;
   width: 100%;
   height: 50px;
   font-size: 18px;
   line-height: 40px;
-  background-color: transparent;
   border: 1px solid #ececec;
   box-sizing: border-box;
   padding: 12px;
 
   @media screen and (max-width: 500px) {
-    width: 90%;
-    font-size: 14px;
+    font-size: 16px;
   }
 `;
 
 const CustomInputTitle = styled.label`
   font-size: 18px;
   line-height: 36px;
-  margin-right: 12px;
-  flex: 1;
 
   @media screen and (max-width: 500px) {
-    width: 90%;
-    font-size: 14px;
+    font-size: 16px;
   }
 `;
 
@@ -172,6 +172,7 @@ const ButtonPadiing = styled(Button)`
   display: block;
   margin: auto;
 `;
+
 type SiteData = {
   userId: string;
   name: string;
@@ -246,8 +247,6 @@ export default function TemplateModal() {
       default:
         alert('어떤 값인지 파악이 되지 않습니다.');
     }
-
-    console.log(selectedTemplate);
 
     setData((prev) => {
       return {

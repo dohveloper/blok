@@ -134,7 +134,10 @@ export default function AddModal(props: ModalProps) {
     dispatch(generateId());
     if (!result) {
       //이미 있는 블록이면 불가 경고창 띄우기(모달에 띄우는 로직 추가)
-      alert(`최대 1개까지만 추가가능한 블록입니다.`);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: '최대 1개까지만 추가가능한 블록입니다.' },
+      });
     } else {
       //추가 가능한 블록이면 추가하기
       const newBlock = {

@@ -17,6 +17,12 @@ const ContentBox = styled.div<ColorProps>`
   box-sizing: border-box;
   box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.07);
   margin: 1rem;
+  user-select: none;
+  transition: 0.3s;
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
 
   .circle {
     position: absolute;

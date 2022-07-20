@@ -50,6 +50,7 @@ const Profile = styled.div`
   position: absolute;
   bottom: 20px;
   left: 12px;
+  cursor: pointer;
 
   @media screen and (max-width: 780px) {
     display: none;
@@ -130,43 +131,43 @@ const Menu = (props: IMyProps) => {
       onMouseLeave={props.onMouseLeave}
       onMouseEnter={props.onMouseEnter}
     >
-      <Link to='/account' style={{ textDecoration: 'none' }}>
+      <Link to="/account" style={{ textDecoration: 'none' }}>
         <List>
-          <FaUserAlt color='black' />
+          <FaUserAlt color="black" />
           <span>Account</span>
         </List>
       </Link>
 
       {userData?.role === 'admin' ? (
         <>
-          <Link to='/site' style={{ textDecoration: 'none' }}>
+          <Link to="/site" style={{ textDecoration: 'none' }}>
             <List>
-              <MdOutlineSpaceDashboard color='black' />
+              <MdOutlineSpaceDashboard color="black" />
               <span>Manage Site</span>
             </List>
           </Link>
-          <Link to='/user' style={{ textDecoration: 'none' }}>
+          <Link to="/user" style={{ textDecoration: 'none' }}>
             <List>
-              <MdOutlineSpaceDashboard color='black' />
+              <MdOutlineSpaceDashboard color="black" />
               <span>Manage User</span>
             </List>
           </Link>
         </>
       ) : (
-        <Link to='/dashboard' style={{ textDecoration: 'none' }}>
+        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
           <List>
-            <MdOutlineSpaceDashboard color='black' />
+            <MdOutlineSpaceDashboard color="black" />
             <span>Dashboard</span>
           </List>
         </Link>
       )}
       <Link
-        to='/login'
+        to="/login"
         onClick={logoutHandler}
         style={{ textDecoration: 'none' }}
       >
         <List>
-          <BiLogOut color='black' />
+          <BiLogOut color="black" />
           <span>Logout</span>
         </List>
       </Link>
@@ -179,9 +180,9 @@ export default function Sidebar() {
 
   return (
     <Nav>
-      <div className='navbarLogo'>
-        <Link to='/'>
-          <img src={logoImg} alt='logo' width={49} height={43} />
+      <div className="navbarLogo">
+        <Link to="/">
+          <img src={logoImg} alt="logo" width={49} height={43} />
         </Link>
       </div>
       <Hamburger onClick={() => setIsMobile(true)}>
@@ -191,7 +192,7 @@ export default function Sidebar() {
         onMouseEnter={() => setIsMobile(true)}
         onMouseLeave={() => setIsMobile(false)}
       >
-        <FaRegUserCircle size='48' color='#CCCCCC' />
+        <FaRegUserCircle size="48" color="#CCCCCC" />
       </Profile>
       {isMobile && (
         <Menu
