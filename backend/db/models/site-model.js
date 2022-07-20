@@ -69,7 +69,7 @@ export class SiteModel {
     return totalCount;
   }
 
-  async pagenation(page, perPage, searchKey, searchValue) {
+  async pagination(page, perPage, searchKey, searchValue) {
     const sites = await Site.aggregate([
       {
         $match: {

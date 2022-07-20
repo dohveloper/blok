@@ -3,7 +3,7 @@ import {
   oauthBlocker,
   adminRequired,
   errorHandler,
-  multer,
+  upload,
 } from "../middlewares";
 import { JWT_COOKIE_KEY } from "../utils";
 import { AUTH_ENUM } from "../passport";
@@ -11,23 +11,9 @@ import { ForbiddenError } from "../errors";
 
 let res, next;
 beforeEach(() => {
-  res = {
-    status: jest.fn(() => res),
-    json: jest.fn(),
-  };
+  res = {};
   next = jest.fn();
 });
-// describe("LoginRequired", () => {
-//   test('로그인되어 있다면 passport.authenticate("jwt")를 리턴해야 함', () => {
-//     const req = {
-//       cookies: jest.fn(() => {
-//         return { [JWT_COOKIE_KEY]: true };
-//       }),
-//     };
-//     loginRequired(req, res, next);
-//     expect(next).toBeCalledTimes(1);
-//   });
-// });
 
 describe("oauthBlocker", () => {
   test("oauth 계정인 경우 next를 호출한다.", () => {
@@ -73,4 +59,9 @@ describe("adminRequired", () => {
   });
 });
 
-// describe("oauthBlocker", () => {});
+// describe("LoginRequired", () => {
+// });
+// describe("errorHandler", () => {
+// });
+// describe("upload", () => {
+// });

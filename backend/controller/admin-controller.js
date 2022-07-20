@@ -3,17 +3,17 @@ import { asyncHandler, s3Uploadv2 } from "../utils";
 import { BadRequestError } from "../errors";
 
 const adminController = {
-  getUsersInfoByPagenation: asyncHandler(async (req, res) => {
+  getUsersInfoByPagination: asyncHandler(async (req, res) => {
     const page = Number(req.query.page || 1);
     const perPage = Number(req.query.perPage || 10);
     const { searchKey, searchValue } = req.query;
-    const [totalCount, users] = await adminService.getUsersInfoByPagenation(
-      page,
-      perPage,
-      searchKey,
-      searchValue
-    );
-    const totalPage = Math.ceil(totalCount / perPage);
+    const [totalCount, totalPage, users] =
+      await adminService.getUsersInfoByPagination(
+        page,
+        perPage,
+        searchKey,
+        searchValue
+      );
     res.ok(200, { page, perPage, totalPage, totalCount, users });
   }),
 
@@ -23,11 +23,11 @@ const adminController = {
     res.ok(200, user);
   }),
 
-  getSitesByPagenation: asyncHandler(async (req, res) => {
+  getSitesByPagination: asyncHandler(async (req, res) => {
     const page = Number(req.query.page || 1);
     const perPage = Number(req.query.perPage || 10);
     const { searchKey, searchValue } = req.query;
-    const [totalCount, sites] = await adminService.getSitesByPagenation(
+    const [totalCount, sites] = await adminService.getSitesByPagination(
       page,
       perPage,
       searchKey,
@@ -44,26 +44,20 @@ const adminController = {
   }),
 
   editUserInfo: asyncHandler(async (req, res) => {
-    const userId = req.params.userId;
-    let toUpdateUser = {
-      ...req.body,
-    };
-    if (toUpdateUser.email) {
+    if (req.body.email) {
       throw new BadRequestError("이메일은 변경할 수 없습니다.");
     }
+    let profileImage = req.body.profileImage;
+    const userId = req.params.userId;
     if (req.file) {
       const results = await s3Uploadv2(req.file);
-      const profileImage = results.Location;
-      toUpdateUser = {
-        ...toUpdateUser,
-        profileImage,
-      };
+      profileImage = results.Location;
     }
-    if (req.body.profileImage === "") {
-      toUpdateUser = {
-        ...toUpdateUser,
-        profileImage: null,
-      };
+    const toUpdateUser = {
+      ...req.body,
+    };
+    if (profileImage !== undefined) {
+      toUpdateUser.profileImage = profileImage;
     }
     const updatedUser = await adminService.editUserInfo(userId, toUpdateUser);
     res.ok(201, updatedUser);

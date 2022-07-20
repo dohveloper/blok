@@ -67,26 +67,31 @@ export class UserModel {
   }
 
   async countTotalUsers(searchKey, searchValue) {
-    const totalCount = await User.countDocuments({
-      [searchKey]: { $regex: searchValue, $options: "i" },
-    });
+    let pipeline;
+    if (searchKey && searchValue) {
+      pipeline = { [searchKey]: { $regex: searchValue, $options: "i" } };
+    }
+    const totalCount = await User.countDocuments(pipeline);
     return totalCount;
   }
 
-  async pagenation(page, perPage, searchKey, searchValue) {
-    const users = await User.aggregate([
-      {
-        $match: {
-          [searchKey]: { $regex: searchValue, $options: "i" },
-        },
-      },
+  async pagination(page, perPage, searchKey, searchValue) {
+    let pipeline = [
       {
         $addFields: {
           userId: "$_id",
         },
       },
       { $project: { _id: 0 } },
-    ])
+    ];
+    if (searchKey && searchValue) {
+      pipeline.push({
+        $match: {
+          [searchKey]: { $regex: searchValue, $options: "i" },
+        },
+      });
+    }
+    const users = await User.aggregate(pipeline)
       .sort({ createdAt: -1 })
       .skip(perPage * (page - 1))
       .limit(perPage);

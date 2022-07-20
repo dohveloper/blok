@@ -4,10 +4,10 @@ import { upload } from "../middlewares";
 
 const adminRouter = Router();
 
-adminRouter.get("/user", adminController.getUsersInfoByPagenation);
+adminRouter.get("/user", adminController.getUsersInfoByPagination);
 adminRouter.get("/user/:userId", adminController.getUserInfo);
 
-adminRouter.get("/site", adminController.getSitesByPagenation);
+adminRouter.get("/site", adminController.getSitesByPagination);
 adminRouter.delete("/site/:siteId", adminController.deleteSite);
 
 adminRouter.patch(

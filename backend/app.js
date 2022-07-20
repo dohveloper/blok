@@ -31,11 +31,6 @@ passportStrategies();
 
 app.use(express.json());
 
-// 테스팅용 라우터, 제거예정
-app.get("/", function (req, res) {
-  res.send("<h1>welcome page</h1>");
-});
-
 app.use(passport.initialize());
 
 app.use((req, res, next) => {

@@ -8,10 +8,22 @@ const userController = {
   register: asyncHandler(async (req, res) => {
     if (is.emptyObject(req.body)) {
       throw new BadRequestError(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
+        "입력값이 비어있습니다! 다시 한번 확인해주세요."
       );
     }
-    // { userName, email, password }
+    const { userName, email, password } = req.body;
+    if (
+      !email.match(
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+      )
+    ) {
+      throw new BadRequestError(
+        "이메일 형식이 올바르지 않습니다. 다시 한번 확인해 주세요."
+      );
+    }
+    if (password.length < 6) {
+      throw new BadRequestError("비밀번호의 길이는 6자리 이상이어야 합니다");
+    }
     const newUser = await userService.addUser({
       ...req.body,
     });
@@ -21,7 +33,7 @@ const userController = {
   resetPassword: asyncHandler(async (req, res) => {
     if (is.emptyObject(req.body)) {
       throw new BadRequestError(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
+        "입력값이 비어있습니다! 다시 한번 확인해주세요."
       );
     }
     const { userName, email } = req.body;
@@ -90,6 +102,9 @@ const userController = {
       throw new BadRequestError(
         "정보를 변경하려면, 현재의 비밀번호가 필요합니다."
       );
+    }
+    if (toEditPassword.length < 6) {
+      throw new BadRequestError("비밀번호의 길이는 6자리 이상이어야 합니다");
     }
     const userInfoRequired = { userId, currentPassword };
     const toUpdate = { password: toEditPassword };

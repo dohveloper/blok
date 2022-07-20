@@ -1,7 +1,7 @@
-import { authController } from "../controller";
-import { oauthBlocker } from "../middlewares";
 import { Router } from "express";
 import passport from "passport";
+import { authController } from "../controller";
+import { oauthBlocker } from "../middlewares";
 
 const authRouter = Router();
 
