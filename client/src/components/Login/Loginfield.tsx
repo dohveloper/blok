@@ -136,7 +136,7 @@ function Loginfield() {
   useEffect(() => {
     async function loginCheck() {
       const res = await axios.get('/api/user/logincheck');
-      if (res.data.userid) {
+      if (res.data.userId) {
         if (res.data.passwordReset) {
           nav('/changepassword');
         }
