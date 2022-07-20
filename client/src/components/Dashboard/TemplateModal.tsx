@@ -9,21 +9,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useAppSelector, useAppDispatch } from '../../reducers';
 
-<<<<<<< HEAD
-const PxtoVw = (px: number) => {
-  return (100 * px) / 780 + 'vw';
-};
-const RemVw = (px: number, rem: number) => {
-  return (rem * 100 * px) / 780 + 'vw';
-};
-=======
 // const PxtoVw = (px: number) => {
 //   return (100 * px) / 780 + 'vw';
 // };
 // const RemtoVw = (px: number, rem: number) => {
 //   return (rem * 100 * px) / 780 + 'vw';
 // };
->>>>>>> front
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -60,13 +51,6 @@ const ModalContainer = styled.div`
     }
   }
   @media screen and (max-width: 780px) {
-<<<<<<< HEAD
-    max-height: 100%;
-    overflow-y: auto;
-    width: PxtoVw(660);
-    height: PxtoVw(520);
-    border-radius: PxtoVw(10);
-=======
     position: absolute;
     width: 460px;
     height: 90%;
@@ -74,7 +58,6 @@ const ModalContainer = styled.div`
     flex-direction: column;
     overflow-y: scroll;
     box-sizing: border-box;
->>>>>>> front
   }
 `;
 
