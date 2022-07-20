@@ -21,14 +21,14 @@ function Hero({ data, onRemove }: Hero) {
       <Card title="Hero" pinned onRemove={onRemove}>
         <TextInput
           title="메뉴명"
-          required={true}
+          required
           onChange={setInput}
           guideline="네비게이션 바에 입력될 메뉴명을 입력하세요."
           value={data.navTitle}
         ></TextInput>
         <CustomSelect
           title="스타일"
-          required={true}
+          required
           guideline="스타일를 선택해주세요."
           placeholder="원하는 선택지를 선택해주세요"
           options={options}

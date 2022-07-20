@@ -20,7 +20,7 @@ function Navbar({ data, onRemove }: Navbar) {
       <Card title="Navbar" pinned onRemove={onRemove}>
         <CustomSelect
           title="스타일"
-          required={true}
+          required
           guideline="스타일를 선택해주세요."
           placeholder="원하는 선택지를 선택해주세요"
           options={options}
@@ -32,7 +32,7 @@ function Navbar({ data, onRemove }: Navbar) {
         <ImgInput title="로고 이미지" guideline="가능한 포맷: .jpg, .png" />
         <TextInput
           title="로고 텍스트"
-          required={true}
+          required
           onChange={setInput}
           guideline="로고이미지가 없을시 입력될 로고 텍스트를 입력하세요."
           value={data?.logoText?.value}

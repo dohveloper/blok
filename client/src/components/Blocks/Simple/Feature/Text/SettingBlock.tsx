@@ -46,7 +46,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
       <Card title='Feature' onRemove={onRemove}>
         <TextInput
           title='메뉴명'
-          required={true}
+          required
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setNavTitle(e.target.value);
             dispatch(
@@ -62,7 +62,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
         ></TextInput>
         <CustomSelect
           title='스타일'
-          required={true}
+          required
           guideline='스타일를 선택해주세요.'
           placeholder='원하는 선택지를 선택해주세요'
           options={styleOptions}
