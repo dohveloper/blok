@@ -1,28 +1,20 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
+import { useAppSelector } from '../../../../reducers';
+import { selectBlockById } from '../../../../reducers/SiteReducer';
+import { SiteBlockProps } from '../../blockValidator';
 const REM = 16;
-SiteBlock.defaultProps = {
-  data: {
-    title: '보유 기술 스택',
-    intro: ['javascript', 'java', 'typescript', 'react', 'node'],
-  },
-  style: '왼쪽',
 
-  colorSet: {
-    primary: '#482924',
-    secondary: '#123456',
-    background: '#123456',
-    surface: '#123456',
-  },
-};
+export default function SiteBlock(props: SiteBlockProps) {
+  const { blockId } = props;
+  const { data } = useAppSelector((state) => selectBlockById(state, blockId));
+  const colorSet = useAppSelector((state) => state.site.colorSet);
+  const font = useAppSelector((state) => state.site.font);
 
-export default function SiteBlock(props: any) {
   const Container = styled.div`
-    background-color: ${props.colorSet.background};
-    font-family: ${props.font};
-    color: ${props.colorSet.surface};
-    font-family: 'Roboto';
-    background-color: #fff;
+    background-color: ${colorSet.background};
+    font-family: ${font};
+    color: ${colorSet.surface};
     display: flex;
     width: 90%;
     padding: 2rem 0;
@@ -60,14 +52,20 @@ export default function SiteBlock(props: any) {
 
   const Skill = styled.div`
     box-sizing: border-box;
-    padding: 5px 8px;
+    padding: 0.33rem 1rem;
     background-color: #f0f1f3;
-    margin: 0 1px;
-    border-radius: 10px;
+    margin: 0 0.19rem;
+    border-radius: 1rem;
+    margin-bottom: 0.2rem;
+    @media screen and (max-width: 1120px) {
+      padding: ${RemtoVw(REM, 0.33)} ${RemtoVw(REM, 1)};
+      border-radius: ${RemtoVw(REM, 1)};
+      margin-bottom: ${RemtoVw(REM, 0.2)};
+      font-size: ${RemtoVw(REM, 1.1)};
+      margin-bottom: ${RemtoVw(REM, 0.6)};
+    }
   `;
 
-  const data = props.data;
-  console.log(props);
   const skills = (data: any) => {
     const arr = [];
     for (let i = 0; i < data.length; i++) {
@@ -77,8 +75,8 @@ export default function SiteBlock(props: any) {
   };
   return (
     <Container>
-      <Title>{data.title}</Title>
-      <Intro>{skills(data.intro)}</Intro>
+      <Title>{data.title?.value}</Title>
+      <Intro>{skills(data.arrText?.value)}</Intro>
     </Container>
   );
 }

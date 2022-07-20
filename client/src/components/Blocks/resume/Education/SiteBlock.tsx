@@ -1,26 +1,16 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
+import { useAppSelector } from '../../../../reducers';
+import { selectBlockById } from '../../../../reducers/SiteReducer';
+import { SiteBlockProps } from '../../blockValidator';
 
 const REM = 16;
+export default function SiteBlock(props: SiteBlockProps) {
+  const { blockId } = props;
+  const { data } = useAppSelector((state) => selectBlockById(state, blockId));
+  const colorSet = useAppSelector((state) => state.site.colorSet);
+  const font = useAppSelector((state) => state.site.font);
 
-SiteBlock.defaultProps = {
-  data: {
-    title: '학력',
-    educationtitle: '엘리스 대학교',
-    role: '프론트 엔드 비전공 (학사)',
-    term: '2022년 4월 ~ 2022년 7월',
-  },
-  style: '왼쪽',
-
-  colorSet: {
-    primary: '#482924',
-    secondary: '#123456',
-    background: '#123456',
-    surface: '#123456',
-  },
-};
-
-export default function SiteBlock(props: any) {
   const Educationbox = styled.div`
     padding: 1.7rem 1.7rem;
     border-bottom: 1px #7a7b7c solid;
@@ -29,11 +19,9 @@ export default function SiteBlock(props: any) {
     }
   `;
   const Container = styled.div`
-    background-color: ${props.colorSet.background};
-    font-family: ${props.font};
-    color: ${props.colorSet.surface};
-    font-family: 'Roboto';
-    background-color: #fff;
+    background-color: ${colorSet.background};
+    font-family: ${font};
+    color: ${colorSet.surface};
     display: flex;
     width: 90%;
     padding: 2rem 0;
@@ -106,21 +94,14 @@ export default function SiteBlock(props: any) {
     }
   `;
 
-  const data = props.data;
-  console.log(props);
   return (
     <Container>
-      <Title>{data.title}</Title>
+      <Title>{data.title?.value}</Title>
       <Intro>
         <Educationbox>
-          <CareerTitle>{data.educationtitle}</CareerTitle>
-          <CareerRole>{data.role}</CareerRole>
-          <CareerTerm>{data.term}</CareerTerm>
-        </Educationbox>
-        <Educationbox>
-          <CareerTitle>{data.educationtitle}</CareerTitle>
-          <CareerRole>{data.role}</CareerRole>
-          <CareerTerm>{data.term}</CareerTerm>
+          <CareerTitle>{data.leftText?.value}</CareerTitle>
+          <CareerRole>{data.rightText?.value}</CareerRole>
+          <CareerTerm>{data.caption?.value}</CareerTerm>
         </Educationbox>
       </Intro>
     </Container>

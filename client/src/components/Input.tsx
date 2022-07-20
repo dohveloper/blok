@@ -7,6 +7,11 @@ const Width100 = styled.div`
   margin-top: 28px;
 `;
 
+const Widthflex = styled.form`
+  width: 100%;
+  display: flex;
+`;
+
 const Width90 = styled.div`
   width: 257px;
   margin-top: 28px;
@@ -47,6 +52,18 @@ const PreviewImg = styled.img`
   width: 100px;
 `;
 
+const ArrButton = styled.button`
+  font-size: 16px;
+  line-height: 19px;
+  width: 7rem;
+  height: 48px;
+  margin-left: 5px;
+  border: 1px solid #ececec;
+  box-sizing: border-box;
+  padding: 12px 19px;
+  border-radius: 5px;
+`;
+
 interface ImgInputprops {
   title?: string;
   required?: boolean;
@@ -65,12 +82,27 @@ interface Inputprops {
   required?: boolean;
   placeholder?: string;
   onChange?: any;
+  onKeyPress?: any;
   guideline?: string;
   value?: string | null;
   ref?: React.RefObject<HTMLInputElement>;
   defaultValue?: string;
   key?: string;
   type?: string;
+}
+interface InputArrprops {
+  title?: string;
+  required?: boolean;
+  placeholder?: string;
+  onChange?: any;
+  onClick?: any;
+  onKeyPress?: any;
+  guideline?: string;
+  value?: any;
+
+  key?: string;
+  type?: string;
+  arr?: any;
 }
 
 export const Input = styled.input`
@@ -123,6 +155,42 @@ export const TextInput = forwardRef<HTMLInputElement, Inputprops>(
           ref={ref}
           defaultValue={props.defaultValue}
         />
+        {props.guideline ? (
+          <Guideline>{props.guideline}</Guideline>
+        ) : (
+          <DisplayNone />
+        )}
+      </Width100>
+    );
+  }
+);
+
+export const ArrInput = forwardRef<HTMLInputElement, InputArrprops>(
+  (props: InputArrprops, ref) => {
+    return (
+      <Width100>
+        {props.title ? (
+          <Label required={props.required}>
+            {props.title}
+            <Required>*</Required>
+          </Label>
+        ) : (
+          <DisplayNone />
+        )}
+        <Widthflex>
+          <Input
+            placeholder={
+              props.placeholder
+                ? props.placeholder
+                : '안에 들어갈 내용을 입력하세요'
+            }
+            onChange={props.onChange}
+            key={props.key}
+            value={props.value}
+          />
+          <ArrButton onClick={props.onClick}>추가하기</ArrButton>
+        </Widthflex>
+        {props.arr}
         {props.guideline ? (
           <Guideline>{props.guideline}</Guideline>
         ) : (
@@ -302,10 +370,10 @@ export const ImgInput = forwardRef<HTMLInputElement, ImgInputprops>(
         <InputImg
           key={props.key}
           ref={ref}
-          type="file"
-          className="imgInput"
-          accept="image/*"
-          name="file"
+          type='file'
+          className='imgInput'
+          accept='image/*'
+          name='file'
           onChange={onImgChange}
         />
         {props.guideline ? (

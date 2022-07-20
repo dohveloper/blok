@@ -1,10 +1,18 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
-export default function SiteBlock(props: any) {
+import { useAppSelector } from '../../../../reducers';
+import { selectBlockById } from '../../../../reducers/SiteReducer';
+import { SiteBlockProps } from '../../blockValidator';
+export default function SiteBlock(props: SiteBlockProps) {
+  const { blockId } = props;
+  const { data } = useAppSelector((state) => selectBlockById(state, blockId));
+  const colorSet = useAppSelector((state) => state.site.colorSet);
+  const font = useAppSelector((state) => state.site.font);
+
   const NavBarContainer = styled.div`
-    background-color: ${props.colorSet.background};
-    font-family: ${props.font};
-    color: ${props.colorSet.surface};
+    background-color: ${colorSet.background};
+    font-family: ${font};
+    color: ${colorSet.surface};
     font-family: 'Roboto';
     background-color: #ffffff;
     display: flex;
@@ -32,7 +40,7 @@ export default function SiteBlock(props: any) {
     font-weight: 900;
     font-size: 2rem;
     margin-left: 0.75rem;
-    color: #000000;
+    font-family: ${font};
     @media screen and (max-width: 1120px) {
       font-size: ${RemtoVw(16, 2)};
       margin-left: ${RemtoVw(16, 0.75)};
@@ -42,13 +50,10 @@ export default function SiteBlock(props: any) {
   return (
     <NavBarContainer>
       <LogoBox>
-        <LogoImg
-          src={props.data.logoImage.src}
-          alt={props.data.logoText.value}
-        />
-        <LogoTitle>{props.data.navTitle}</LogoTitle>
+        <LogoImg src={data.logoImage?.src} alt={data.logoImage?.alt} />
+        <LogoTitle>{data.logoText?.value}</LogoTitle>
       </LogoBox>
-      {props.data.logoText.value}
+      {data.navTitle}
     </NavBarContainer>
   );
 }

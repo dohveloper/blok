@@ -1,21 +1,19 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
+import { useAppSelector } from '../../../../reducers';
+import { selectBlockById } from '../../../../reducers/SiteReducer';
+import { SiteBlockProps } from '../../blockValidator';
 
-type colorSetProps = {
-  colorSet: {
-    primary: string;
-    secondary: string;
-    background: string;
-    surface: string;
-  };
-};
-export default function SiteBox(props: any) {
+export default function SiteBox(props: SiteBlockProps) {
+  const { blockId } = props;
+  const { data } = useAppSelector((state) => selectBlockById(state, blockId));
+  const colorSet = useAppSelector((state) => state.site.colorSet);
+  const font = useAppSelector((state) => state.site.font);
   const Container = styled.div`
-    background-color: ${props.colorSet.background};
-    font-family: ${props.font};
-    color: ${props.colorSet.surface};
-    font-family: 'Roboto';
-    background-color: #f7f7f9;
+    background-color: ${colorSet.background};
+    font-family: ${font};
+    color: ${colorSet.surface};
+
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -26,7 +24,7 @@ export default function SiteBox(props: any) {
     padding: 5rem 2rem;
   `;
 
-  const HeroMenuName = styled.div<{ colorSet?: colorSetProps }>`
+  const HeroMenuName = styled.div`
     color: #2420e1;
     font-weight: 900;
     font-size: 1.2rem;
@@ -37,7 +35,7 @@ export default function SiteBox(props: any) {
     }
   `;
 
-  const HeadLine = styled.div<{ colorSet?: colorSetProps }>`
+  const HeadLine = styled.div`
     color: #000000;
     font-weight: 700;
     font-size: 2.7rem;
@@ -48,7 +46,7 @@ export default function SiteBox(props: any) {
       line-height: ${RemtoVw(16, 5)};
     }
   `;
-  const HeadLineText = styled.div<{ colorSet?: colorSetProps }>`
+  const HeadLineText = styled.div`
     font-weight: 500;
     font-size: 1.2rem;
     line-height: 1.5rem;
@@ -61,8 +59,8 @@ export default function SiteBox(props: any) {
       margin-top: ${RemtoVw(16, 1.3)};
     }
   `;
-  const Button = styled.a<{ colorSet?: colorSetProps }>`
-    background: ${(props) => props.colorSet?.colorSet.background || '#2420e1'};
+  const Button = styled.a`
+    background: ${colorSet?.background || '#2420e1'};
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
     font-size: 1rem;
@@ -83,14 +81,14 @@ export default function SiteBox(props: any) {
       margin-top: ${RemtoVw(16, 1.3)};
     }
   `;
-  const data = props.data;
+
   return (
     <>
-      <Container id={props.data.navTitle}>
-        <HeroMenuName>{data.caption.value}</HeroMenuName>
-        <HeadLine>{data.header.value}</HeadLine>
-        <HeadLineText>{data.body.value}</HeadLineText>
-        <Button href={data.button.url}>{data.button.title}</Button>
+      <Container key={`${data.navTitle}-${blockId}`}>
+        <HeroMenuName>{data.caption?.value}</HeroMenuName>
+        <HeadLine>{data.header?.value}</HeadLine>
+        <HeadLineText>{data.body?.value}</HeadLineText>
+        <Button href={data.button?.url}>{data.button?.title}</Button>
       </Container>
     </>
   );

@@ -1,24 +1,20 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
+import { useAppSelector } from '../../../../reducers';
+import { selectBlockById } from '../../../../reducers/SiteReducer';
+import { SiteBlockProps } from '../../blockValidator';
 const REM = 16;
-SiteBlock.defaultProps = {
-  data: { title: '나는 프론트엔트 엔지니어' },
-  style: '왼쪽',
 
-  colorSet: {
-    primary: '#482924',
-    secondary: '#123456',
-    background: '#123456',
-    surface: '#123456',
-  },
-};
+export default function SiteBlock(props: SiteBlockProps) {
+  const { blockId } = props;
+  const { data } = useAppSelector((state) => selectBlockById(state, blockId));
+  const colorSet = useAppSelector((state) => state.site.colorSet);
+  const font = useAppSelector((state) => state.site.font);
 
-export default function SiteBlock(props: any) {
   const Container = styled.div`
-    font-family: ${props.font};
-    color: ${props.colorSet.surface};
-    font-family: 'Roboto';
-    background-color: ${props.colorSet.background};
+    background-color: ${colorSet.background};
+    font-family: ${font};
+    color: ${colorSet.surface};
     display: flex;
     align-items: center;
     width: 100%;
@@ -32,22 +28,20 @@ export default function SiteBlock(props: any) {
     }
   `;
 
-  const Title = styled.div<{ colorSet: any }>`
+  const Title = styled.div`
     font-weight: 700;
     font-size: 3rem;
     margin-left: 1rem;
-    color: ${(props) => props.colorSet.primary && '#fff'};
+    color: ${colorSet.primary && '#fff'};
     @media screen and (max-width: 1120px) {
       font-size: ${RemtoVw(REM, 2)};
       margin-left: ${RemtoVw(REM, 0.75)};
     }
   `;
 
-  const data = props.data;
-  console.log(props);
   return (
     <Container>
-      <Title colorSet={props.colorSet}>{data.title}</Title>
+      <Title>{data.title?.value}</Title>
     </Container>
   );
 }

@@ -12,12 +12,23 @@ import User from './User.png';
 import Close from './x.png';
 import Pin from './pinned.png';
 import LinkTag from './LinkTag.png';
+import Education from './Education.png';
+import Career from './Career.png';
+import Project from './Project.png';
+import Skillset from './Skillset.png';
+import Introduce from './Introduce.png';
+import x from './x.png';
 import BlockFeature from './blockCreation/feature.png';
 import BlockFooter from './blockCreation/footer.png';
 import BlockHome from './blockCreation/home.png';
 import BlockNav from './blockCreation/navbar.png';
 
 export {
+  Introduce,
+  Skillset,
+  Project,
+  Education,
+  Career,
   User,
   Trash,
   Navbar,
@@ -36,4 +47,5 @@ export {
   BlockFooter,
   BlockFeature,
   LinkTag,
+  x,
 };

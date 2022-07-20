@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { TextInput, CustomSelect, ImgInput } from '../../../Input';
+import { TextInput, CustomSelect } from '../../../Input';
 import { Card } from '../../../Card/Card';
-import * as icon from '../../../../icons';
 import { getStyleOptions } from '../../blockHelper';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -10,6 +9,7 @@ import {
 } from '../../../../reducers/SiteReducer';
 import type { RootState } from '../../../../reducers/store';
 import { SettingBlockProps } from '../../blockValidator';
+import * as icons from '../../../../icons';
 
 function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const {
@@ -24,25 +24,12 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
     label: data.style?.value,
     value: data.style?.value,
   });
-  const [Logo, setLogo] = useState(data.logoText?.value);
-  const [image, setImage] = useState<any>(data.logoImage);
-  const onImgChange = async (event: any) => {
-    // setImgLoading(true);
-    setImage(URL.createObjectURL(event.target.files[0]));
-    // const response = axios.post(URL.createObjectURL(event.target.files[0]))
-    // setImgLoading(false);
-    dispatch(
-      updateBlockData({
-        blockId: id,
-        field: 'logoImage',
-        value: { url: URL.createObjectURL(event.target.files[0]) },
-      })
-    );
-  };
-  console.log(data);
+  const [title, setTitle] = useState(data.title?.value);
+  const [body, setbody] = useState(data.body?.value);
+
   return (
     <>
-      <Card title='Navbar' pinned onRemove={onRemove} icon={icon.Navbar}>
+      <Card title='Skillset' pinned onRemove={onRemove} icon={icons.Introduce}>
         <CustomSelect
           title='스타일'
           required={true}
@@ -57,24 +44,33 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
           value={style}
         />
-        <ImgInput
-          title='로고 이미지'
-          guideline='가능한 포맷: .jpg, .png'
-          src={image?.src}
-          alt={image?.alt}
-          onChange={onImgChange}
-        />
         <TextInput
-          title='텍스트'
+          title='타이틀'
           required={true}
           guideline='텍스트를 입력해주세요'
-          value={Logo}
+          value={title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setLogo(e.target.value);
+            setTitle(e.target.value);
             dispatch(
               updateBlockData({
                 blockId: id,
-                field: 'logoText',
+                field: 'title',
+                value: { value: e.target.value },
+              })
+            );
+          }}
+        ></TextInput>
+        <TextInput
+          title='소개글'
+          required={true}
+          guideline='텍스트를 입력해주세요'
+          value={body}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setbody(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'body',
                 value: { value: e.target.value },
               })
             );

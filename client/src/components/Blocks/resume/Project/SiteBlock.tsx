@@ -1,39 +1,21 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
 import { LinkTag } from '../../../../icons';
+import { useAppSelector } from '../../../../reducers';
+import { selectBlockById } from '../../../../reducers/SiteReducer';
+import { SiteBlockProps } from '../../blockValidator';
 
 const REM = 16;
-SiteBlock.defaultProps = {
-  data: {
-    title: '프로젝트',
-    skills: ['javascript', 'typescript', 'react', 'node'],
-    paraphrase: `엘리스 SW 엔지니어 트랙이란? 엘리스 SW 엔지니어 트랙은 4개월 간 웹 개발 이론, 실무 프로젝트 경험,
-    취업 역량을 모두 쌓아 신입 웹 개발자로 매칭되는 풀코스 교육입니다.
-    1. 현업에서 사용하는 최신 기술 스택을 집중적으로 학습하고,
-    2. 두 번의 팀 프로젝트를 거쳐 실무에 강한 신입 인재로 성장하고,
-    3. 원하는 IT 로켓 스타트업에 채용 매칭까지 받고 싶다면 지금 바로 엘리스 SW 엔지니어 트랙에 합류하세요!`,
-    projecttitle: '엘리스 2차 프로젝트 블록',
-    projectrole: '프론트 엔드 개발',
-    projectterm: '2022년 6월 29일 ~ 2022년 7월 22일',
-    url: 'https://www.naver.com',
-  },
-  style: '왼쪽',
+export default function SiteBlock(props: SiteBlockProps) {
+  const { blockId } = props;
+  const { data } = useAppSelector((state) => selectBlockById(state, blockId));
+  const colorSet = useAppSelector((state) => state.site.colorSet);
+  const font = useAppSelector((state) => state.site.font);
 
-  colorSet: {
-    primary: '#482924',
-    secondary: '#123456',
-    background: '#123456',
-    surface: '#123456',
-  },
-};
-
-export default function SiteBlock(props: any) {
   const Container = styled.div`
-    background-color: ${props.colorSet.background};
-    font-family: ${props.font};
-    color: ${props.colorSet.surface};
-    font-family: 'Roboto';
-    background-color: #fff;
+    background-color: ${colorSet.background};
+    font-family: ${font};
+    color: ${colorSet.surface};
     display: flex;
     width: 90%;
     padding: 2rem 0;
@@ -163,8 +145,6 @@ export default function SiteBlock(props: any) {
     }
   `;
 
-  const data = props.data;
-  console.log(props);
   const skills = (data: any) => {
     const arr = [];
     for (let i = 0; i < data.length; i++) {
@@ -174,17 +154,19 @@ export default function SiteBlock(props: any) {
   };
   return (
     <Container>
-      <Title>{data.title}</Title>
+      <Title>{data.title?.value}</Title>
       <Intro>
-        <CareerTitle>{data.projecttitle}</CareerTitle>
-        <CareerRole>{data.projectrole}</CareerRole>
-        <CareerTerm>{data.projectterm}</CareerTerm>
+        <CareerTitle>{data.leftText?.value}</CareerTitle>
+        <CareerRole>{data.rightText?.value}</CareerRole>
+        <CareerTerm>{data.caption?.value}</CareerTerm>
         <Skills>{skills(data.skills)}</Skills>
-        <Careerparaphrase>{data.paraphrase}</Careerparaphrase>
-        <Link href={data.url} target='_blank'>
-          <LinkImg src={LinkTag} />
-          {data.url}
-        </Link>
+        <Careerparaphrase>{data.body?.value}</Careerparaphrase>
+        {data.button?.url && (
+          <Link href={data.button?.url} target='_blank'>
+            <LinkImg src={LinkTag} />
+            {data.button?.url}
+          </Link>
+        )}
       </Intro>
     </Container>
   );

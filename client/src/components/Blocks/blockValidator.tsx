@@ -35,7 +35,8 @@ export type BlockDataOptions =
   | TextData
   | ImageData
   | StyleData
-  | ButtonData;
+  | ButtonData
+  | ArrData;
 
 export interface BlockData {
   [key: string]: any;
@@ -51,6 +52,7 @@ export interface BlockData {
   button?: ButtonData;
   rightText?: TextData;
   leftText?: TextData;
+  arrText?: ArrData;
 }
 export interface StyleData {
   value: string;
@@ -65,6 +67,9 @@ export interface TextData {
 export interface ButtonData {
   title?: string;
   url?: string;
+}
+export interface ArrData {
+  value?: string[];
 }
 
 //Block Preset
