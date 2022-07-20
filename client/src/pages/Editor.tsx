@@ -34,7 +34,7 @@ const MobileContainer = styled.div`
     justify-content: center;
     align-items: center;
     font-family: 'Elice Digital Baeum', sans-serif;
-    font-size: 30px;
+    font-size: 4vw;
   }
 `;
 

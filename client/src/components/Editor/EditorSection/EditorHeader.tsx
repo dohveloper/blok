@@ -84,7 +84,7 @@ export default function PublishBar() {
 
   async function copyHandler() {
     try {
-      await navigator.clipboard.writeText(domain);
+      await navigator.clipboard.writeText('block.com/' + domain);
       msg = '클립보드에 복사되었습니다.';
     } catch (e) {
       console.log(e);
