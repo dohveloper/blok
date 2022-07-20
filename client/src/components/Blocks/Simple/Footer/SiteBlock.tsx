@@ -31,6 +31,7 @@ export default function SiteBlock(props: SiteBlockProps) {
   const { data } = useSelector((state: RootState) =>
     selectBlockById(state, blockId)
   );
+  
   const colorSet = useSelector((state: RootState) => state.site.colorSet);
   const font = useSelector((state: RootState) => state.site.font);
 

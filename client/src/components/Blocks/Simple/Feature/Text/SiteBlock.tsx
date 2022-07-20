@@ -116,16 +116,18 @@ export default function SiteBlock(props: SiteBlockProps) {
           {data.caption?.value && (
             <Caption colorSet={colorSet}>{data.caption.value}</Caption>
           )}
-          {data.header?.value &&
-            (data.headerHighlight ? (
-              highlightHandler(
-                data.header.value,
-                data.headerHighlight.value,
-                colorSet
-              )
-            ) : (
-              <Header>{data.header.value}</Header>
-            ))}
+          <div>
+            {data.header?.value &&
+              (data.headerHighlight ? (
+                highlightHandler(
+                  data.header.value,
+                  data.headerHighlight.value,
+                  colorSet
+                )
+              ) : (
+                <Header>{data.header.value}</Header>
+              ))}
+          </div>
           {data.body?.value && (
             <Body colorSet={colorSet}>{data.body.value}</Body>
           )}

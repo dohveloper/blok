@@ -18,7 +18,6 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   } = useSelector((state: RootState) => selectBlockById(state, blockId));
   let styleOptions = getStyleOptions(blockType);
   const dispatch = useDispatch();
-
   //Input
 
   const [navTitle, setNavTitle] = useState(data.navTitle);
@@ -26,6 +25,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
     label: data.style?.value,
     value: data.style?.value,
   });
+
   const [caption, setCaption] = useState(data.caption?.value);
   const [header, setHeader] = useState(data.header?.value);
   const [headerHighlight, setHeaderHighlight] = useState(
@@ -38,9 +38,9 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
 
   return (
     <>
-      <Card title="Feature" onRemove={onRemove}>
+      <Card title='Feature' onRemove={onRemove}>
         <TextInput
-          title="메뉴명"
+          title='메뉴명'
           required={true}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setNavTitle(e.target.value);
@@ -52,14 +52,14 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
               })
             );
           }}
-          guideline="네비게이션 바에 입력될 메뉴명을 입력하세요."
+          guideline='네비게이션 바에 입력될 메뉴명을 입력하세요.'
           value={navTitle}
         ></TextInput>
         <CustomSelect
-          title="스타일"
+          title='스타일'
           required={true}
-          guideline="스타일를 선택해주세요."
-          placeholder="원하는 선택지를 선택해주세요"
+          guideline='스타일를 선택해주세요.'
+          placeholder='원하는 선택지를 선택해주세요'
           options={styleOptions}
           onChange={(e: any) => {
             setStyle(e);
@@ -70,15 +70,15 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           value={style}
         />
         <ImgInput
-          title="이미지"
-          guideline="사이트에 표시할 이미지를 업로드하세요"
+          title='이미지'
+          guideline='사이트에 표시할 이미지를 업로드하세요'
           src={image?.src}
           alt={image?.alt}
         />
         <TextInput
-          title="캡션"
+          title='캡션'
           required={false}
-          guideline="캡션에 표시될 내용을 입력하세요."
+          guideline='캡션에 표시될 내용을 입력하세요.'
           value={caption}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setCaption(e.target.value);
@@ -92,9 +92,9 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
         ></TextInput>
         <TextInput
-          title="헤드라인"
-          required={false}
-          guideline="헤드라인에 표시될 내용을 입력하세요."
+          title='헤드라인'
+          required
+          guideline='헤드라인에 표시될 내용을 입력하세요.'
           value={header}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setHeader(e.target.value);
@@ -108,9 +108,9 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
         ></TextInput>
         <TextInput
-          title="헤드라인 강조 테스트"
+          title='헤드라인 강조 테스트'
           required={false}
-          guideline="헤드라인 내용 중에서 강조할 텍스트를 입력하세요"
+          guideline='헤드라인 내용 중에서 강조할 텍스트를 입력하세요'
           value={headerHighlight}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setHeaderHighlight(e.target.value);
@@ -124,9 +124,9 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
         ></TextInput>
         <TextInput
-          title="설명"
+          title='설명'
           required={false}
-          guideline="설명에 표시될 내용을 입력하세요"
+          guideline='설명에 표시될 내용을 입력하세요'
           value={body}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setBody(e.target.value);
@@ -140,9 +140,9 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
         ></TextInput>
         <TextInput
-          title="버튼 텍스트"
+          title='버튼 텍스트'
           required={false}
-          guideline="비워둘 경우 버튼이 나타나지 않습니다."
+          guideline='비워둘 경우 버튼이 나타나지 않습니다.'
           value={button?.title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setButton({ ...button, title: e.target.value });
@@ -156,9 +156,9 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
         ></TextInput>
         <TextInput
-          title="버튼 URL"
+          title='버튼 URL'
           required={false}
-          guideline="버튼 클릭시 이동될 url을 입력하세요"
+          guideline='버튼 클릭시 이동될 url을 입력하세요'
           value={button?.url}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setButton({ ...button, url: e.target.value });
