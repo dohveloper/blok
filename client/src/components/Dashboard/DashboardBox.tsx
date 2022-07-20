@@ -140,12 +140,33 @@ export function DashboardInfo() {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
-  const profile = userData.profileImage;
+  // current loginUser 데이터 가져와서 redux store에 저장
+  useEffect(() => {
+    const checkLoginUser = async () => {
+      const res = await axios.get('/api/user/logincheck');
+      const user = res.data;
+      dispatch({
+        type: 'USER/LOGIN',
+        payload: {
+          userId: user.userId,
+          email: user.email,
+          role: user.role,
+          userName: user.userName,
+          oauth: user.oauth,
+          passwordReset: user.passwordReset,
+          profileImage: user.profileImage,
+          plan: user.plan,
+        },
+      });
+    };
+    checkLoginUser();
+  }, []);
+
   // userId 별 sites 데이터 조회
   const getUserInfo = async () => {
     try {
       console.log('userId:', userData!.userId);
-      const res = await axios.get(`/api/site/user/${userData.userId}`);
+      const res = await axios.get(`/api/site/user/${userData!.userId}`);
       console.log('site Data:', res.data);
       setData(() => res.data);
     } catch (error) {

@@ -17,24 +17,24 @@ type LoginState = {
 const initialState: LoginState = {
   loginState: false,
   loginData: {
-    userId: "",
-    email: "",
-    role: "",
-    userName: "",
-    oauth: "",
+    userId: '',
+    email: '',
+    role: '',
+    userName: '',
+    oauth: '',
     passwordReset: false,
-    profileImage: "",
-    plan: "",
+    profileImage: '',
+    plan: '',
   },
 };
 
 type LOGINACTION = {
-  type: "USER/LOGIN";
+  type: 'USER/LOGIN';
   payload: LoginCheckData;
 };
 
 type LOGOUTACTION = {
-  type: "USER/LOGOUT";
+  type: 'USER/LOGOUT';
 };
 
 type LoginCheckAction = LOGINACTION | LOGOUTACTION;
@@ -44,11 +44,10 @@ export const loginCheckReducer = (
   action: LoginCheckAction
 ): LoginState => {
   switch (action.type) {
-    case "USER/LOGIN":
+    case 'USER/LOGIN':
       return { ...state, loginState: true, loginData: action.payload };
-    case "USER/LOGOUT":
-      return { ...state, loginState: false };
-
+    case 'USER/LOGOUT':
+      return { ...state, loginState: false, loginData: initialState.loginData };
     default:
       return { ...state };
   }

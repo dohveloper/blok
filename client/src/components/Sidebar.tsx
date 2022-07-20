@@ -119,11 +119,15 @@ const Menu = (props: IMyProps) => {
 
   const logoutHandler = async () => {
     await axios.get('/api/user/logout');
+    dispatch({ type: 'USER/LOGOUT' });
     dispatch({
       type: 'alertOn',
       payload: { msg: '로그아웃 처리 되었습니다.' },
     });
-    navigate('/login');
+    // **************** 로그아웃 오류 *******************
+    // 로그아웃 시, axios.get('/api/user/logincheck') 요청 시,
+    // 데이터가 있으면 dashboard 페이지로 이동하게 되는데 이에 따라 화면에 깜빡거리는 현상이 있음
+    setTimeout(() => navigate('/login'), 500);
   };
 
   return (

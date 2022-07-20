@@ -297,14 +297,22 @@ export default function TemplateModal() {
   };
 
   const createSiteHandler = async () => {
-    // 사이트 DB 추가, 저장
-    const res = await axios.post(`/api/site`, data);
-    console.log('POST 요청 - 사이트추가 : ', res.data);
-    dispatch({ type: 'alertOn', payload: { msg: '사이트 추가되었습니다.' } });
-    dispatch({ type: 'TEMPLATE/MODAL_OFF' });
+    try {
+      // 사이트 DB 추가, 저장
+      const res = await axios.post(`/api/site`, data);
+      console.log('POST 요청 - 사이트추가 : ', res.data);
+      dispatch({ type: 'alertOn', payload: { msg: '사이트 추가되었습니다.' } });
+      dispatch({ type: 'TEMPLATE/MODAL_OFF' });
 
-    // 에디터 페이지로 이동
-    navigate(`/editor/${res.data._id}`);
+      // 에디터 페이지로 이동
+      navigate(`/editor/${res.data._id}`);
+    } catch (e: any) {
+      console.log(e.response.data);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: e.response.data.reason, time: 1000 },
+      });
+    }
   };
 
   const closeModalHandler = () => {
