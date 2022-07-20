@@ -16,7 +16,12 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+
+  @media screen and (max-width: 1120px) {
+    justify-content: flex-start;
+  }
 `;
+
 const TextContainer = styled.div`
   vertical-align: middle;
   padding-top: 30px;
@@ -25,6 +30,7 @@ const TextContainer = styled.div`
     width: 400px;
   }
 `;
+
 const Img = styled.img`
   width: 400px;
   padding-right: 20px;
@@ -32,9 +38,10 @@ const Img = styled.img`
 
   @media screen and (max-width: 1120px) {
     width: 400px;
-    padding-rigtht: 0;
+    padding-right: 0;
   }
 `;
+
 const Caption = styled.div<{ colorSet: ColorSet }>`
   font-size: 1rem;
   font-weight: 600;
@@ -45,16 +52,17 @@ const Caption = styled.div<{ colorSet: ColorSet }>`
     font-size: 1.4vw;
   }
 `;
-const Header = styled.div`
+
+const Header = styled.span`
   font-size: 2rem;
   font-weight: 700;
   color: black;
-  margin-bottom: 10px;
 
   @media screen and (max-width: 1120px) {
     font-size: 2.8vw;
   }
 `;
+
 const Body = styled.div<{ colorSet: ColorSet }>`
   color: ${(props) => props.colorSet.surface};
 
@@ -62,6 +70,7 @@ const Body = styled.div<{ colorSet: ColorSet }>`
     font-size: 1.4vw;
   }
 `;
+
 const Button = styled.button<{ colorSet: ColorSet }>`
   background-color: ${(props) => props.colorSet.primary};
   color: white;
@@ -80,6 +89,39 @@ const Button = styled.button<{ colorSet: ColorSet }>`
     padding: 1vw 2vw;
   }
 `;
+
+function highlightHandler(header: string, keyword: string, colorSet: ColorSet) {
+  const HeaderHighlight = styled.span`
+    font-size: 2rem;
+    font-weight: 700;
+    color: ${colorSet.primary};
+
+    @media screen and (max-width: 1120px) {
+      font-size: 2.8vw;
+    }
+  `;
+
+  let result = [];
+
+  if (header.includes(keyword)) {
+    const splitedByKeyword = header.split(keyword);
+    for (let i = 0; i < splitedByKeyword.length - 1; i++) {
+      result.push(
+        <>
+          <Header>{splitedByKeyword[i]}</Header>
+          <HeaderHighlight>{keyword}</HeaderHighlight>
+        </>
+      );
+    }
+    result.push(
+      <Header>{splitedByKeyword[splitedByKeyword.length - 1]}</Header>
+    );
+  } else {
+    result.push(<Header>{header}</Header>);
+  }
+
+  return result.map((item) => item);
+}
 
 export default function SiteBlock(props: SiteBlockProps) {
   const { blockId } = props;
@@ -111,7 +153,16 @@ export default function SiteBlock(props: SiteBlockProps) {
           {data.caption?.value && (
             <Caption colorSet={colorSet}>{data.caption.value}</Caption>
           )}
-          {data.header?.value && <Header>{data.header.value}</Header>}
+          {data.header?.value &&
+            (data.headerHighlight ? (
+              highlightHandler(
+                data.header.value,
+                data.headerHighlight.value,
+                colorSet
+              )
+            ) : (
+              <Header>{data.header.value}</Header>
+            ))}
           {data.body?.value && (
             <Body colorSet={colorSet}>{data.body.value}</Body>
           )}
