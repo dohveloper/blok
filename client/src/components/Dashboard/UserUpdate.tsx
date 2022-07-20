@@ -41,6 +41,11 @@ const UserUpdate = styled.div`
 
     .inputBox {
       display: flex;
+      width: 100%;
+
+      .input {
+        width: 100%;
+      }
     }
   }
 
@@ -51,6 +56,12 @@ const UserUpdate = styled.div`
   @media screen and (max-width: 580px) {
     width: 100%;
   }
+`;
+
+const ValidationText = styled.span`
+  font-size: 14px;
+  color: #c8c8c8;
+  padding-left: 5px;
 `;
 
 const EmailDiv = styled.div`
@@ -149,13 +160,18 @@ export default function User() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const userToPatch = {
+    let userToPatch: any = {
       userName: userName.current!.value,
-      password: password.current!.value,
       profileImage: profileImage.current!.value,
       plan: plan.value,
       role: role.value,
     };
+
+    if (password.current!.value === '') {
+      console.log('비번인풋없음');
+    } else {
+      userToPatch.password = password.current!.value;
+    }
 
     console.log('patchData', userToPatch);
 
@@ -183,24 +199,32 @@ export default function User() {
           <form onSubmit={handleSubmit}>
             <div className="userUpdateInputBox">
               <div className="inputBox">
-                <TextInputWidth90
-                  key={data.userName}
-                  title="이름"
-                  ref={userName}
-                  onChange={userNameHandler}
-                  defaultValue={data.userName}
-                  placeholder="이름을 입력해주세요"
-                />
-                {userNameError && '2글자 이상 입력해주세요'}
-                <TextInputWidth90
-                  key={`${data.userName}/password`}
-                  title="비밀번호"
-                  ref={password}
-                  placeholder=" "
-                  onChange={passwordHandler}
-                  defaultValue=" "
-                />
-                {passwordError && '비밀번호는 6자리 이상이여야 합니다.'}
+                <div className="input">
+                  <TextInputWidth90
+                    key={data.userName}
+                    title="이름"
+                    ref={userName}
+                    onChange={userNameHandler}
+                    defaultValue={data.userName}
+                    placeholder="이름을 입력해주세요"
+                  />
+                  <ValidationText>
+                    {userNameError && '2글자 이상 입력해주세요'}
+                  </ValidationText>
+                </div>
+                <div className="input">
+                  <TextInputWidth90
+                    key={`${data.userName}/password`}
+                    title="비밀번호"
+                    ref={password}
+                    placeholder=" "
+                    onChange={passwordHandler}
+                    type="password"
+                  />
+                  <ValidationText>
+                    {passwordError && '비밀번호는 6자리 이상이여야 합니다.'}
+                  </ValidationText>
+                </div>
               </div>
               <div className="inputBox">
                 <CustomSelectWidth90

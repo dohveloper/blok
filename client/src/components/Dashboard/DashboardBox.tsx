@@ -140,28 +140,6 @@ export function DashboardInfo() {
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
-  // current loginUser 데이터 가져와서 redux store에 저장
-  useEffect(() => {
-    const checkLoginUser = async () => {
-      const res = await axios.get('/api/user/logincheck');
-      const user = res.data;
-      dispatch({
-        type: 'USER/LOGIN',
-        payload: {
-          userId: user.userId,
-          email: user.email,
-          role: user.role,
-          userName: user.userName,
-          oauth: user.oauth,
-          passwordReset: user.passwordReset,
-          profileImage: user.profileImage,
-          plan: user.plan,
-        },
-      });
-    };
-    checkLoginUser();
-  }, []);
-
   // userId 별 sites 데이터 조회
   const getUserInfo = async () => {
     try {
@@ -183,8 +161,7 @@ export function DashboardInfo() {
     dispatch({ type: 'TEMPLATE/MODAL_ON' });
   };
 
-  // ********* 확인 버튼 누르기 전에 삭제되는 문제가 있음 확인 필요 ****************
-  // 사이트 삭제 시, ConfirmModal로 확인 후 삭제
+  // siteId 별 사이트 삭제
   const deleteHandler = (props: string) => {
     dispatch({
       type: 'CONFIRM/MODAL_ON',
@@ -196,7 +173,7 @@ export function DashboardInfo() {
     });
   };
 
-  const deleteSite = async (props: string) => {
+  const deleteSite = (props: string) => async () => {
     try {
       await axios.delete(`/api/site/${props}`);
       dispatch({ type: 'CONFIRM/MODAL_OFF' });

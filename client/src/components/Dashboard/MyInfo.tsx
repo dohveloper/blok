@@ -81,28 +81,6 @@ export default function MyInfo() {
 
   const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
-  // current loginUser 데이터 가져와서 redux store에 저장
-  useEffect(() => {
-    const checkLoginUser = async () => {
-      const res = await axios.get('/api/user/logincheck');
-      const user = res.data;
-      dispatch({
-        type: 'USER/LOGIN',
-        payload: {
-          userId: user.userId,
-          email: user.email,
-          role: user.role,
-          userName: user.userName,
-          oauth: user.oauth,
-          passwordReset: user.passwordReset,
-          profileImage: user.profileImage,
-          plan: user.plan,
-        },
-      });
-    };
-    checkLoginUser();
-  }, []);
-
   const resethandler = () => {
     dispatch({
       type: 'CONFIRM/MODAL_ON',

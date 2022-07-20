@@ -64,25 +64,25 @@ export default function ConfirmModal(props: IMyProps) {
     dispatch({ type: 'CONFIRM/MODAL_OFF' });
   };
 
-  const conFirmHandler = (props?: string) => {
-    onConfirm?.(props);
+  const conFirmHandler = () => {
+    onConfirm?.();
   };
 
   return (
     <>
       <ModalContainer>
-        <div className='confirmHeader'>
-          <div className='confirmTitle'>{props.confirmData.title}</div>
-          <div className='closeButton' onClick={closeModalHandler}>
+        <div className="confirmHeader">
+          <div className="confirmTitle">{props.confirmData.title}</div>
+          <div className="closeButton" onClick={closeModalHandler}>
             <CgClose size={23} color={'gray'} />
           </div>
         </div>
-        <div className='confirmText'>{props.confirmData.msg}</div>
-        <div className='buttonContainer'>
-          <Button size='medium' color='gray' onClick={closeModalHandler}>
+        <div className="confirmText">{props.confirmData.msg}</div>
+        <div className="buttonContainer">
+          <Button size="medium" color="gray" onClick={closeModalHandler}>
             취소
           </Button>
-          <Button size='medium' onClick={conFirmHandler}>
+          <Button size="medium" onClick={conFirmHandler}>
             확인
           </Button>
         </div>

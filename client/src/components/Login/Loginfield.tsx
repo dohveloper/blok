@@ -5,6 +5,7 @@ import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
 import * as imgs from '../../imgs';
+import { useAppDispatch } from '../../reducers';
 
 const Container = styled.div`
   background-color: #fff;
@@ -33,6 +34,7 @@ const Atagbox = styled.div`
 `;
 
 function Loginfield() {
+  const dispatch = useAppDispatch();
   const nav = useNavigate();
   const regEmail = vaildation.regEmail;
   const emailRef = useRef<HTMLInputElement>(null);
@@ -90,6 +92,23 @@ function Loginfield() {
         nav('/changepassword');
       }
       const loginCheckData = await axios.get('/api/user/logincheck');
+
+      // current loginUser 데이터 가져와서 redux store에 저장
+      const user = loginCheckData.data;
+      dispatch({
+        type: 'USER/LOGIN',
+        payload: {
+          userId: user.userId,
+          email: user.email,
+          role: user.role,
+          userName: user.userName,
+          oauth: user.oauth,
+          passwordReset: user.passwordReset,
+          profileImage: user.profileImage,
+          plan: user.plan,
+        },
+      });
+
       if (loginCheckData.data.role === 'admin') {
         nav('/account');
       } else {
@@ -161,9 +180,9 @@ function Loginfield() {
       </LoginForm.InputDiv>
       <LoginForm.Input
         onChange={handleEmailChange}
-        type='string'
+        type="string"
         ref={emailRef}
-        placeholder='이메일 주소를 입력하세요.'
+        placeholder="이메일 주소를 입력하세요."
         error={emailError}
       />
       <LoginForm.InputDiv>
@@ -174,9 +193,9 @@ function Loginfield() {
       </LoginForm.InputDiv>
       <LoginForm.Input
         onChange={handlePasswordChange}
-        type='password'
+        type="password"
         ref={passwordRef}
-        placeholder='비밀번호는 6자리 이상이여야합니다.'
+        placeholder="비밀번호는 6자리 이상이여야합니다."
         error={pswError}
       />
       <Atagbox>
@@ -194,7 +213,7 @@ function Loginfield() {
       </LoginForm.Button>
       <LoginForm.Text>또는</LoginForm.Text>
       <LoginForm.GoogleButton onClick={googleClick}>
-        <img src={imgs.googleloginicon} alt='구글'></img>구글로 로그인 하기
+        <img src={imgs.googleloginicon} alt="구글"></img>구글로 로그인 하기
       </LoginForm.GoogleButton>
     </Container>
   );

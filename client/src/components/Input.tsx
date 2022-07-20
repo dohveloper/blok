@@ -8,9 +8,10 @@ const Width100 = styled.div`
 `;
 
 const Width90 = styled.div`
-  width: 90%;
+  width: 257px;
   margin-top: 28px;
   margin: 28px 1% 0 1%;
+  box-sizing: border-box;
 `;
 
 const DisplayNone = styled.div`
@@ -50,7 +51,9 @@ interface ImgInputprops {
   title?: string;
   required?: boolean;
   placeholder?: string;
+  onChange?: any;
   guideline?: string;
+  value?: string | null;
   defaultValue?: string;
   ref?: React.RefObject<HTMLInputElement>;
   key?: string;
@@ -67,6 +70,7 @@ interface Inputprops {
   ref?: React.RefObject<HTMLInputElement>;
   defaultValue?: string;
   key?: string;
+  type?: string;
 }
 
 export const Input = styled.input`
@@ -147,11 +151,11 @@ export const TextInputWidth90 = forwardRef<HTMLInputElement, Inputprops>(
               ? props.placeholder
               : '안에 들어갈 내용을 입력하세요'
           }
-          value={props.value ? props.value : ''}
+          defaultValue={props.defaultValue}
           onChange={props.onChange}
           key={props.key}
           ref={ref}
-          defaultValue={props.defaultValue}
+          type={props.type}
         />
         {props.guideline ? (
           <Guideline>{props.guideline}</Guideline>

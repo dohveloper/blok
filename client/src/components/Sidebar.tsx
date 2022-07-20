@@ -124,10 +124,7 @@ const Menu = (props: IMyProps) => {
       type: 'alertOn',
       payload: { msg: '로그아웃 처리 되었습니다.' },
     });
-    // **************** 로그아웃 오류 *******************
-    // 로그아웃 시, axios.get('/api/user/logincheck') 요청 시,
-    // 데이터가 있으면 dashboard 페이지로 이동하게 되는데 이에 따라 화면에 깜빡거리는 현상이 있음
-    setTimeout(() => navigate('/login'), 500);
+    navigate('/login');
   };
 
   return (
@@ -165,16 +162,12 @@ const Menu = (props: IMyProps) => {
           </List>
         </Link>
       )}
-      <Link
-        to="/login"
-        onClick={logoutHandler}
-        style={{ textDecoration: 'none' }}
-      >
+      <div onClick={logoutHandler} style={{ textDecoration: 'none' }}>
         <List>
           <BiLogOut color="black" />
           <span>Logout</span>
         </List>
-      </Link>
+      </div>
     </MenuContainer>
   );
 };
