@@ -29,8 +29,8 @@ class AdminService {
     if (!user) {
       throw new BadRequestError("존재하지 않는 유저입니다.");
     }
-    const hashedPassword = await bcrypt.hash(toUpdate.password, 10);
     if (toUpdate.password) {
+      const hashedPassword = await bcrypt.hash(toUpdate.password, 10);
       toUpdate = { ...toUpdate, password: hashedPassword };
     }
     return await this.userModel.update(userId, toUpdate);
