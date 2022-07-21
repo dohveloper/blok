@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextInput, CustomSelect, ArrInput } from '../../../Input';
 import { Card } from '../../../Card/Card';
 import { getCurrentStyleOption, getStyleOptions } from '../../blockHelper';
@@ -6,9 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   updateBlockData,
   selectBlockById,
+  updateTemplate,
 } from '../../../../reducers/SiteReducer';
 import type { RootState } from '../../../../reducers/store';
-import { SettingBlockProps } from '../../blockValidator';
+import { SettingBlockProps, StyleData } from '../../blockValidator';
 import styled from 'styled-components';
 import * as icons from '../../../../icons';
 
@@ -48,6 +49,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
 
   const [style, setStyle] = useState(currentStyle);
   const [title, setTitle] = useState(data.title?.value);
+  const [navTitle, setNavTitle] = useState(data.navTitle);
 
   const [intros, setIntros] = useState('');
   const [arr, setArr] = useState(data.arrText?.value);
@@ -78,21 +80,43 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
     }
     return arr;
   };
-
+  useEffect(() => {
+    dispatch(
+      updateBlockData({
+        blockId: id,
+        field: 'arrText',
+        value: { value: arr },
+      })
+    );
+  }, [arr]);
   return (
     <>
-      <Card title='Skillset' pinned onRemove={onRemove} icon={icons.Skillset}>
+      <Card title='Skillset' onRemove={onRemove} icon={icons.Skillset}>
+        <TextInput
+          title='메뉴명'
+          required
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setNavTitle(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'navTitle',
+                value: e.target.value,
+              })
+            );
+          }}
+          guideline='네비게이션 바에 입력될 메뉴명을 입력하세요.'
+          value={navTitle}
+        ></TextInput>
         <CustomSelect
           title='스타일'
           required={true}
           guideline='스타일를 선택해주세요.'
           placeholder='원하는 선택지를 선택해주세요'
           options={styleOptions}
-          onChange={(e: any) => {
+          onChange={(e: StyleData) => {
             setStyle(e);
-            dispatch(
-              updateBlockData({ blockId: id, field: 'style', value: e })
-            );
+            dispatch(updateTemplate({ blockId: id, newTemplate: e.value }));
           }}
           value={style}
         />

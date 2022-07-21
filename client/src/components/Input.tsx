@@ -189,7 +189,7 @@ export const ArrInput = forwardRef<HTMLInputElement, InputArrprops>(
             key={props.key}
             value={props.value}
           />
-          <ArrButton onClick={props.onClick}>추가하기</ArrButton>
+          <ArrButton onClick={props.onClick}>add</ArrButton>
         </Widthflex>
         {props.arr}
         {props.guideline ? (
@@ -377,7 +377,11 @@ export const ImgInput = forwardRef<HTMLInputElement, ImgInputprops>(
             padding: '7px 12px',
           }}
           disabled
-          value={Img ? Img.split('blob:http://localhost:3000/')[1] : props.placeholder}
+          value={
+            Img
+              ? Img.split('blob:http://localhost:3000/')[1]
+              : props.placeholder
+          }
         ></Input>
         <label
           htmlFor='imgUpload'

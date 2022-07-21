@@ -6,9 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   updateBlockData,
   selectBlockById,
+  updateTemplate,
 } from '../../../../reducers/SiteReducer';
 import type { RootState } from '../../../../reducers/store';
-import { SettingBlockProps } from '../../blockValidator';
+import { SettingBlockProps, StyleData } from '../../blockValidator';
 import * as icons from '../../../../icons';
 
 function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
@@ -24,21 +25,36 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const [schoolName, setSchoolName] = useState(data.leftText?.value);
   const [major, setMajar] = useState(data.rightText?.value);
   const [term, setTerm] = useState(data.caption?.value);
+  const [navTitle, setNavTitle] = useState(data.navTitle);
 
   return (
     <>
-      <Card title='Skillset' pinned onRemove={onRemove} icon={icons.Education}>
+      <Card title='Education' onRemove={onRemove} icon={icons.Education}>
+        <TextInput
+          title='메뉴명'
+          required
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setNavTitle(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'navTitle',
+                value: e.target.value,
+              })
+            );
+          }}
+          guideline='네비게이션 바에 입력될 메뉴명을 입력하세요.'
+          value={navTitle}
+        ></TextInput>
         <CustomSelect
           title='스타일'
           required={true}
           guideline='스타일를 선택해주세요.'
           placeholder='원하는 선택지를 선택해주세요'
           options={styleOptions}
-          onChange={(e: any) => {
+          onChange={(e: StyleData) => {
             setStyle(e);
-            dispatch(
-              updateBlockData({ blockId: id, field: 'style', value: e })
-            );
+            dispatch(updateTemplate({ blockId: id, newTemplate: e.value }));
           }}
           value={style}
         />
@@ -59,7 +75,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
         ></TextInput>
         <TextInput
-          title='학교'
+          title='학력'
           required={true}
           guideline='텍스트를 입력해주세요'
           value={schoolName}

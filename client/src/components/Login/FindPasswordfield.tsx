@@ -4,6 +4,7 @@ import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
+import { useAppDispatch } from '../../reducers';
 
 const Container = styled.div`
   background-color: #fff;
@@ -30,6 +31,7 @@ const Button = styled(LoginForm.Button)`
 function FindPasswordfield() {
   const regEmail = vaildation.regEmail;
   const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const emailRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const [nameError, setNameError] = useState<boolean>(false);
@@ -72,10 +74,17 @@ function FindPasswordfield() {
     };
     try {
       await axios.post('/api/user/reset-password/', data);
-      alert('성공적으로 메일을 보내습니다.'); // 모달창구현
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: '성공적으로 메일이 보내졌습니다.' },
+      });
       nav('/login');
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: `${e.response.data.reason}` },
+      });
     }
   };
 
@@ -101,7 +110,7 @@ function FindPasswordfield() {
     <Container>
       <LoginForm.FindPswTitle>비밀번호를 잊으셨나요?</LoginForm.FindPswTitle>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={nameError}>이름</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이름</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {nameError && '유효하지 않은 이름입니다.'}
         </LoginForm.ErrorSpan>
@@ -115,7 +124,7 @@ function FindPasswordfield() {
       />
 
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이메일</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {emailError && '유효하지 않은 이메일 주소입니다.'}
         </LoginForm.ErrorSpan>

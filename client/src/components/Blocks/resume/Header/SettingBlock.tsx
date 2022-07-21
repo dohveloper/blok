@@ -6,9 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   updateBlockData,
   selectBlockById,
+  updateTemplate,
 } from '../../../../reducers/SiteReducer';
 import type { RootState } from '../../../../reducers/store';
-import { SettingBlockProps } from '../../blockValidator';
+import { SettingBlockProps, StyleData } from '../../blockValidator';
 import * as icons from '../../../../icons';
 
 function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
@@ -24,18 +25,16 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
 
   return (
     <>
-      <Card title='Skillset' pinned onRemove={onRemove} icon={icons.Navbar}>
+      <Card title='Header' onRemove={onRemove} icon={icons.Navbar}>
         <CustomSelect
           title='스타일'
           required={true}
           guideline='스타일를 선택해주세요.'
           placeholder='원하는 선택지를 선택해주세요'
           options={styleOptions}
-          onChange={(e: any) => {
+          onChange={(e: StyleData) => {
             setStyle(e);
-            dispatch(
-              updateBlockData({ blockId: id, field: 'style', value: e })
-            );
+            dispatch(updateTemplate({ blockId: id, newTemplate: e.value }));
           }}
           value={style}
         />

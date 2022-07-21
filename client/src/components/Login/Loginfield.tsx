@@ -116,7 +116,10 @@ function Loginfield() {
       }
     } catch (e: any) {
       console.log(e.response.data);
-      alert(e.response.data.reason);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: `${e.response.data.reason}` },
+      });
     }
   };
 
@@ -173,29 +176,29 @@ function Loginfield() {
     <Container>
       <LoginForm.Title>로그인</LoginForm.Title>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이메일</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {emailError && '유효하지 않은 이메일 주소입니다.'}
         </LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input
         onChange={handleEmailChange}
-        type="string"
+        type='string'
         ref={emailRef}
-        placeholder="이메일 주소를 입력하세요."
+        placeholder='이메일 주소를 입력하세요.'
         error={emailError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={pswError}>비밀번호</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>비밀번호</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {pswError && '비밀번호는 6자리 이상이여야합니다.'}
         </LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input
         onChange={handlePasswordChange}
-        type="password"
+        type='password'
         ref={passwordRef}
-        placeholder="비밀번호는 6자리 이상이여야합니다."
+        placeholder='비밀번호는 6자리 이상이여야합니다.'
         error={pswError}
       />
       <Atagbox>
@@ -213,7 +216,7 @@ function Loginfield() {
       </LoginForm.Button>
       <LoginForm.Text>또는</LoginForm.Text>
       <LoginForm.GoogleButton onClick={googleClick}>
-        <img src={imgs.googleloginicon} alt="구글"></img>구글로 로그인 하기
+        <img src={imgs.googleloginicon} alt='구글'></img>구글로 로그인 하기
       </LoginForm.GoogleButton>
     </Container>
   );

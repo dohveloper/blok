@@ -5,7 +5,7 @@ import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
 import * as imgs from '../../imgs';
-
+import { useAppDispatch } from '../../reducers';
 const Container = styled.div`
   background-color: #fff;
   border-radius: 10px;
@@ -33,6 +33,7 @@ const Atagbox = styled.div`
 
 function Signinfield() {
   const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const regEmail = vaildation.regEmail;
   const emailRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -107,12 +108,18 @@ function Signinfield() {
     localStorage.setItem('login', logindata);
     try {
       await axios.post('/api/user/register', data);
-      alert('가입이 완료되었습니다.');
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: '가입이 완료되었습니다.' },
+      });
       nav('/login');
     } catch (e: any) {
       console.log('가입에러');
       setEmailErrormshg(e.response.data.reason);
-      alert(e.response.data.reason);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: `${e.response.data.reason}` },
+      });
       setEmailError(true);
     }
   };
@@ -136,7 +143,7 @@ function Signinfield() {
     <Container>
       <LoginForm.Title>회원가입</LoginForm.Title>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={nameError}>이름</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이름</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {nameError && '유효하지 않은 이름입니다.'}
         </LoginForm.ErrorSpan>
@@ -149,7 +156,7 @@ function Signinfield() {
         error={nameError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이메일</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>{emailError && emailErrormsg}</LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input
@@ -160,7 +167,7 @@ function Signinfield() {
         error={emailError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={pswError}>비밀번호</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>비밀번호</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {pswError && '유효하지 않은 비밀번호 입니다.'}
         </LoginForm.ErrorSpan>

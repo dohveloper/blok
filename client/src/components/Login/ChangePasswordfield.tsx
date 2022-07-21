@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../reducers';
 
 const Container = styled.div`
   background-color: #fff;
@@ -28,6 +29,7 @@ const Button = styled(LoginForm.Button)`
 
 function ChangePasswordfield() {
   const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const currentpswRef = useRef<HTMLInputElement>(null);
   const newPswRef = useRef<HTMLInputElement>(null);
   const newPscheckRef = useRef<HTMLInputElement>(null);
@@ -106,7 +108,10 @@ function ChangePasswordfield() {
       };
       try {
         await axios.patch(`/api/user/change-password/${userId}`, data);
-        alert('비밀번호를 바꾸었습니다.'); // 모달창구현
+        dispatch({
+          type: 'alertOn',
+          payload: { msg: '비밀번호가 바뀌었습니다.' },
+        });
         nav('/login');
       } catch (e) {
         console.log(e);
@@ -140,9 +145,7 @@ function ChangePasswordfield() {
     <Container>
       <LoginForm.Title>비밀번호 변경</LoginForm.Title>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={currentpswError}>
-          현재 비밀번호
-        </LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>현재 비밀번호</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {currentpswError && '유효하지 않은 비밀번호 입니다.'}
         </LoginForm.ErrorSpan>
@@ -155,9 +158,7 @@ function ChangePasswordfield() {
         error={currentpswError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={newpswError}>
-          새 비밀번호
-        </LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>새 비밀번호</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {newpswError && '유효하지 않은 비밀번호 입니다.'}
         </LoginForm.ErrorSpan>
@@ -170,7 +171,7 @@ function ChangePasswordfield() {
         error={newpswError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={newpswcheckError}>
+        <LoginForm.InputTitle error={false}>
           새 비밀번호 확인
         </LoginForm.InputTitle>
         <LoginForm.ErrorSpan>

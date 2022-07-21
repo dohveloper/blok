@@ -184,7 +184,7 @@
         "layout": ""
       },
       "creationData": {
-        "title": "푸터",
+        "title": "Skillset",
         "icon": "Skillset",
         "isUnique": false
       },
@@ -194,7 +194,7 @@
           "value": ["javascript", "java", "typescript", "react", "node"]
         },
         "title": {
-          "value": "기술 스택"
+          "value": "Skillset"
         }
       }
     },
@@ -205,7 +205,7 @@
         "layout": ""
       },
       "creationData": {
-        "title": "프로젝트",
+        "title": "Project",
         "icon": "Project",
         "isUnique": false
       },
@@ -242,14 +242,14 @@
         "layout": ""
       },
       "creationData": {
-        "title": "소개",
+        "title": "Introduce",
         "icon": "Introduce",
         "isUnique": false
       },
       "defaultData": {
         "navTitle": null,
         "title": {
-          "value": "노코드 웹사이트 빌더 플랫폼"
+          "value": "Introduce"
         },
         "body": {
           "value": "여기에 블록에 입력한 제목이 들어갑니다. 여러줄도 오케이"
@@ -263,14 +263,14 @@
         "layout": ""
       },
       "creationData": {
-        "title": "해더",
+        "title": "Header",
         "icon": "Header",
         "isUnique": true
       },
       "defaultData": {
         "navTitle": null,
         "title": {
-          "value": "노코드 웹사이트 빌더 플랫폼"
+          "value": "해더"
         }
       }
     },
@@ -281,14 +281,14 @@
         "layout": ""
       },
       "creationData": {
-        "title": "전공",
+        "title": "Education",
         "icon": "Education",
         "isUnique": false
       },
       "defaultData": {
         "navTitle": null,
         "title": {
-          "value": "노코드 웹사이트 빌더 플랫폼"
+          "value": "Education"
         },
         "leftText": {
           "value": "연세대학교"
@@ -308,14 +308,14 @@
         "layout": ""
       },
       "creationData": {
-        "title": "경력",
+        "title": "Career",
         "icon": "Career",
         "isUnique": false
       },
       "defaultData": {
         "navTitle": null,
         "title": {
-          "value": "경력"
+          "value": "Career"
         },
         "leftText": {
           "value": "엘리스 SW엔지니어 트랙 2기"

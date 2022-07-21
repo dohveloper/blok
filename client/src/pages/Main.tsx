@@ -94,8 +94,8 @@ function Main() {
             src={icons.x}
             onClick={() => {
               setArr((res) => {
-                res.splice(i, 1);
-                return [...res];
+                const Newarr = res.filter((vlaue, index) => index !== i);
+                return [...Newarr];
               });
             }}
           />

@@ -39,12 +39,12 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   console.log(data);
   return (
     <>
-      <Card title="Navbar" pinned onRemove={onRemove} icon={icon.Navbar}>
+      <Card title='Navbar' pinned onRemove={onRemove} icon={icon.Navbar}>
         <CustomSelect
-          title="스타일"
+          title='스타일'
           required={true}
-          guideline="스타일를 선택해주세요."
-          placeholder="원하는 선택지를 선택해주세요"
+          guideline='스타일를 선택해주세요.'
+          placeholder='원하는 선택지를 선택해주세요'
           options={styleOptions}
           onChange={(e: StyleData) => {
             setStyle(e);
@@ -53,16 +53,16 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           value={style}
         />
         <ImgInput
-          title="로고 이미지"
-          guideline="가능한 포맷: .jpg, .png"
+          title='로고 이미지'
+          guideline='가능한 포맷: .jpg, .png'
           src={image?.src}
           alt={image?.alt}
           onChange={onImgChange}
         />
         <TextInput
-          title="텍스트"
+          title='텍스트'
           required={true}
-          guideline="텍스트를 입력해주세요"
+          guideline='텍스트를 입력해주세요'
           value={Logo}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setLogo(e.target.value);
