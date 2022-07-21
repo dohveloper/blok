@@ -27,6 +27,7 @@ const Intro = styled.span`
   color: black;
   width: 80%;
   display: flex;
+  flex-wrap: wrap;
   @media screen and (max-width: 1120px) {
     font-size: ${RemtoVw(REM, 1)};
   }

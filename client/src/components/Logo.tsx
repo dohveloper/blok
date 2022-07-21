@@ -26,7 +26,7 @@ const Logodiv = styled.div`
 const Logo = () => {
   const nav = useNavigate();
   const toMainClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    nav('/main');
+    nav('/dashboard');
   };
   return (
     <Logodiv
@@ -34,7 +34,7 @@ const Logo = () => {
         toMainClick(e);
       }}
     >
-      Blocks.
+      Blok
     </Logodiv>
   );
 };

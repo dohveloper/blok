@@ -31,7 +31,13 @@ const SiteBlockList = styled.div<{ blockCount: number }>`
       min-height: 100%;
     `}
 `;
-const SiteBlockContainer = styled.div``;
+const SiteBlockContainer = styled.div`
+  div {
+    :last-child {
+      border-bottom: none;
+    }
+  }
+`;
 
 export default function EditorPreview() {
   const colorSet = useSelector((state: RootState) => state.site.colorSet);

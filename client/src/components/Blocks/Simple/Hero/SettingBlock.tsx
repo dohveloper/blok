@@ -34,7 +34,7 @@ function Hero({ blockId, onRemove }: SettingBlockProps) {
   const [style, setStyle] = useState(currentStyle);
   return (
     <>
-      <Card title='Hero' pinned onRemove={onRemove} icon={icon.Hero}>
+      <Card title='Hero' onRemove={onRemove} icon={icon.Hero}>
         <TextInput
           title='메뉴명'
           required
