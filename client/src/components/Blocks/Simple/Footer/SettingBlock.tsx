@@ -28,7 +28,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const [rightText, setRightText] = useState(data.rightText?.value);
   return (
     <>
-      <Card title="Footer" onRemove={onRemove} icon={icon.Footer}>
+      <Card title="Footer" pinned onRemove={onRemove} icon={icon.Footer}>
         <TextInput
           title="메뉴명"
           required
