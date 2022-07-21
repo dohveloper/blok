@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../../reducers';
 import ColorSetExample from '../../ColorSetExample';
 import { CustomSelect } from '../../Input';
-import AppearanceData from '../AppearanceData';
+import AppearanceData from '../../Blocks/AppearanceData.json';
+import config from '../../Blocks/blockTemplates.json';
+import Button from '../../Button';
+import ReactSelect from 'react-select';
+import { ColorSet } from '../../Blocks/blockValidator';
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -14,6 +18,12 @@ const Container = styled.div`
   background-color: white;
   margin: 0 auto 40px auto;
   border-radius: 5px;
+`;
+
+const InnerContainer = styled.div`
+  display: flex;
+  padding: 15px 0;
+  justify-content: space-around;
 `;
 
 const ExampleContainer = styled.div`
@@ -37,6 +47,13 @@ const Required = styled.span`
   margin-left: 2px;
 `;
 
+const SelectBox = styled(ReactSelect)`
+  width: 280px;
+  & :hover {
+    cursor: pointer;
+  }
+`;
+
 function FontExample(props: any) {
   const data = props.font.value ? props.font.value : props.font;
 
@@ -50,10 +67,9 @@ function FontExample(props: any) {
 }
 
 export default function Appearance() {
-  const fontList = AppearanceData().fontData;
-  const colorSetList = AppearanceData().colorSetData;
-  const themeList = AppearanceData().themeData;
-
+  const fontList = AppearanceData.fontData;
+  const colorSetList = AppearanceData.colorSetData;
+  const themeList = AppearanceData.themeData;
   const data = useSelector((state: RootState) => state.site);
   const dispatch = useDispatch();
 
@@ -61,7 +77,46 @@ export default function Appearance() {
   const [font, setFont] = useState(data.font);
   const [theme, setTheme] = useState(data.theme);
 
-  // siteReducer 완성시 dispatch 추가 예정
+  function ThemeHandler() {
+    const newTheme = theme;
+    const blockTemplates = config.blockTemplates;
+    const newThemeCheckList: string[][] = [];
+
+    for (let i = 0; i < blockTemplates.length; i++) {
+      if (blockTemplates[i].template.theme === newTheme) {
+        const newThemeCheck = [
+          blockTemplates[i].template.blockType,
+          blockTemplates[i].template.layout,
+        ];
+        newThemeCheckList.push(newThemeCheck);
+      }
+    }
+
+    const newBlockList = data.blocks.filter((item) => {
+      const list = [item.template.blockType, item.template.layout ?? ''];
+      for (let i = 0; i < newThemeCheckList.length; i++) {
+        if (
+          newThemeCheckList[i][0] === list[0] &&
+          newThemeCheckList[i][1] === list[1]
+        ) {
+          return true;
+        }
+      }
+      return false;
+    });
+
+    try {
+      dispatch({ type: 'CONFIRM/MODAL_OFF' });
+      dispatch({
+        type: 'site/updateSite',
+        payload: { theme: newTheme, blocks: newBlockList },
+      });
+      setTheme(newTheme);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   useEffect(() => {
     dispatch({ type: 'site/updateColorSet', payload: colorSet });
   }, [colorSet]);
@@ -69,10 +124,6 @@ export default function Appearance() {
   useEffect(() => {
     dispatch({ type: 'site/updateFont', payload: font });
   }, [font]);
-
-  useEffect(() => {
-    dispatch({ type: 'site/updateTheme', payload: theme });
-  }, [theme]);
 
   return (
     <>
@@ -87,10 +138,12 @@ export default function Appearance() {
         <CustomSelect
           value={
             colorSetList.filter(
-              (item: any) => item.value.primary === colorSet.primary
+              (item) => item.value.primary === colorSet.primary
             )[0]
           }
-          onChange={(e: any) => setColorSet(e.value)}
+          onChange={(e: { value: SetStateAction<ColorSet> }) =>
+            setColorSet(e.value)
+          }
           options={colorSetList}
         />
       </Container>
@@ -103,8 +156,8 @@ export default function Appearance() {
           <FontExample font={font} />
         </ExampleContainer>
         <CustomSelect
-          value={fontList.filter((item: any) => item.value === font)[0]}
-          onChange={(e: any) => setFont(e.value)}
+          value={fontList.filter((item) => item.value === font)[0]}
+          onChange={(e: { value: SetStateAction<string> }) => setFont(e.value)}
           options={fontList}
         />
       </Container>
@@ -113,12 +166,29 @@ export default function Appearance() {
           테마
           <Required>*</Required>
         </Label>
-        <CustomSelect
-          value={themeList.filter((item: any) => item.value === theme)[0]}
-          onChange={(e: any) => setTheme(e.value)}
-          options={themeList}
-          guideline={'❗️테마에 블록 타입이 없을 시 블록이 삭제될 수 있습니다.'}
-        />
+        <InnerContainer>
+          <SelectBox
+            value={themeList.filter((item) => item.value === theme)[0]}
+            onChange={(e: any) => setTheme(e.value)}
+            options={themeList}
+          />
+          <Button
+            size='medium'
+            color='white'
+            onClick={() => {
+              dispatch({
+                type: 'CONFIRM/MODAL_ON',
+                payload: {
+                  title: '테마 변경',
+                  msg: '해당 테마에 타입이 없는 블록들은 삭제됩니다. 변경하시겠습니까?',
+                  onConfirm: ThemeHandler,
+                },
+              });
+            }}
+          >
+            변경
+          </Button>
+        </InnerContainer>
       </Container>
     </>
   );

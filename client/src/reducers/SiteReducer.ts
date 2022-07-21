@@ -261,6 +261,10 @@ export const siteSlice = createSlice({
     updateDomain: (state, action) => {
       state.domain = action.payload;
     },
+    updateSite: (state, action) => {
+      state.theme = action.payload.theme;
+      state.blocks = action.payload.blocks;
+    },
     updateBlockData: (
       state,
       action: PayloadAction<{
@@ -355,6 +359,7 @@ export const {
   updateFont,
   updateTheme,
   updateDomain,
+  updateSite,
   updateBlockData,
   updateTemplate,
   moveBlock,
