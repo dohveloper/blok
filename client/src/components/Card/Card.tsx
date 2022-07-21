@@ -105,7 +105,7 @@ interface Cardprops {
 }
 
 export const Card = (props: Cardprops) => {
-  const [dropClicked, setDropClicked] = useState<boolean>(true);
+  const [dropClicked, setDropClicked] = useState<boolean>(false);
   return (
     <CardContainer>
       <CardHeader dropClicked={dropClicked}>

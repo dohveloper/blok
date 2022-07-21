@@ -8,7 +8,7 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
 
-  padding: 100px 40px;
+  padding: 80px 10px;
   margin: 0 auto;
 
   display: flex;
@@ -31,7 +31,7 @@ const TextContainer = styled.div`
 `;
 
 const Img = styled.img`
-  width: 400px;
+  width: 300px;
   padding-left: 20px;
   padding-top: 30px;
 
@@ -133,11 +133,6 @@ export default function SiteBlock(props: SiteBlockProps) {
   return (
     <>
       <Container colorSet={colorSet} font={font} id={data.navTitle ?? ''}>
-        {data.image?.src ? (
-          <Img src={data.image.src} alt={data.image.alt ?? ''} />
-        ) : (
-          <ImgDiv>여기에 이미지가 보여집니다.</ImgDiv>
-        )}
         <TextContainer>
           {data.caption?.value && (
             <Caption colorSet={colorSet}>{data.caption.value}</Caption>
@@ -167,6 +162,11 @@ export default function SiteBlock(props: SiteBlockProps) {
             </Button>
           )}
         </TextContainer>
+        {data.image?.src ? (
+          <Img src={data.image.src} alt={data.image.alt ?? ''} />
+        ) : (
+          <ImgDiv style={{marginLeft: '20px'}}>여기에 이미지가 보여집니다.</ImgDiv>
+        )}
       </Container>
     </>
   );
