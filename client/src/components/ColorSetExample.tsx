@@ -23,10 +23,10 @@ function drawCircle(len: number, background: string, index: number) {
 export default function ColorSetExample(props: any) {
   const colorList = [];
   const circleList = [];
-  const data = props.colorSet.value ? props.colorSet.value : props.colorSet;
-
+  const data = props.colorSet.value ?? props.colorSet;
+  
   for (let color in data) {
-    if (data.hasOwnProperty(color)) {
+    if (data[color].startsWith("#")) {
       colorList.push(data[color]);
     }
   }
