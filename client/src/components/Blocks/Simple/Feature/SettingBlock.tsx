@@ -35,7 +35,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
 
   const [button, setButton] = useState(data.button);
   const [image, setImage] = useState(data.image);
-
+  
   return (
     <>
       <Card title='Feature' onRemove={onRemove}>
@@ -74,6 +74,20 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           guideline='사이트에 표시할 이미지를 업로드하세요'
           src={image?.src}
           alt={image?.alt}
+          placeholder={image?.src}
+          onChange={(e: any) => {
+            setImage(e);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'image',
+                value: {
+                  src: e,
+                  alt: e,
+                },
+              })
+            );
+          }}
         />
         <TextInput
           title='캡션'

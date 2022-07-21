@@ -8,7 +8,7 @@ import {
   selectBlockById,
 } from '../../../../../reducers/SiteReducer';
 import type { RootState } from '../../../../../reducers/store';
-import { SettingBlockProps } from '../../../blockValidator';
+import {SettingBlockProps } from '../../../blockValidator';
 
 function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const {
@@ -82,6 +82,19 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           guideline='사이트에 표시할 이미지를 업로드하세요'
           src={image?.src}
           alt={image?.alt}
+          onChange={(e: any) => {
+            setImage(e);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'image',
+                value: {
+                  src: e,
+                  alt: e,
+                },
+              })
+            );
+          }}
         />
         <TextInput
           title='캡션'

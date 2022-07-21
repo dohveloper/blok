@@ -133,7 +133,7 @@ export default function SiteBlock(props: SiteBlockProps) {
   const font = useSelector((state: RootState) => state.site.font);
 
   function buttonHandler() {
-    window.location.href = data.button?.url ? data.button.url : '';
+    window.location.href = data.button?.url ?? '';
   }
 
   return (
@@ -141,7 +141,7 @@ export default function SiteBlock(props: SiteBlockProps) {
       <Container
         colorSet={colorSet}
         font={font}
-        id={data.navTitle !== null ? data.navTitle : ''}
+        id={data.navTitle ?? ''}
       >
         <TextContainer>
           {data.caption?.value && (
@@ -175,7 +175,7 @@ export default function SiteBlock(props: SiteBlockProps) {
         {data.image?.src && (
           <Img
             src={data.image.src}
-            alt={data.image.alt ? data.image.alt : ''}
+            alt={data.image.alt ?? ''}
           />
         )}
       </Container>

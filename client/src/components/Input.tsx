@@ -50,6 +50,7 @@ const InputImg = styled.input`
 
 const PreviewImg = styled.img`
   width: 100px;
+  padding: 15px 120px;
 `;
 
 const ArrButton = styled.button`
@@ -351,12 +352,14 @@ export const ImgInput = forwardRef<HTMLInputElement, ImgInputprops>(
     // const [ImgLoading, setImgLoading] = useState<boolean>(false);
     // const ImgRef = useRef<HTMLInputElement>(null);
     const [Img, setImg] = useState<any>(null);
-    const onImgChange = async (event: any) => {
+    const onImgChange = (event: any, imgHandler: Function) => {
       // setImgLoading(true);
       setImg(URL.createObjectURL(event.target.files[0]));
       // const response = axios.post(URL.createObjectURL(event.target.files[0]))
       // setImgLoading(false);
+      imgHandler(URL.createObjectURL(event.target.files[0]));
     };
+
     return (
       <Width100>
         {props.title ? (
@@ -367,14 +370,39 @@ export const ImgInput = forwardRef<HTMLInputElement, ImgInputprops>(
         ) : (
           <DisplayNone />
         )}
+        <Input
+          style={{
+            width: '260px',
+            backgroundColor: 'white',
+            padding: '7px 12px',
+          }}
+          disabled
+          value={Img ? Img.split('blob:http://localhost:3000/')[1] : props.placeholder}
+        ></Input>
+        <label
+          htmlFor='imgUpload'
+          style={{
+            border: '1px solid black',
+            padding: '7px 12px',
+            borderRadius: '20px',
+            cursor: 'pointer',
+            marginLeft: '10px',
+          }}
+        >
+          올리기
+        </label>
         <InputImg
+          style={{ display: 'none' }}
           key={props.key}
+          id='imgUpload'
           ref={ref}
           type='file'
           className='imgInput'
           accept='image/*'
           name='file'
-          onChange={onImgChange}
+          onChange={(e: any) => {
+            onImgChange(e, props.onChange);
+          }}
         />
         {props.guideline ? (
           <Guideline>{props.guideline}</Guideline>
