@@ -5,6 +5,7 @@ import { alertReducer } from './AlertReducer';
 import { modalReducer } from './ModalReducer';
 import { loginCheckReducer } from './LoginCheckReducer';
 import siteReducer from './SiteReducer';
+import hostReducer from './HostReducer';
 import idGeneratorReducer from './IdGeneratorReducer';
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     sidetabReducer,
     alertReducer,
     site: siteReducer,
+    host: hostReducer,
     idGenerator: idGeneratorReducer,
   },
 });

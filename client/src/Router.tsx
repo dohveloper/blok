@@ -13,24 +13,26 @@ import Signin from './pages/Signin';
 import Editor from './pages/Editor';
 import ChangePassword from './pages/ChangePassword';
 import Main from './pages/Main';
+import HostedPage from './pages/HostedPage';
 
 export function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/account' element={<Account />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/user' element={<ManageUser />} />
-        <Route path='/site' element={<ManageSite />} />
-        <Route path='/user/:userId' element={<UserInfo />} />
-        <Route path='/changepassword' element={<ChangePassword />} />
-        <Route path='/main' element={<Main />} />
-        <Route path='/findpassword' element={<FindPassword />} />
-        <Route path='/signin' element={<Signin />} />
-        <Route path='*' element={<NotFound />} />
-        <Route path='/editor/:siteId' element={<Editor />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/user" element={<ManageUser />} />
+        <Route path="/site" element={<ManageSite />} />
+        <Route path="/user/:userId" element={<UserInfo />} />
+        <Route path="/changepassword" element={<ChangePassword />} />
+        <Route path="/main" element={<Main />} />
+        <Route path="/findpassword" element={<FindPassword />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/editor/:siteId" element={<Editor />} />
+        <Route path="/:domain" element={<HostedPage />} />
       </Routes>
     </Router>
   );

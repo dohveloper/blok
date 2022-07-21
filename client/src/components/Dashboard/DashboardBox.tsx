@@ -206,7 +206,7 @@ export function DashboardInfo() {
                   <td>
                     {e.name}
                     <br />
-                    <a href={e.domain}>{e.domain}</a>
+                    <a href={e.domain}>www.block.com/{e.domain}</a>
                   </td>
                   <td>Free</td>
                   <td>
