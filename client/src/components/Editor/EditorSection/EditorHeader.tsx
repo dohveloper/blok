@@ -15,6 +15,8 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
+  box-shadow: 0 4px 2px -2px #F5F5F5;
 `;
 
 const DomainContainer = styled.div`

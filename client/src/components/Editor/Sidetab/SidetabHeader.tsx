@@ -14,6 +14,7 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   z-index: 1;
+  box-shadow: 0 4px 2px -2px #F5F5F5;
 `;
 
 export default function SidetabHeader() {
