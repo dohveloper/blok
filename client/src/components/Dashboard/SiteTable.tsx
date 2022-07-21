@@ -224,7 +224,7 @@ export default function SiteTable() {
                   <td>
                     <ControlButton
                       className={'deleteButton'}
-                      onClick={() => handleDelete(e.siteId)}
+                      onClick={() => handleDelete(e._id)}
                       color="gray"
                       rounding
                     >

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Button from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../reducers';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const MainContainer = styled.div`
   margin: 100px;
@@ -78,8 +78,28 @@ const ControlButton = styled(Button)`
 export default function MyInfo() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [plan, setPlan] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userId, setUserId] = useState('');
 
-  const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
+  // const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
+  // 리덕스 스토어에서 userData를 불러올 때 간헐적 에러가 있어서 아래 코드 추가
+  const getUserInfo = async () => {
+    try {
+      const res = await axios.get('/api/user/logincheck');
+      setEmail(res.data.email);
+      setPlan(res.data.plan);
+      setUserName(res.data.userName);
+      setUserId(res.data.userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const resethandler = () => {
     dispatch({
@@ -105,7 +125,7 @@ export default function MyInfo() {
 
   const resetPassword = async () => {
     try {
-      const data = { userName: userData!.userName, email: userData!.email };
+      const data = { userName: userName, email: email };
       await axios.post('/api/user/reset-password', data);
       dispatch({ type: 'CONFIRM/MODAL_OFF' });
       dispatch({
@@ -120,7 +140,7 @@ export default function MyInfo() {
 
   const deleteUser = async () => {
     try {
-      await axios.delete(`/api/user/${userData?.userId}`);
+      await axios.delete(`/api/user/${userId}`);
       dispatch({ type: 'CONFIRM/MODAL_OFF' });
       dispatch({
         type: 'alertOn',
@@ -139,15 +159,15 @@ export default function MyInfo() {
         <Title>내 정보</Title>
         <ContentDiv className="content">
           <ContentTitle>이름</ContentTitle>
-          <Content>{userData?.userName}</Content>
+          <Content>{userName}</Content>
         </ContentDiv>
         <ContentDiv className="content">
           <ContentTitle>이메일</ContentTitle>
-          <Content>{userData?.email}</Content>
+          <Content>{email}</Content>
         </ContentDiv>
         <ContentDiv>
           <ContentTitle>플랜</ContentTitle>
-          <Content>{userData?.plan}</Content>
+          <Content>{plan}</Content>
         </ContentDiv>
       </Container>
       <Container>

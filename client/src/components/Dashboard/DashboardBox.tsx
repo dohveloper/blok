@@ -138,18 +138,30 @@ export function TemplateList() {
 export function DashboardInfo() {
   const [data, setData] = useState<any[]>([]);
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
   // userId 별 sites 데이터 조회
   const getUserInfo = async () => {
     try {
       // current loginUser 데이터 가져와서 redux store에 저장
       const loginCheckData = await axios.get('/api/user/logincheck');
-      const userData = loginCheckData.data;
-      console.log('userId:', userData.userId);
-      const res = await axios.get(`/api/site/user/${userData.userId}`);
+      const user = loginCheckData.data;
+      const res = await axios.get(`/api/site/user/${user.userId}`);
       console.log('site Data:', res.data);
       setData(() => res.data);
+
+      dispatch({
+        type: 'USER/LOGIN',
+        payload: {
+          userId: user.userId,
+          email: user.email,
+          role: user.role,
+          userName: user.userName,
+          oauth: user.oauth,
+          passwordReset: user.passwordReset,
+          profileImage: user.profileImage,
+          plan: user.plan,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -157,7 +169,7 @@ export function DashboardInfo() {
 
   useEffect(() => {
     getUserInfo();
-  }, [userData]);
+  }, []);
 
   // 사이트 추가 버튼 클릭 시, 템플릿 모달 보여짐
   const showModalHandler = () => {

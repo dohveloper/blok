@@ -9,13 +9,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useAppSelector, useAppDispatch } from '../../reducers';
 
-// const PxtoVw = (px: number) => {
-//   return (100 * px) / 780 + 'vw';
-// };
-// const RemtoVw = (px: number, rem: number) => {
-//   return (rem * 100 * px) / 780 + 'vw';
-// };
-
 const ModalBackground = styled.div`
   position: fixed;
   left: 0;
@@ -196,6 +189,8 @@ export default function TemplateModal() {
     (state) => state.modalReducer.templateData
   );
 
+  console.log(1111, userData?.userId);
+
   const siteName = useRef<HTMLInputElement>(null);
   const domain = useRef<HTMLInputElement>(null);
   const siteDesc = useRef<HTMLTextAreaElement>(null);
@@ -203,7 +198,7 @@ export default function TemplateModal() {
   const [domainError, setDomainError] = useState(false);
   const [template, setTemplate] = useState<any | null>(null);
   const [data, setData] = useState<SiteData>({
-    userId: userData?.userId,
+    userId: userData.userId,
     name: '',
     domain: '',
     theme: '',
@@ -252,7 +247,6 @@ export default function TemplateModal() {
       return {
         ...prev,
         ...selectedTemplate,
-        // template: template,
       };
     });
   };
@@ -297,6 +291,8 @@ export default function TemplateModal() {
   };
 
   const createSiteHandler = async () => {
+    console.log(44444, data);
+
     try {
       // 사이트 DB 추가, 저장
       const res = await axios.post(`/api/site`, data);

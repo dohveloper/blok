@@ -55,7 +55,7 @@ export function SiteBlockByType(props: SiteBlockProps) {
     type === 'host' ? state.host.blocks : state.site.blocks
   );
 
-  const { data } = blocks.find((block: any) => block.id === blockId);
+  const { data } = blocks.find((block: Block) => block.id === blockId);
 
   return { colorSet, font, data };
 }
