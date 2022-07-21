@@ -8,6 +8,7 @@ import {
   selectBlockById,
 } from '../../../../reducers/SiteReducer';
 import type { RootState } from '../../../../reducers/store';
+import * as icon from '../../../../icons';
 import { SettingBlockProps, StyleData } from '../../blockValidator';
 import { getStyleOptions, getCurrentStyleOption } from '../../blockHelper';
 
@@ -27,7 +28,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const [rightText, setRightText] = useState(data.rightText?.value);
   return (
     <>
-      <Card title="Footer" onRemove={onRemove}>
+      <Card title="Footer" onRemove={onRemove} icon={icon.Footer}>
         <TextInput
           title="메뉴명"
           required

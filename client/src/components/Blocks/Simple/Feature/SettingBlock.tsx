@@ -9,6 +9,7 @@ import {
   updateTemplate,
 } from '../../../../reducers/SiteReducer';
 import type { RootState } from '../../../../reducers/store';
+import * as icon from '../../../../icons';
 import { SettingBlockProps, StyleData } from '../../blockValidator';
 
 function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
@@ -30,10 +31,10 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const [body, setBody] = useState(data.body?.value);
   const [button, setButton] = useState(data.button);
   const [image, setImage] = useState(data.image);
-  
+
   return (
     <>
-      <Card title="Feature" onRemove={onRemove}>
+      <Card title="Feature" onRemove={onRemove} icon={icon.Feature}>
         <TextInput
           title="메뉴명"
           required

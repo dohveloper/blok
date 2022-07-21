@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../reducers';
 import { SiteBlockProps, ColorSet } from '../../../blockValidator';
 import { selectBlockById } from '../../../../../reducers/SiteReducer';
+import { ImgDiv } from '../SiteBlock';
 
 const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   background-color: ${(props) => props.colorSet.background};
@@ -138,11 +139,12 @@ export default function SiteBlock(props: SiteBlockProps) {
 
   return (
     <>
-      <Container
-        colorSet={colorSet}
-        font={font}
-        id={data.navTitle ?? ''}
-      >
+      <Container colorSet={colorSet} font={font} id={data.navTitle ?? ''}>
+        {data.image?.src ? (
+          <Img src={data.image.src} alt={data.image.alt ?? ''} />
+        ) : (
+          <ImgDiv>여기에 이미지가 보여집니다.</ImgDiv>
+        )}
         <TextContainer>
           {data.caption?.value && (
             <Caption colorSet={colorSet}>{data.caption.value}</Caption>
@@ -172,12 +174,6 @@ export default function SiteBlock(props: SiteBlockProps) {
             </Button>
           )}
         </TextContainer>
-        {data.image?.src && (
-          <Img
-            src={data.image.src}
-            alt={data.image.alt ?? ''}
-          />
-        )}
       </Container>
     </>
   );

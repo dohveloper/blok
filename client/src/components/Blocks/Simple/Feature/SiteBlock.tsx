@@ -42,6 +42,18 @@ const Img = styled.img`
   }
 `;
 
+export const ImgDiv = styled.div`
+  width: 400px;
+  height: 240px;
+  background-color: #efefef;
+  text-align: center;
+  line-height: 240px;
+  @media screen and (max-width: 1120px) {
+    width: 400px;
+    padding-right: 0;
+  }
+`;
+
 const Caption = styled.div<{ colorSet: ColorSet }>`
   font-size: 1rem;
   font-weight: 600;
@@ -138,16 +150,11 @@ export default function SiteBlock(props: SiteBlockProps) {
 
   return (
     <>
-      <Container
-        colorSet={colorSet}
-        font={font}
-        id={data.navTitle ?? ''}
-      >
-        {data.image?.src && (
-          <Img
-            src={data.image.src}
-            alt={data.image.alt ?? ''}
-          />
+      <Container colorSet={colorSet} font={font} id={data.navTitle ?? ''}>
+        {data.image?.src ? (
+          <Img src={data.image.src} alt={data.image.alt ?? ''} />
+        ) : (
+          <ImgDiv>여기에 이미지가 보여집니다.</ImgDiv>
         )}
         <TextContainer>
           {data.caption?.value && (
