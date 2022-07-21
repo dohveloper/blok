@@ -5,10 +5,6 @@ import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ErrorBoundary from './ErrorBoundary';
-import {
-  selectBlocks,
-  blockDataUpdateChecker,
-} from '../../reducers/SiteReducer';
 
 const NAV_WIDTH = 72;
 const SIDETAB_WIDTH = 440;
@@ -79,7 +75,7 @@ export default function Hosting() {
 
   const colorSet = useAppSelector((state) => state.host.colorSet);
   const font = useAppSelector((state) => state.host.font);
-  const blocks = useAppSelector(selectBlocks, blockDataUpdateChecker);
+  const blocks = useAppSelector((state) => state.host.blocks);
 
   const siteBlocks = blocks.map((block) => {
     const {
@@ -97,7 +93,7 @@ export default function Hosting() {
 
     return (
       <SiteBlock
-        type="hosting"
+        type="host"
         key={id}
         blockId={id}
         colorSet={colorSet}

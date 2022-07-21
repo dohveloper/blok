@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../../reducers';
 import { SiteBlockProps, ColorSet } from '../../../blockValidator';
-import { selectBlockById } from '../../../../../reducers/SiteReducer';
 import { ImgDiv } from '../SiteBlock';
+import { SiteBlockByType } from '../../../../../reducers/HostReducer';
 
 const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   background-color: ${(props) => props.colorSet.background};
@@ -125,13 +123,8 @@ function highlightHandler(header: string, keyword: string, colorSet: ColorSet) {
 }
 
 export default function SiteBlock(props: SiteBlockProps) {
-  const { blockId } = props;
-
-  const { data } = useSelector((state: RootState) =>
-    selectBlockById(state, blockId)
-  );
-  const colorSet = useSelector((state: RootState) => state.site.colorSet);
-  const font = useSelector((state: RootState) => state.site.font);
+  const { blockId, type } = props;
+  const { colorSet, font, data } = SiteBlockByType({ blockId, type });
 
   function buttonHandler() {
     window.location.href = data.button?.url ?? '';

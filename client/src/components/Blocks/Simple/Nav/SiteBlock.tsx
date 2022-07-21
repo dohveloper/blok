@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
+import { SiteBlockByType } from '../../../../reducers/HostReducer';
 import { useAppSelector } from '../../../../reducers';
 import {
   selectBlockById,
@@ -67,15 +68,13 @@ const Nav = styled.div`
 `;
 
 export default function SiteBlock(props: SiteBlockProps) {
-  const { blockId } = props;
-  const { data } = useAppSelector((state) => selectBlockById(state, blockId));
+  const { blockId, type } = props;
+  const { colorSet, font, data } = SiteBlockByType({ blockId, type });
   const alldata = useAppSelector((state) => selectBlocks(state));
   const NavTitles: (string | null)[] = [];
   alldata.forEach((res) => {
     if (res.data.navTitle) return NavTitles.push(res.data.navTitle);
   });
-  const colorSet = useAppSelector((state) => state.site.colorSet);
-  const font = useAppSelector((state) => state.site.font);
 
   return (
     <NavBarContainer font={font} colorSet={colorSet}>

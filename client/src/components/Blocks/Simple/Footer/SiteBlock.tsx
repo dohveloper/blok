@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../reducers';
 import { SiteBlockProps, ColorSet } from '../../blockValidator';
 import { selectBlockById } from '../../../../reducers/SiteReducer';
+import { SiteBlockByType } from '../../../../reducers/HostReducer';
 
 const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   background-color: ${(props) => props.colorSet.background};
@@ -26,14 +27,8 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
 `;
 
 export default function SiteBlock(props: SiteBlockProps) {
-  const { blockId } = props;
-
-  const { data } = useSelector((state: RootState) =>
-    selectBlockById(state, blockId)
-  );
-  
-  const colorSet = useSelector((state: RootState) => state.site.colorSet);
-  const font = useSelector((state: RootState) => state.site.font);
+  const { blockId, type } = props;
+  const { colorSet, font, data } = SiteBlockByType({ blockId, type });
 
   return (
     <>

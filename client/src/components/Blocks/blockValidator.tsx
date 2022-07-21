@@ -40,7 +40,7 @@ export type BlockDataOptions =
 
 export interface BlockData {
   [key: string]: any;
-  navTitle: string | null;
+  navTitle?: string | null;
   logoImage?: ImageData;
   logoText?: TextData;
   image?: ImageData;
@@ -58,7 +58,7 @@ export interface StyleData {
   value: TemplateData;
 }
 export interface ImageData {
-  src: string;
+  src: string | undefined;
   alt?: string;
 }
 export interface TextData {
@@ -138,5 +138,6 @@ export interface SettingBlockProps {
   onRemove: (event: React.MouseEvent<HTMLElement>) => void;
 }
 export interface SiteBlockProps {
-  blockId: string;
+  blockId: number;
+  type: string;
 }

@@ -39,7 +39,7 @@ export default function templateListData() {
         template: {
           theme: 'Simple',
           blockType: 'Feature',
-          layout: 'RightImg',
+          layout: null,
         },
         data: {
           navTitle: '기능1',
@@ -55,6 +55,9 @@ export default function templateListData() {
           },
           header: {
             value: '블록으로 웹사이트를 만들어보세요',
+          },
+          headerHighlight: {
+            value: '웹사이트',
           },
           body: {
             value:
