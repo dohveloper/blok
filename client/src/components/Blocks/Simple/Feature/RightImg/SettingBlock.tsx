@@ -11,6 +11,7 @@ import {
 import type { RootState } from '../../../../../reducers/store';
 import * as icon from '../../../../../icons';
 import { SettingBlockProps, StyleData } from '../../../blockValidator';
+import axios from 'axios';
 
 function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const { id, template, data, isCardOpened } = useSelector((state: RootState) =>
@@ -32,6 +33,30 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
 
   const [button, setButton] = useState(data.button);
   const [image, setImage] = useState(data.image);
+
+  async function imgHandler(data: any) {
+    const formData = new FormData();
+    formData.append('file', data);
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    const result = await axios.post('/api/site/image', formData, config);
+    
+    setImage(result.data);
+    dispatch(
+      updateBlockData({
+        blockId: id,
+        field: 'image',
+        value: {
+          src: result.data,
+          alt: result.data,
+        },
+      })
+    );
+  }
 
   return (
     <>
@@ -75,19 +100,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           guideline="사이트에 표시할 이미지를 업로드하세요"
           src={image?.src}
           alt={image?.alt}
-          onChange={(e: any) => {
-            setImage(e);
-            dispatch(
-              updateBlockData({
-                blockId: id,
-                field: 'image',
-                value: {
-                  src: e,
-                  alt: e,
-                },
-              })
-            );
-          }}
+          onChange={imgHandler}
         />
         <TextInput
           title="캡션"
