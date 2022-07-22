@@ -4,6 +4,7 @@ import Button from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../reducers';
 import { useEffect, useState, useRef, useCallback } from 'react';
+import default_profile from '../../imgs/profileImage.png';
 
 const MainContainer = styled.div`
   margin: 100px;
@@ -79,7 +80,7 @@ const ProfileImage = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color: #e7e7e7;
+  /* background-color: #e7e7e7; */
   cursor: pointer;
 `;
 
@@ -102,6 +103,10 @@ export default function MyInfo() {
       setUserName(res.data.userName);
       setUserId(res.data.userId);
       setProfileImage(res.data.profileImage);
+
+      if (res.data.profileImage === null) {
+        setProfileImage(default_profile);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -144,6 +149,10 @@ export default function MyInfo() {
         }),
       400
     );
+  };
+
+  const onErrorImg = (e: any) => {
+    e.target.src = default_profile;
   };
 
   const resethandler = () => {
@@ -205,6 +214,7 @@ export default function MyInfo() {
           <ProfileImage
             src={prorileImage}
             alt="profileImg"
+            onError={onErrorImg}
             onClick={handleButtonClick}
           ></ProfileImage>
           <input
