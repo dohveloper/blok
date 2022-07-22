@@ -72,7 +72,7 @@ export default function EditorPreview() {
     );
   });
   return (
-    <Container>
+    <Container id="previewContainer">
       <SiteBlockList blockCount={blocks.length}>
         <ErrorBoundary>
           <SiteBlockContainer blocks={blocks}>

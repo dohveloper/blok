@@ -35,10 +35,9 @@ const HeadLine = styled.div`
   font-weight: 700;
   font-size: 2.7rem;
   margin-top: 24px;
-  @media screen and (max-width: 960px) {
-    font-size: 20px;
+  @media screen and (max-width: 1200px) {
+    font-size: 32px;
     margin-top: 24px;
-    font-size: ${RemtoVw(16, 2.7)};
     line-height: ${RemtoVw(16, 5)};
   }
 `;
@@ -49,8 +48,8 @@ const HeadLineText = styled.div<{ colorSet: ColorSet }>`
   color: ${(props) => props.colorSet.surface};
   padding: 0 10%;
   margin-top: 24px;
-  @media screen and (max-width: 1120px) {
-    font-size: ${RemtoVw(16, 1.2)};
+  @media screen and (max-width: 1200px) {
+    font-size: 24px;
     line-height: ${RemtoVw(16, 1.5)};
     margin-top: ${RemtoVw(16, 1.3)};
   }

@@ -13,6 +13,9 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   justify-content: space-between;
   align-items: center;
   user-select: none;
+  @media screen and (max-width: 1200px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const ImgDiv = styled.div`
@@ -22,8 +25,9 @@ export const ImgDiv = styled.div`
   text-align: center;
   line-height: 200px;
   padding: 32px;
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1200px) {
     width: 30vw;
+    order: 2;
   }
 `;
 
@@ -31,16 +35,20 @@ const Img = styled.img`
   max-width: 24vw;
   padding-top: 30px;
 
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 1200px) {
     max-width: 30vw;
     width: 30vw;
     padding: 24px;
+    order: 2;
   }
 `;
 
 const TextContainer = styled.div`
   vertical-align: middle;
   padding: 48px;
+  @media screen and (max-width: 1200px) {
+    order: 1;
+  }
 `;
 
 const Caption = styled.div<{ colorSet: ColorSet }>`

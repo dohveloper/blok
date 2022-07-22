@@ -14,6 +14,9 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   justify-content: space-between;
   align-items: center;
   user-select: none;
+  @media screen and (max-width: 1200px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const Img = styled.img`
