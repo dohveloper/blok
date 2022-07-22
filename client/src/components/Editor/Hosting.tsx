@@ -6,22 +6,19 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ErrorBoundary from './ErrorBoundary';
 
-const NAV_WIDTH = 72;
-const SIDETAB_WIDTH = 440;
 const Container = styled.div`
-  position: fixed;
-  top: 60px;
-  padding: 32px 64px;
-  width: calc(100% - ${NAV_WIDTH + SIDETAB_WIDTH}px);
+  width: 100%;
   height: calc(100% - 60px);
   box-sizing: border-box;
   overflow-y: scroll;
+  div:last-child {
+    border-bottom: none;
+  }
 `;
 
 const SiteBlockList = styled.div<{ blockCount: number }>`
   width: 100%;
   background: white;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 4px;
   ${(props) =>
     props.blockCount === 0 &&
@@ -93,7 +90,7 @@ export default function Hosting() {
 
     return (
       <SiteBlock
-        type="host"
+        type='host'
         key={id}
         blockId={id}
         colorSet={colorSet}

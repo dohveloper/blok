@@ -13,31 +13,6 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-
-  @media screen and (max-width: 1120px) {
-    justify-content: flex-start;
-  }
-`;
-
-const TextContainer = styled.div`
-  vertical-align: middle;
-  padding-top: 30px;
-
-  @media screen and (max-width: 1120px) {
-    width: 400px;
-  }
-`;
-
-const Img = styled.img`
-  width: 300px;
-  padding-right: 20px;
-  padding-top: 30px;
-
-  @media screen and (max-width: 1120px) {
-    width: 400px;
-    padding-right: 0;
-  }
 `;
 
 export const ImgDiv = styled.div`
@@ -52,6 +27,21 @@ export const ImgDiv = styled.div`
   }
 `;
 
+const Img = styled.img`
+  width: 300px;
+  padding-right: 10px;
+  padding-top: 30px;
+
+  @media screen and (max-width: 1120px) {
+    width: 27vw;
+  }
+`;
+
+const TextContainer = styled.div`
+  vertical-align: middle;
+  padding-top: 30px;
+`;
+
 const Caption = styled.div<{ colorSet: ColorSet }>`
   font-size: 1rem;
   font-weight: 600;
@@ -60,6 +50,7 @@ const Caption = styled.div<{ colorSet: ColorSet }>`
 
   @media screen and (max-width: 1120px) {
     font-size: 1.4vw;
+    margin-bottom: 1vw;
   }
 `;
 
@@ -69,7 +60,7 @@ const Header = styled.span`
   color: black;
 
   @media screen and (max-width: 1120px) {
-    font-size: 2.8vw;
+    font-size: 3vw;
   }
 `;
 
@@ -77,7 +68,7 @@ const Body = styled.div<{ colorSet: ColorSet }>`
   color: ${(props) => props.colorSet.surface};
 
   @media screen and (max-width: 1120px) {
-    font-size: 1.4vw;
+    font-size: 1.3vw;
   }
 `;
 
