@@ -1,31 +1,43 @@
 import styled from 'styled-components';
 import { SiteBlockProps, ColorSet } from '../../../blockValidator';
-import { ImgDiv } from '../SiteBlock';
+
 import { SiteBlockByType } from '../../../../../reducers/HostReducer';
 
 const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   background-color: ${(props) => props.colorSet.background};
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
-
-  padding: 80px 32px;
+  padding: 0px 32px;
   margin: 0 auto;
-
+  height: 80vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  user-select: none;
 `;
 
 const Img = styled.img`
-  width: 300px;
-  padding-left: 10px;
-  padding-top: 30px;
+  width: 24vw;
+  padding-left: 16px;
+  padding-top: 80px;
 
   @media screen and (max-width: 1120px) {
-    width: 27vw;
+    width: 30vw;
   }
 `;
 
+const ImgDiv = styled.div`
+  width: 24vw;
+  height: 200px;
+  max-width: 400px;
+  background-color: #efefef;
+  text-align: center;
+  line-height: 200px;
+  @media screen and (max-width: 1120px) {
+    max-width: 200px;
+    padding-right: 0;
+  }
+`;
 const TextContainer = styled.div`
   vertical-align: middle;
   padding-top: 30px;
@@ -35,11 +47,11 @@ const Caption = styled.div<{ colorSet: ColorSet }>`
   font-size: 1rem;
   font-weight: 600;
   color: ${(props) => props.colorSet.primary};
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 
   @media screen and (max-width: 1120px) {
     font-size: 1.4vw;
-    margin-bottom: 1vw;
+    margin-bottom: 16px;
   }
 `;
 
@@ -55,7 +67,7 @@ const Header = styled.span`
 
 const Body = styled.div<{ colorSet: ColorSet }>`
   color: ${(props) => props.colorSet.surface};
-
+  margin: 16px 0;
   @media screen and (max-width: 1120px) {
     font-size: 1.3vw;
   }
@@ -68,7 +80,7 @@ const Button = styled.button<{ colorSet: ColorSet }>`
   border: 0;
   border-radius: 7px;
   font-size: 1rem;
-  margin-top: 20px;
+  margin-top: 8px;
 
   :hover {
     cursor: pointer;

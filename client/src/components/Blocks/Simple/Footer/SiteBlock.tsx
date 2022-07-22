@@ -9,7 +9,7 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   background-color: ${(props) => props.colorSet.background};
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
-
+  margin-top: 80px;
   height: 50px;
   background-color: ${(props) => props.colorSet.background};
   font-family: ${(props) => props.font};

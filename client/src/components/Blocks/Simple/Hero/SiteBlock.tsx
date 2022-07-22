@@ -10,11 +10,13 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
   padding: 5rem 2rem;
+  height: 80vh;
+  user-select: none;
 `;
 
 const HeroMenuName = styled.div<{ colorSet: ColorSet }>`
@@ -32,9 +34,10 @@ const HeadLine = styled.div`
   color: #000000;
   font-weight: 700;
   font-size: 2.7rem;
-  margin-top: 1.3rem;
-  @media screen and (max-width: 1120px) {
-    margin-top: ${RemtoVw(16, 1.3)};
+  margin-top: 24px;
+  @media screen and (max-width: 960px) {
+    font-size: 20px;
+    margin-top: 24px;
     font-size: ${RemtoVw(16, 2.7)};
     line-height: ${RemtoVw(16, 5)};
   }
@@ -45,7 +48,7 @@ const HeadLineText = styled.div<{ colorSet: ColorSet }>`
   line-height: 1.5rem;
   color: ${(props) => props.colorSet.surface};
   padding: 0 10%;
-  margin-top: 1.3rem;
+  margin-top: 24px;
   @media screen and (max-width: 1120px) {
     font-size: ${RemtoVw(16, 1.2)};
     line-height: ${RemtoVw(16, 1.5)};
@@ -66,12 +69,11 @@ const Button = styled.a<{ colorSet: ColorSet }>`
   :hover {
     color: wheat;
   }
-  margin-top: 1.3rem;
+  margin-top: 32px;
   @media screen and (max-width: 1120px) {
     font-size: ${RemtoVw(16, 1)};
     border-radius: ${RemtoVw(16, 0.5)};
     padding: ${RemtoVw(16, 1)} ${RemtoVw(16, 1.5)};
-    margin-top: ${RemtoVw(16, 1.3)};
   }
 `;
 

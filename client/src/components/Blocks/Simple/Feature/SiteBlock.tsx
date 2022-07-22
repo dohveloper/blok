@@ -6,13 +6,13 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   background-color: ${(props) => props.colorSet.background};
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
-
-  padding: 80px 32px;
+  padding: 0px 32px;
   margin: 0 auto;
-
+  height: 80vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  user-select: none;
 `;
 
 export const ImgDiv = styled.div`
@@ -21,36 +21,37 @@ export const ImgDiv = styled.div`
   background-color: #efefef;
   text-align: center;
   line-height: 200px;
-  @media screen and (max-width: 1120px) {
-    width: 400px;
-    padding-right: 0;
+  padding: 32px;
+  @media screen and (max-width: 960px) {
+    width: 30vw;
   }
 `;
 
 const Img = styled.img`
-  width: 300px;
-  padding-right: 10px;
+  max-width: 24vw;
   padding-top: 30px;
 
-  @media screen and (max-width: 1120px) {
-    width: 27vw;
+  @media screen and (max-width: 960px) {
+    max-width: 30vw;
+    width: 30vw;
+    padding: 24px;
   }
 `;
 
 const TextContainer = styled.div`
   vertical-align: middle;
-  padding-top: 30px;
+  padding: 48px;
 `;
 
 const Caption = styled.div<{ colorSet: ColorSet }>`
   font-size: 1rem;
   font-weight: 600;
   color: ${(props) => props.colorSet.primary};
-  margin-bottom: 10px;
+  margin-bottom: 24px;
 
   @media screen and (max-width: 1120px) {
     font-size: 1.4vw;
-    margin-bottom: 1vw;
+    margin-bottom: 16px;
   }
 `;
 
@@ -58,6 +59,7 @@ const Header = styled.span`
   font-size: 2rem;
   font-weight: 700;
   color: black;
+  margin-bottom: 32px;
 
   @media screen and (max-width: 1120px) {
     font-size: 3vw;
@@ -66,7 +68,7 @@ const Header = styled.span`
 
 const Body = styled.div<{ colorSet: ColorSet }>`
   color: ${(props) => props.colorSet.surface};
-
+  margin-top: 16px;
   @media screen and (max-width: 1120px) {
     font-size: 1.3vw;
   }
