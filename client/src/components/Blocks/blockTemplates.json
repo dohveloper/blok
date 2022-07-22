@@ -1,0 +1,345 @@
+{
+  "blockTemplates": [
+    {
+      "template": {
+        "theme": "Simple",
+        "blockType": "Nav",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "네비게이션바",
+        "icon": "Navbar",
+        "isUnique": true
+      },
+      "defaultData": {
+        "navTitle": null,
+        "image": {
+          "src": "",
+          "alt": "logo"
+        },
+        "logoText": {
+          "value": "블록"
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Simple",
+        "blockType": "Hero",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "메인 화면",
+        "icon": "Home",
+        "isUnique": true
+      },
+      "defaultData": {
+        "navTitle": "홈",
+        "caption": {
+          "value": "노코드 웹사이트 빌더 플랫폼"
+        },
+        "header": {
+          "value": "여기에 블록에 입력한 제목이 들어갑니다. 여러줄도 오케이"
+        },
+
+        "headerHighlight": {
+          "value": ""
+        },
+        "body": {
+          "value": "여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다."
+        },
+        "button": {
+          "title": "여기에는 버튼명",
+          "url": "www.google.com"
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Simple",
+        "blockType": "Feature",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "이미지+텍스트",
+        "icon": "Feature",
+        "isUnique": false
+      },
+      "defaultData": {
+        "style": { "value": "Simple Default" },
+        "navTitle": "기능 1",
+        "image": {
+          "src": "",
+          "alt": "image"
+        },
+        "caption": {
+          "value": "여기는 캡션"
+        },
+        "header": {
+          "value": "여기에 Feature 블록에서 입력한 값이 들어갑니다."
+        },
+        "headerHighlight": {
+          "value": ""
+        },
+        "body": {
+          "value": "여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다."
+        },
+        "button": {
+          "title": "버튼",
+          "url": "naver.com"
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Simple",
+        "blockType": "Feature",
+        "layout": "RightImg"
+      },
+      "creationData": {
+        "title": "이미지+텍스트",
+        "icon": "FeatureRight",
+        "isUnique": false
+      },
+      "defaultData": {
+        "navTitle": "기능 1",
+        "image": {
+          "src": "",
+          "alt": "image"
+        },
+        "caption": {
+          "value": "여기는 캡션"
+        },
+        "header": {
+          "value": "여기에 Feature 블록에서 입력한 값이 들어갑니다."
+        },
+        "headerHighlight": {
+          "value": ""
+        },
+        "body": {
+          "value": "여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다."
+        },
+        "button": {
+          "title": "버튼",
+          "url": "naver.com"
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Simple",
+        "blockType": "Feature",
+        "layout": "Text"
+      },
+      "creationData": {
+        "title": "텍스트",
+        "icon": "FeatureText",
+        "isUnique": false
+      },
+      "defaultData": {
+        "navTitle": "기능 1",
+        "image": {
+          "src": "",
+          "alt": "image"
+        },
+        "caption": {
+          "value": "여기는 캡션"
+        },
+        "header": {
+          "value": "여기에 Feature 블록에서 입력한 값이 들어갑니다."
+        },
+        "headerHighlight": {
+          "value": ""
+        },
+        "body": {
+          "value": "여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다."
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Simple",
+        "blockType": "Footer",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "푸터",
+        "icon": "Footer",
+        "isUnique": true
+      },
+      "defaultData": {
+        "navTitle": null,
+        "leftText": {
+          "value": "노코드 웹사이트 빌더 플랫폼"
+        },
+        "rightText": {
+          "value": "여기에 블록에 입력한 제목이 들어갑니다. 여러줄도 오케이"
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Resume",
+        "blockType": "Skillset",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "Skillset",
+        "icon": "Skillset",
+        "isUnique": false
+      },
+      "defaultData": {
+        "navTitle": null,
+        "arrText": {
+          "value": ["javascript", "typescript", "react", "node"]
+        },
+        "title": {
+          "value": "Skillset"
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Resume",
+        "blockType": "Project",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "Project",
+        "icon": "Project",
+        "isUnique": false
+      },
+      "defaultData": {
+        "navTitle": null,
+        "title": {
+          "value": "Project"
+        },
+        "leftText": {
+          "value": "웹빌더프로젝트 - 블록"
+        },
+        "arrText": {
+          "value": ["javascript", "typescript", "react", "node"]
+        },
+        "caption": {
+          "value": "2022년 6월 29일 ~ 2022년 7월 22일"
+        },
+        "rightText": {
+          "value": "프론트 엔드 개발"
+        },
+        "button": {
+          "title": "프로젝트URL",
+          "url": "naver.com"
+        },
+        "body": {
+          "value": "여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다."
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Resume",
+        "blockType": "Introduce",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "Introduce",
+        "icon": "Introduce",
+        "isUnique": false
+      },
+      "defaultData": {
+        "navTitle": null,
+        "title": {
+          "value": "Introduce"
+        },
+        "body": {
+          "value": "여기에 Introduce에 입력한 텍스트가 들어갑니다. 여러줄도 가능합니다."
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Resume",
+        "blockType": "Header",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "Header",
+        "icon": "Header",
+        "isUnique": true
+      },
+      "defaultData": {
+        "navTitle": null,
+        "title": {
+          "value": "해더"
+        },
+        "number": {
+          "value": 5
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Resume",
+        "blockType": "Education",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "Education",
+        "icon": "Education",
+        "isUnique": false
+      },
+      "defaultData": {
+        "navTitle": null,
+        "title": {
+          "value": "Education"
+        },
+        "leftText": {
+          "value": "블록대학교"
+        },
+        "rightText": {
+          "value": "블록학과"
+        },
+        "caption": {
+          "value": "2017년 3월~2021년 12월"
+        }
+      }
+    },
+    {
+      "template": {
+        "theme": "Resume",
+        "blockType": "Career",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "Career",
+        "icon": "Career",
+        "isUnique": false
+      },
+      "defaultData": {
+        "navTitle": null,
+        "title": {
+          "value": "Career"
+        },
+        "leftText": {
+          "value": "엘리스 SW엔지니어 트랙 2기"
+        },
+        "arrText": {
+          "value": ["javascript", "typescript", "react", "node"]
+        },
+        "caption": {
+          "value": "2022년 4월 ~ 2022년 7월"
+        },
+        "rightText": {
+          "value": "프론트 엔드 개발"
+        },
+        "button": {
+          "title": "",
+          "url": ""
+        },
+        "body": {
+          "value": "여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다."
+        }
+      }
+    }
+  ]
+}

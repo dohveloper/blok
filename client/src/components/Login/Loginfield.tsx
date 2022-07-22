@@ -5,6 +5,7 @@ import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
 import * as imgs from '../../imgs';
+import { useAppDispatch } from '../../reducers';
 
 const Container = styled.div`
   background-color: #fff;
@@ -12,17 +13,28 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 49px 72px 25px 70px;
+  padding: 48px 39px 51px 39px;
   box-sizing: border-box;
-  width: 645px;
-  border: 1px solid black;
+  width: 478px;
+
+  /* shadow-m */
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
   @media screen and (max-width: 1120px) {
     width: 100%;
-    padding: 39px 62px 15px 60px;
+    padding: 39px 62px 30px 60px;
   }
+`;
+const Atagbox = styled.div`
+  margin-top: 24px;
+  margin-bottom: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 function Loginfield() {
+  const dispatch = useAppDispatch();
   const nav = useNavigate();
   const regEmail = vaildation.regEmail;
   const emailRef = useRef<HTMLInputElement>(null);
@@ -67,11 +79,6 @@ function Loginfield() {
   const handleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log(
-      `email: ${emailRef.current!.value}, password: ${
-        passwordRef.current!.value
-      } `
-    );
     const data = {
       email: emailRef.current!.value,
       password: passwordRef.current!.value,
@@ -80,26 +87,62 @@ function Loginfield() {
     try {
       const res = await axios.post('/api/auth/login', data);
       const resdata = res.data;
-      console.log(res);
-      if (resdata.passwordReset) {
+      console.log(resdata.passwordReset);
+      if (resdata.passwordReset === true) {
         nav('/changepassword');
       }
-      nav('/main');
+      const loginCheckData = await axios.get('/api/user/logincheck');
+
+      // current loginUser 데이터 가져와서 redux store에 저장
+      const user = loginCheckData.data;
+      dispatch({
+        type: 'USER/LOGIN',
+        payload: {
+          userId: user.userId,
+          email: user.email,
+          role: user.role,
+          userName: user.userName,
+          oauth: user.oauth,
+          passwordReset: user.passwordReset,
+          profileImage: user.profileImage,
+          plan: user.plan,
+        },
+      });
+
+      if (loginCheckData.data.role === 'admin') {
+        nav('/account');
+      } else {
+        nav('/dashboard');
+      }
     } catch (e: any) {
-      alert(e.response.data.reason);
+      console.log(e.response.data);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: `${e.response.data.reason}` },
+      });
     }
   };
 
   const googleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    alert('곧 구현될 예정입니다.');
-    // try {
-    //   const res = await axios.get('/api/user/google');
-    //   nav('/main')
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    try {
+      const new_popup = window.open(
+        'http://localhost:5001/api/auth/google',
+        '_blank',
+        'height=400,width=377,top=100,left=200,scrollbars=yes,resizable=yes'
+      );
+      const timer = setInterval(async () => {
+        const res = await axios.get('/api/user/logincheck');
+        if (res) {
+          new_popup!.close();
+          clearInterval(timer);
+          nav('/dashboard');
+        }
+      }, 300);
+    } catch (e) {
+      console.log(e);
+    }
   };
   const toSigninClick = (
     e: React.MouseEvent<HTMLHyperlinkElementUtils, MouseEvent>
@@ -113,25 +156,27 @@ function Loginfield() {
   };
 
   useEffect(() => {
-    return () => {
-      async function loginCheck() {
-        const res = await axios.get('/api/user/logincheck');
-        if (res.data) {
-          if (res.data.passwordReset) {
-            nav('/changepassword');
-          }
-          console.log('이미 로그인 되어있습니다.');
-          nav('/main');
+    async function loginCheck() {
+      const res = await axios.get('/api/user/logincheck');
+      if (res.data.userId) {
+        if (res.data.passwordReset) {
+          nav('/changepassword');
+        }
+        console.log('이미 로그인 되어있습니다.');
+        if (res.data.role === 'admin') {
+          nav('/account');
+        } else {
+          nav('/dashboard');
         }
       }
-      loginCheck();
-    };
-  });
+    }
+    loginCheck();
+  }, []);
   return (
     <Container>
       <LoginForm.Title>로그인</LoginForm.Title>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이메일</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {emailError && '유효하지 않은 이메일 주소입니다.'}
         </LoginForm.ErrorSpan>
@@ -144,7 +189,7 @@ function Loginfield() {
         error={emailError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={pswError}>비밀번호</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>비밀번호</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {pswError && '비밀번호는 6자리 이상이여야합니다.'}
         </LoginForm.ErrorSpan>
@@ -156,23 +201,23 @@ function Loginfield() {
         placeholder='비밀번호는 6자리 이상이여야합니다.'
         error={pswError}
       />
-
-      <LoginForm.FindPasswordtag onClick={tofindPswClick}>
-        비밀번호 찾기
-      </LoginForm.FindPasswordtag>
+      <Atagbox>
+        <LoginForm.Graytext>
+          처음이신가요?
+          <LoginForm.Atag onClick={toSigninClick}>가입하기</LoginForm.Atag>
+        </LoginForm.Graytext>
+        <LoginForm.FindPasswordtag onClick={tofindPswClick}>
+          비밀번호 찾기
+        </LoginForm.FindPasswordtag>
+      </Atagbox>
 
       <LoginForm.Button onClick={handleClick} disabled={btnactive}>
-        로그인 버튼
+        로그인하기
       </LoginForm.Button>
       <LoginForm.Text>또는</LoginForm.Text>
       <LoginForm.GoogleButton onClick={googleClick}>
-        <img src={imgs.googleloginicon} alt='구글'></img>구글 로그인
+        <img src={imgs.googleloginicon} alt='구글'></img>구글로 로그인 하기
       </LoginForm.GoogleButton>
-
-      <LoginForm.Graytext>
-        처음이신가요?
-        <LoginForm.Atag onClick={toSigninClick}>가입하기</LoginForm.Atag>
-      </LoginForm.Graytext>
     </Container>
   );
 }

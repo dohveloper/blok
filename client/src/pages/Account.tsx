@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import MyInfo from "../components/MyInfo";
+import MyInfo from "../components/Dashboard/MyInfo";
 import Sidebar from "../components/Sidebar";
-import ConfirmModal from "../components/ConfirmModal";
-import { useSelector } from "react-redux";
 
 const Container = styled.div`
   background-color: #f7f7f9;
@@ -12,18 +10,10 @@ const Container = styled.div`
 `;
 
 export default function Account() {
-  const ConfirmModalState = useSelector(
-    (state: any) => state.modalReducer.isConfirmModal
-  );
-  const confirmData = useSelector(
-    (state: any) => state.modalReducer.confirmData
-  );
-
   return (
     <Container>
       <Sidebar />
       <MyInfo />
-      {ConfirmModalState && <ConfirmModal confirmData={confirmData} />}
     </Container>
   );
 }

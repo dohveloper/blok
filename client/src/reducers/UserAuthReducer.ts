@@ -13,6 +13,7 @@ const initialState: AuthState = {
 type PENDINGAction = {
   type: 'userAuth/PENDING';
 };
+
 type SUCCESSAction = {
   type: 'userAuth/SUCCESS';
   payload: string; // token

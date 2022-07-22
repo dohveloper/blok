@@ -4,27 +4,34 @@ import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
+import { useAppDispatch } from '../../reducers';
 
 const Container = styled.div`
   background-color: #fff;
   border-radius: 10px;
   display: flex;
-  align-items: center;
-
   flex-direction: column;
-  padding: 49px 72px 25px 70px;
+  align-items: center;
+  padding: 49px 39px 51px 39px;
   box-sizing: border-box;
-  width: 645px;
-  border: 1px solid black;
+  width: 478px;
+
+  /* shadow-m */
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
   @media screen and (max-width: 1120px) {
     width: 100%;
-    padding: 39px 62px 15px 60px;
+    padding: 39px 62px 30px 60px;
   }
+`;
+const Button = styled(LoginForm.Button)`
+  margin: 32px 0;
 `;
 
 function FindPasswordfield() {
   const regEmail = vaildation.regEmail;
   const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const emailRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const [nameError, setNameError] = useState<boolean>(false);
@@ -61,19 +68,23 @@ function FindPasswordfield() {
   const handleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log(
-      `email: ${emailRef.current!.value}, userName: ${nameRef.current!.value} `
-    );
     const data = {
       userName: nameRef.current!.value,
       email: emailRef.current!.value,
     };
     try {
       await axios.post('/api/user/reset-password/', data);
-      alert('성공적으로 메일을 보내습니다.'); // 모달창구현
-      nav('/ChangePassword');
-    } catch (e) {
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: '성공적으로 메일이 보내졌습니다.' },
+      });
+      nav('/login');
+    } catch (e: any) {
       console.log(e);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: `${e.response.data.reason}` },
+      });
     }
   };
 
@@ -89,7 +100,7 @@ function FindPasswordfield() {
         const res = await axios.get('/api/user/logincheck');
         if (res.data) {
           console.log('이미 로그인 되어있습니다.');
-          nav('/main');
+          nav('/dashboard');
         }
       }
       loginCheck();
@@ -99,7 +110,7 @@ function FindPasswordfield() {
     <Container>
       <LoginForm.FindPswTitle>비밀번호를 잊으셨나요?</LoginForm.FindPswTitle>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={nameError}>이름</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이름</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {nameError && '유효하지 않은 이름입니다.'}
         </LoginForm.ErrorSpan>
@@ -113,7 +124,7 @@ function FindPasswordfield() {
       />
 
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이메일</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {emailError && '유효하지 않은 이메일 주소입니다.'}
         </LoginForm.ErrorSpan>
@@ -125,9 +136,9 @@ function FindPasswordfield() {
         placeholder='가입한 이메일 주소를 입력해주세요.'
         error={emailError}
       />
-      <LoginForm.Button onClick={handleClick} disabled={btnactive}>
-        이메일로 새로운 비밀번호 보내기
-      </LoginForm.Button>
+      <Button onClick={handleClick} disabled={btnactive}>
+        이메일로 새 비밀번호 보내기
+      </Button>
       <LoginForm.Graytext>
         <LoginForm.Atag onClick={toLoginClick}>
           로그인으로 돌아가기

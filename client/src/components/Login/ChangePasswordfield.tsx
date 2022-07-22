@@ -3,25 +3,33 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../reducers';
 
 const Container = styled.div`
   background-color: #fff;
   border-radius: 10px;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  padding: 49px 72px 25px 70px;
+  align-items: center;
+  padding: 48px 39px 40px 39px;
   box-sizing: border-box;
-  width: 645px;
-  border: 1px solid black;
+  width: 478px;
+
+  /* shadow-m */
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
   @media screen and (max-width: 1120px) {
     width: 100%;
-    padding: 39px 62px 15px 60px;
+    padding: 39px 62px 30px 60px;
   }
+`;
+const Button = styled(LoginForm.Button)`
+  margin: 32px 0;
 `;
 
 function ChangePasswordfield() {
   const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const currentpswRef = useRef<HTMLInputElement>(null);
   const newPswRef = useRef<HTMLInputElement>(null);
   const newPscheckRef = useRef<HTMLInputElement>(null);
@@ -96,11 +104,14 @@ function ChangePasswordfield() {
     } else {
       const data = {
         currentPassword: current,
-        password: newpsw,
+        toEditPassword: newpsw,
       };
       try {
         await axios.patch(`/api/user/change-password/${userId}`, data);
-        alert('비밀번호를 바꾸었습니다.'); // 모달창구현
+        dispatch({
+          type: 'alertOn',
+          payload: { msg: '비밀번호가 바뀌었습니다.' },
+        });
         nav('/login');
       } catch (e) {
         console.log(e);
@@ -116,12 +127,16 @@ function ChangePasswordfield() {
 
   useEffect(() => {
     async function loginCheck() {
-      const res = await axios.get('/api/user/logincheck');
-      if (res.data) {
-        console.log(res.data.passwordReset);
-        setUserId(res.data._id);
-      } else {
-        nav('login');
+      try {
+        const res = await axios.get('/api/user/logincheck');
+
+        if (res.data) {
+          setUserId(() => res.data.userId);
+        } else {
+          nav('/login');
+        }
+      } catch (e) {
+        nav('/login');
       }
     }
     loginCheck();
@@ -130,9 +145,7 @@ function ChangePasswordfield() {
     <Container>
       <LoginForm.Title>비밀번호 변경</LoginForm.Title>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={currentpswError}>
-          현재 비밀번호
-        </LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>현재 비밀번호</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {currentpswError && '유효하지 않은 비밀번호 입니다.'}
         </LoginForm.ErrorSpan>
@@ -145,9 +158,7 @@ function ChangePasswordfield() {
         error={currentpswError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={newpswError}>
-          새 비밀번호
-        </LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>새 비밀번호</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {newpswError && '유효하지 않은 비밀번호 입니다.'}
         </LoginForm.ErrorSpan>
@@ -160,7 +171,7 @@ function ChangePasswordfield() {
         error={newpswError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={newpswcheckError}>
+        <LoginForm.InputTitle error={false}>
           새 비밀번호 확인
         </LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
@@ -175,10 +186,10 @@ function ChangePasswordfield() {
         error={newpswcheckError}
       />
 
-      <LoginForm.Button onClick={handleClick} disabled={btnactive}>
+      <Button onClick={handleClick} disabled={btnactive}>
         비밀번호 변경
-      </LoginForm.Button>
-      <LoginForm.Text>또는</LoginForm.Text>
+      </Button>
+
       <LoginForm.Graytext>
         로그인으로 돌아가기
         <LoginForm.Atag onClick={toLoginClick}>로그인하기</LoginForm.Atag>

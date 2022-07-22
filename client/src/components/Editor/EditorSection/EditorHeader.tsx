@@ -1,10 +1,12 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { RootState } from '../../../reducers';
 
 const Container = styled.div`
-  padding: 0 20px;
+  padding: 0 32px;
   height: 60px;
   flex-grow: 1;
   position: sticky;
@@ -13,6 +15,8 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
+  box-shadow: 0 4px 2px -2px #F5F5F5;
 `;
 
 const DomainContainer = styled.div`
@@ -47,12 +51,12 @@ const CopyButton = styled.button`
 const SaveButton = styled.button`
   background-color: black;
   border: 1px solid black;
-  padding: 5px 12px;
-  border-radius: 40px / 40px;
+  padding: 6px 16px;
+  border-radius: 40px;
 
   font-weight: 600;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
 
   :hover {
     cursor: pointer;
@@ -61,43 +65,48 @@ const SaveButton = styled.button`
 
 export default function PublishBar() {
   const dispatch = useDispatch();
-  const [domain, setDomain] = useState("");
+  const data = useSelector((state: RootState) => state.site);
+  const [domain, setDomain] = useState(data.domain);
+  let msg = '';
+  const { siteId } = useParams();
 
-  const getDomainInfo = async () => {
+  async function saveHandler() {
     try {
-      axios.get("/site/2").then((res): void => {
-        const domain = res.data.sites[0].domain;
-        setDomain(domain);
+      await axios.patch(`/api/site/${siteId}`, data);
+      msg = '페이지가 저장되었습니다.';
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: msg, link: domain, time: 2000 },
       });
     } catch (e) {
       console.log(e);
+      dispatch({ type: 'alertOn', payload: { msg: '잠시 후 시도해주세요.' } });
     }
-  };
+  }
 
-  useEffect(() => {
-    getDomainInfo();
-  }, []);
-
-  let msg = "";
   async function copyHandler() {
     try {
-      await navigator.clipboard.writeText(domain);
-      msg = "클립보드에 복사되었습니다.";
-    } catch (err) {
-      console.log(err);
-      msg = "잠시 후 시도해주세요.";
+      await navigator.clipboard.writeText('block.com/' + domain);
+      msg = '클립보드에 복사되었습니다.';
+    } catch (e) {
+      console.log(e);
+      msg = '잠시 후 시도해주세요.';
     }
-    dispatch({ type: "alertOn", payload: msg });
+    dispatch({ type: 'alertOn', payload: { msg: msg } });
   }
+
+  useEffect(() => {
+    setDomain(data.domain);
+  }, [data]);
 
   return (
     <Container>
       <DomainContainer>
-        <MyPage>MyPage:</MyPage>
-        <Domain>{domain}</Domain>
+        <MyPage>도메인:</MyPage>
+        <Domain>block.com/{domain}</Domain>
         <CopyButton onClick={copyHandler}>복사</CopyButton>
       </DomainContainer>
-      <SaveButton>저장</SaveButton>
+      <SaveButton onClick={saveHandler}>저장</SaveButton>
     </Container>
   );
 }

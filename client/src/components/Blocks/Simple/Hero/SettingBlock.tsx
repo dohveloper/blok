@@ -1,81 +1,149 @@
 import { useState } from 'react';
 import { TextInput, CustomSelect } from '../../../Input';
 import { Card } from '../../../Card/Card';
-import { HeroData } from '../../blockValidator';
+import * as icon from '../../../../icons';
+import { getStyleOptions, getCurrentStyleOption } from '../../blockHelper';
+import { useAppSelector, useAppDispatch } from '../../../../reducers';
+import {
+  updateBlockData,
+  updateTemplate,
+  selectBlockById,
+} from '../../../../reducers/SiteReducer';
+import type { RootState } from '../../../../reducers/store';
+import { SettingBlockProps, StyleData } from '../../blockValidator';
 
-interface Hero {
-  data: HeroData;
-}
+function Hero({ blockId, onRemove }: SettingBlockProps) {
+  const { id, template, data, isCardOpened } = useAppSelector(
+    (state: RootState) => selectBlockById(state, blockId)
+  );
+  let styleOptions = getStyleOptions(template);
+  let currentStyle = getCurrentStyleOption(template);
 
-function Hero({ data }: Hero) {
-  const [input, setInput] = useState('');
-  const [selectinput, setSelectInput] = useState('');
-  const options = [
-    { value: '스타일1', label: '스타일1' },
-    { value: '스타일2', label: '스타일2' },
-    { value: '스타일3', label: '스타일3' },
-  ];
+  const dispatch = useAppDispatch();
+  const [navTitle, setNavTitle] = useState(data.navTitle);
+  const [caption, setCaption] = useState(data.caption?.value);
+  const [header, setHeader] = useState(data.header?.value);
+  const [body, setBody] = useState(data.body?.value);
+  const [buttontext, setButtontext] = useState(data.button?.title);
+  const [buttonurl, setButtonUrl] = useState(data.button?.url);
+  const [style, setStyle] = useState(currentStyle);
   return (
     <>
-      <Card title='Hero'>
+      <Card
+        title="Hero"
+        onRemove={onRemove}
+        icon={icon.Hero}
+        isCardOpened={isCardOpened}
+        pinned
+        blockId={blockId}
+      >
         <TextInput
-          title='메뉴명'
-          required={true}
-          onChange={setInput}
-          guideline='네비게이션 바에 입력될 메뉴명을 입력하세요.'
-          value={data.navTitle}
+          title="메뉴명"
+          required={false}
+          value={navTitle}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setNavTitle(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'navTitle',
+                value: e.target.value,
+              })
+            );
+          }}
+          guideline="네비게이션 바에 입력될 메뉴명을 입력하세요."
         ></TextInput>
         <CustomSelect
-          title='스타일'
-          required={true}
-          guideline='스타일를 선택해주세요.'
-          placeholder='원하는 선택지를 선택해주세요'
-          options={options}
-          value={data.style.value}
-          onChange={(e: any) => {
-            setSelectInput(e.value);
+          title="스타일"
+          required
+          guideline="스타일를 선택해주세요."
+          placeholder="원하는 선택지를 선택해주세요"
+          options={styleOptions}
+          onChange={(e: StyleData) => {
+            setStyle(e);
+            dispatch(updateTemplate({ blockId: id, newTemplate: e.value }));
           }}
+          value={style}
         />
         <TextInput
-          title='캡션'
+          title="캡션"
           required={false}
-          onChange={setInput}
-          guideline='캡션에 표시될 내용을 입력하세요.'
-          value={data?.caption?.value}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setCaption(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'caption',
+                value: { value: e.target.value },
+              })
+            );
+          }}
+          guideline="캡션에 표시될 내용을 입력하세요."
+          value={caption}
         ></TextInput>
         <TextInput
-          title='헤드라인'
+          title="헤드라인"
           required={false}
-          onChange={setInput}
-          guideline='캡션에 표시될 내용을 입력하세요.'
-          value={data?.header?.value}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setHeader(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'header',
+                value: { value: e.target.value },
+              })
+            );
+          }}
+          guideline="캡션에 표시될 내용을 입력하세요."
+          value={header}
         ></TextInput>
         <TextInput
-          title='헤드라인 강조 테스트'
+          title="설명"
           required={false}
-          onChange={setInput}
-          guideline='헤드라인 내용 중에서 강조할 텍스트를 입력하세요'
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setBody(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'body',
+                value: { value: e.target.value },
+              })
+            );
+          }}
+          guideline="설명에 표시될 내용을 입력하세요"
+          value={body}
         ></TextInput>
         <TextInput
-          title='설명'
+          title="버튼 텍스트"
           required={false}
-          onChange={setInput}
-          guideline='설명에 표시될 내용을 입력하세요'
-          value={data?.body?.value}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setButtontext(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'button',
+                value: { title: e.target.value },
+              })
+            );
+          }}
+          guideline="비워둘 경우 버튼이 나타나지 않습니다."
+          value={buttontext}
         ></TextInput>
         <TextInput
-          title='버튼 텍스트'
+          title="버튼 URL"
           required={false}
-          onChange={setInput}
-          guideline='비워둘 경우 버튼이 나타나지 않습니다.'
-          value={data?.button?.title}
-        ></TextInput>
-        <TextInput
-          title='버튼 URL'
-          required={false}
-          onChange={setInput}
-          guideline='버튼 클릭시 이동될 url을 입력하세요'
-          value={data?.button?.url}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setButtonUrl(e.target.value);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'button',
+                value: { url: e.target.value },
+              })
+            );
+          }}
+          guideline="버튼 클릭시 이동될 url을 입력하세요"
+          value={buttonurl}
         ></TextInput>
       </Card>
     </>

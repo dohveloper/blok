@@ -1,49 +1,125 @@
 import React, { Suspense } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Button from '../../Button';
-//import Navbar from '../../Blocks/Simple/Nav/SettingBlock';
-import Hero from '../../Blocks/Simple/Hero/SettingBlock';
-import Feature from '../../Blocks/Simple/Feature/SettingBlock';
-import Footer from '../../Blocks/Simple/Footer/SettingBlock';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../../reducers/store';
+import { useSelector, useDispatch } from 'react-redux';
+import CardLoading from '../../Card/CardLoading';
+import {
+  removeBlock,
+  selectBlocks,
+  blockDataUpdateChecker,
+  moveBlock,
+  pinnedBlockTypes,
+} from '../../../reducers/SiteReducer';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
 `;
-const SettingBlock = styled.div`
-  margin: 4px 0;
+const SettingBlockList = styled.div`
+  width: 100%;
+  margin-top: 16px;
+`;
+const SettingBlockContainer = styled.div<{ isPinned: boolean }>`
+  margin: 8px 0;
+  ${(props) =>
+    props.isPinned &&
+    css`
+      cursor: not-allowed;
+    `}
 `;
 
 export default function Block() {
-  const { blocks } = useSelector((state: RootState) => state.site);
+  const blocks = useSelector(selectBlocks, blockDataUpdateChecker);
+  const dispatch = useDispatch();
 
-  //Set settinbBlocks dynamically.
-  const settingBlocks = blocks.map((block) => {
-    const { template, data } = block;
-    const { theme, blockType, layout } = template;
+  const addBlockHandler = () => {
+    dispatch({
+      type: 'ADD/MODAL_ON',
+    });
+  };
+  const removeBlockHandler = (index: number) => {
+    dispatch(removeBlock(index));
+  };
+  const isPinnedBlock = (blockType: string) => {
+    return pinnedBlockTypes.includes(blockType);
+  };
 
+  //Set settigBlocks dynamically.
+  const settingBlocks = blocks.map((block, index) => {
+    const {
+      id,
+      template: { theme, blockType, layout },
+    } = block;
     const SettingBlock = React.lazy(
-      () => import(`../../Blocks/${theme}/${blockType}/SettingBlock`)
+      () =>
+        import(
+          `../../Blocks/${theme}/${blockType}/${
+            layout ? layout + '/' : ''
+          }SettingBlock`
+        )
     );
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <SettingBlock data={data}></SettingBlock>
-      </Suspense>
+      <Draggable
+        key={id.toString()}
+        draggableId={id.toString()}
+        index={index}
+        isDragDisabled={isPinnedBlock(blockType)}
+      >
+        {(provided) => {
+          return (
+            <SettingBlockContainer
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+              isPinned={isPinnedBlock(blockType)}
+            >
+              <Suspense fallback={<CardLoading />}>
+                <SettingBlock
+                  blockId={id}
+                  onRemove={() => removeBlockHandler(index)}
+                ></SettingBlock>
+              </Suspense>
+            </SettingBlockContainer>
+          );
+        }}
+      </Draggable>
     );
   });
-
+  const handleOnDragEnd = (result: any) => {
+    dispatch(
+      moveBlock({
+        sourceIndex: result.source.index,
+        destinationIndex: result.destination.index,
+      })
+    );
+  };
   return (
     <Container>
-      <Button color="black" size="large" rounding fullWidth>
+      <Button
+        color="black"
+        size="large"
+        rounding
+        fullWidth
+        onClick={addBlockHandler}
+      >
         블록 추가하기
       </Button>
-      <div>{settingBlocks}</div>
+      <SettingBlockList>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="settingBlocks">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {settingBlocks}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </SettingBlockList>
     </Container>
   );
 }

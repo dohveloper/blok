@@ -5,26 +5,35 @@ import * as LoginForm from './LoginForm';
 import { useNavigate } from 'react-router-dom';
 import * as vaildation from '../../utils/validation';
 import * as imgs from '../../imgs';
-
+import { useAppDispatch } from '../../reducers';
 const Container = styled.div`
   background-color: #fff;
   border-radius: 10px;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  padding: 49px 72px 25px 70px;
+  align-items: center;
+  padding: 48px 39px 43px 39px;
   box-sizing: border-box;
-  width: 645px;
-  border: 1px solid black;
+  width: 478px;
 
+  /* shadow-m */
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 7px;
   @media screen and (max-width: 1120px) {
     width: 100%;
-    padding: 39px 62px 15px 60px;
+    padding: 39px 62px 30px 60px;
   }
+`;
+const Atagbox = styled.div`
+  margin-top: 37px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 function Signinfield() {
   const nav = useNavigate();
+  const dispatch = useAppDispatch();
   const regEmail = vaildation.regEmail;
   const emailRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -90,11 +99,6 @@ function Signinfield() {
   const handleClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log(
-      `userName: ${nameRef.current!.value}, 
-       email: ${emailRef.current!.value}, 
-       password: ${passwordRef.current!.value} `
-    );
     const data = {
       userName: nameRef.current!.value,
       email: emailRef.current!.value,
@@ -103,11 +107,19 @@ function Signinfield() {
     const logindata = JSON.stringify(data);
     localStorage.setItem('login', logindata);
     try {
-      const res = await axios.post('/api/user/register', data);
-      console.log(res);
+      await axios.post('/api/user/register', data);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: '가입이 완료되었습니다.' },
+      });
+      nav('/login');
     } catch (e: any) {
+      console.log('가입에러');
       setEmailErrormshg(e.response.data.reason);
-      alert(e.response.data.reason);
+      dispatch({
+        type: 'alertOn',
+        payload: { msg: `${e.response.data.reason}` },
+      });
       setEmailError(true);
     }
   };
@@ -118,22 +130,23 @@ function Signinfield() {
     nav('/login');
   };
   useEffect(() => {
-    return () => {
-      async function loginCheck() {
-        const res = await axios.get('/api/user/logincheck');
-        if (res.data) {
-          console.log('이미 로그인 되어있습니다.');
-          nav('/main');
-        }
+    async function loginCheck() {
+      const res = await axios.get('/api/user/logincheck');
+      if (res.data.userId) {
+        dispatch({
+          type: 'alertOn',
+          payload: { msg: '로그아웃 이후 사용해주세요.' },
+        });
+        nav('/dashboard');
       }
-      loginCheck();
-    };
-  });
+    }
+    loginCheck();
+  }, []);
   return (
     <Container>
       <LoginForm.Title>회원가입</LoginForm.Title>
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={nameError}>이름</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이름</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {nameError && '유효하지 않은 이름입니다.'}
         </LoginForm.ErrorSpan>
@@ -146,7 +159,7 @@ function Signinfield() {
         error={nameError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={emailError}>이메일</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>이메일</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>{emailError && emailErrormsg}</LoginForm.ErrorSpan>
       </LoginForm.InputDiv>
       <LoginForm.Input
@@ -157,7 +170,7 @@ function Signinfield() {
         error={emailError}
       />
       <LoginForm.InputDiv>
-        <LoginForm.InputTitle error={pswError}>비밀번호</LoginForm.InputTitle>
+        <LoginForm.InputTitle error={false}>비밀번호</LoginForm.InputTitle>
         <LoginForm.ErrorSpan>
           {pswError && '유효하지 않은 비밀번호 입니다.'}
         </LoginForm.ErrorSpan>
@@ -188,10 +201,12 @@ function Signinfield() {
       <LoginForm.GoogleButton>
         <img src={imgs.googleloginicon} alt='구글'></img>구글 계정으로 가입
       </LoginForm.GoogleButton>
-      <LoginForm.Graytext>
-        이미 가입하셨나요?
-        <LoginForm.Atag onClick={toLoginClick}>로그인하기</LoginForm.Atag>
-      </LoginForm.Graytext>
+      <Atagbox>
+        <LoginForm.Graytext>
+          이미 가입하셨나요?
+          <LoginForm.Atag onClick={toLoginClick}>로그인하기</LoginForm.Atag>
+        </LoginForm.Graytext>
+      </Atagbox>
     </Container>
   );
 }
