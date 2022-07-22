@@ -207,7 +207,7 @@ export default function templateListData() {
     },
     blocks: [
       {
-        id: 1,
+        id: 'sdldfdjfkdfjdfk',
         template: {
           theme: 'Resume',
           blockType: 'Header',
@@ -224,7 +224,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 2,
+        id: 'initblock-dfkjdkfjdkjfkdj',
         template: {
           theme: 'Resume',
           blockType: 'Introduce',
@@ -242,7 +242,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 3,
+        id: 'initblock-dkfjdkfjkdj',
         template: {
           theme: 'Resume',
           blockType: 'Skillset',
@@ -259,7 +259,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 4,
+        id: 'initblock-dfkjdkfjdkdsaqt',
         template: {
           theme: 'Resume',
           blockType: 'Career',
@@ -293,7 +293,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 5,
+        id: 'initblock-poyuwmvoebcpwb',
         template: {
           theme: 'Resume',
           blockType: 'Project',
@@ -328,7 +328,7 @@ export default function templateListData() {
       },
 
       {
-        id: 6,
+        id: 'initblock-meucmeucmeowddhaha',
         template: {
           theme: 'Resume',
           blockType: 'Education',
@@ -366,7 +366,7 @@ export default function templateListData() {
     },
     blocks: [
       {
-        id: 1,
+        id: 'initblock-hahahasodoododo',
         template: {
           theme: 'Simple',
           blockType: 'Nav',
@@ -384,7 +384,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 2,
+        id: 'initblock-nononodoodododododoh',
         template: {
           theme: 'Simple',
           blockType: 'Hero',
@@ -412,7 +412,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 3,
+        id: 'initblock-hahahahooooowh',
         template: {
           theme: 'Simple',
           blockType: 'Feature',
@@ -445,7 +445,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 4,
+        id: 'inint-bldskfdkfjdkfjkjdkfjdkfllw',
         template: {
           theme: 'Simple',
           blockType: 'Feature',
@@ -477,7 +477,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 5,
+        id: 'wowowowowowowowowowww',
         template: {
           theme: 'Simple',
           blockType: 'Feature',
@@ -505,7 +505,7 @@ export default function templateListData() {
         },
       },
       {
-        id: 6,
+        id: 'init-dfkdjfkekkhahahah',
         template: {
           theme: 'Simple',
           blockType: 'Footer',
