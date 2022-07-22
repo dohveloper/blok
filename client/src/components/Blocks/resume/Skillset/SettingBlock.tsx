@@ -22,7 +22,7 @@ const Skill = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5px;
+  margin-top: 5px !important;
 `;
 const Intro = styled.span`
   font-size: 1rem;
@@ -92,14 +92,14 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   return (
     <>
       <Card
-        title="Skillset"
+        title='Skillset'
         onRemove={onRemove}
         icon={icons.Skillset}
         isCardOpened={isCardOpened}
         blockId={blockId}
       >
         <TextInput
-          title="메뉴명"
+          title='메뉴명'
           required={false}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setNavTitle(e.target.value);
@@ -111,14 +111,14 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
               })
             );
           }}
-          guideline="네비게이션 바에 입력될 메뉴명을 입력하세요."
+          guideline='네비게이션 바에 입력될 메뉴명을 입력하세요.'
           value={navTitle}
         ></TextInput>
         <CustomSelect
-          title="스타일"
+          title='스타일'
           required={true}
-          guideline="스타일를 선택해주세요."
-          placeholder="원하는 선택지를 선택해주세요"
+          guideline='스타일를 선택해주세요.'
+          placeholder='원하는 선택지를 선택해주세요'
           options={styleOptions}
           onChange={(e: StyleData) => {
             setStyle(e);
@@ -128,9 +128,9 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
         />
 
         <TextInput
-          title="타이틀"
+          title='타이틀'
           required={true}
-          guideline="타이틀을 입력해주세요"
+          guideline='타이틀을 입력해주세요'
           value={title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setTitle(e.target.value);
@@ -144,9 +144,9 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
         ></TextInput>
         <ArrInput
-          title="기술 스택"
+          title='기술 스택'
           required
-          guideline="기술 스택을 입력해주세요"
+          guideline='기술 스택을 입력해주세요'
           key={'skillset'}
           value={intros}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
