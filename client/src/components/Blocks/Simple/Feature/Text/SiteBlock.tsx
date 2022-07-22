@@ -14,10 +14,6 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-
-  @media screen and (max-width: 1120px) {
-    justify-content: flex-start;
-  }
 `;
 
 const TextContainer = styled.div`
