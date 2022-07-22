@@ -1,9 +1,9 @@
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware } from "http-proxy-middleware";
 module.exports = function (app: any) {
   app.use(
-    '/api',
+    "/api",
     createProxyMiddleware({
-      target: 'http://localhost:5001', //api 요청을 보낼 서버 주소
+      target: "http://localhost:5002", //api 요청을 보낼 서버 주소
       changeOrigin: true,
     })
   );
