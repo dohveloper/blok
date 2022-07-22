@@ -71,7 +71,7 @@ export class SiteModel {
   }
 
   async pagination(page, perPage, searchKey, searchValue) {
-    let pipeline = [
+    const pipeline = [
       {
         $lookup: {
           from: "users",

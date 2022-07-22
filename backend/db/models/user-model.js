@@ -67,16 +67,16 @@ export class UserModel {
   }
 
   async countTotalUsers(searchKey, searchValue) {
-    let pipeline;
+    const pipeline = {};
     if (searchKey && searchValue) {
-      pipeline = { [searchKey]: { $regex: searchValue, $options: "i" } };
+      pipeline[searchKey] = { $regex: searchValue, $options: "i" };
     }
     const totalCount = await User.countDocuments(pipeline);
     return totalCount;
   }
 
   async pagination(page, perPage, searchKey, searchValue) {
-    let pipeline = [
+    const pipeline = [
       {
         $addFields: {
           userId: "$_id",
