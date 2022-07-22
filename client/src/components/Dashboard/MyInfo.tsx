@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Button from '../Button';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../reducers';
-import { useEffect, useState } from 'react';
+import { useAppDispatch } from '../../reducers';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 const MainContainer = styled.div`
   margin: 100px;
@@ -17,7 +17,7 @@ export const MainTitle = styled.div`
   font-weight: 600;
   font-size: 2rem;
   text-align: center;
-  margin-bottom: 70px;
+  margin-bottom: 50px;
   user-select: none;
 `;
 
@@ -75,6 +75,14 @@ const ControlButton = styled(Button)`
   }
 `;
 
+const ProfileImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #e7e7e7;
+  cursor: pointer;
+`;
+
 export default function MyInfo() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -82,7 +90,7 @@ export default function MyInfo() {
   const [plan, setPlan] = useState('');
   const [userName, setUserName] = useState('');
   const [userId, setUserId] = useState('');
-
+  const [prorileImage, setProfileImage] = useState('');
   // const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
   // 리덕스 스토어에서 userData를 불러올 때 간헐적 에러가 있어서 아래 코드 추가
   const getUserInfo = async () => {
@@ -91,7 +99,9 @@ export default function MyInfo() {
       setEmail(res.data.email);
       setPlan(res.data.plan);
       setUserName(res.data.userName);
+      setUserName(res.data.userName);
       setUserId(res.data.userId);
+      setProfileImage(res.data.profileImage);
     } catch (error) {
       console.log(error);
     }
@@ -100,6 +110,41 @@ export default function MyInfo() {
   useEffect(() => {
     getUserInfo();
   }, []);
+
+  // 이미지 로더
+  const fileInput = useRef<HTMLInputElement>(null);
+  const handleButtonClick = (e: any) => {
+    fileInput.current?.click();
+  };
+  const handleChange = async (e: any) => {
+    const formData = new FormData();
+    formData.append('profileImage', e.target.files[0]);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    const res = await axios.patch(
+      `/api/user/change-profileImage/${userId}`,
+      formData,
+      config
+    );
+    setProfileImage(res.data.profileImage);
+    dispatch({
+      type: 'USER/LOGIN',
+      payload: {
+        profileImage: res.data.profileImage,
+      },
+    });
+    setTimeout(
+      () =>
+        dispatch({
+          type: 'alertOn',
+          payload: { msg: '프로필 이미지가 수정되었습니다.', time: 1000 },
+        }),
+      400
+    );
+  };
 
   const resethandler = () => {
     dispatch({
@@ -156,6 +201,19 @@ export default function MyInfo() {
     <MainContainer>
       <MainTitle className="title">Account</MainTitle>
       <Container>
+        <ContentDiv>
+          <ProfileImage
+            src={prorileImage}
+            alt="profileImg"
+            onClick={handleButtonClick}
+          ></ProfileImage>
+          <input
+            type="file"
+            ref={fileInput}
+            onChange={handleChange}
+            style={{ display: 'none' }}
+          />
+        </ContentDiv>
         <Title>내 정보</Title>
         <ContentDiv className="content">
           <ContentTitle>이름</ContentTitle>

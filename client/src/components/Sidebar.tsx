@@ -57,6 +57,20 @@ const Profile = styled.div`
   }
 `;
 
+const ProfileImage = styled.img`
+  /* position: absolute; */
+  bottom: 20px;
+  left: 12px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  @media screen and (max-width: 780px) {
+    display: none;
+  }
+`;
+
 const Hamburger = styled.span`
   @media screen and (min-width: 780px) {
     display: none;
@@ -174,6 +188,9 @@ const Menu = (props: IMyProps) => {
 
 export default function Sidebar() {
   const [isMobile, setIsMobile] = useState(false);
+  const { profileImage, userId } = useAppSelector(
+    (state) => state.loginCheckReducer.loginData
+  );
 
   return (
     <Nav>
@@ -189,7 +206,11 @@ export default function Sidebar() {
         onMouseEnter={() => setIsMobile(true)}
         onMouseLeave={() => setIsMobile(false)}
       >
-        <FaRegUserCircle size="48" color="#CCCCCC" />
+        {profileImage === null ? (
+          <FaRegUserCircle size="48" color="#CCCCCC" />
+        ) : (
+          <ProfileImage src={profileImage} alt="profileImg" />
+        )}
       </Profile>
       {isMobile && (
         <Menu

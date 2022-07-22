@@ -12,7 +12,7 @@ const Container = styled.div`
   margin-bottom: 10px;
 
   .dashboardTitle {
-    margin-top: 72px;
+    margin-top: 62px;
   }
 
   @media screen and (max-width: 780px) {
