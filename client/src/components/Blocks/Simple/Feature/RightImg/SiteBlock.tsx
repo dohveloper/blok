@@ -17,12 +17,13 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
 `;
 
 const Img = styled.img`
-  width: 24vw;
-  padding-left: 16px;
-  padding-top: 80px;
+  max-width: 24vw;
+  padding-top: 30px;
 
   @media screen and (max-width: 1120px) {
+    max-width: 30vw;
     width: 30vw;
+    padding: 24px;
   }
 `;
 
@@ -40,7 +41,7 @@ const ImgDiv = styled.div`
 `;
 const TextContainer = styled.div`
   vertical-align: middle;
-  padding-top: 30px;
+  padding: 48px;
 `;
 
 const Caption = styled.div<{ colorSet: ColorSet }>`
