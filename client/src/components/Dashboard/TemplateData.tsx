@@ -22,7 +22,7 @@ export const templateCardData = [
 
 export default function templateListData() {
   const landingPage = {
-    id: 1,
+    id: null,
     name: '',
     domain: '',
     theme: 'Simple',
@@ -194,16 +194,16 @@ export default function templateListData() {
   };
 
   const portfolio = {
-    id: 2,
+    id: null,
     name: '',
     domain: '',
     theme: 'Resume',
     font: 'Roboto',
     colorSet: {
-      primary: '#482924',
-      secondary: '#123456',
-      background: '#123456',
-      surface: '#123456',
+      primary: '#5754DE',
+      secondary: '#ABA9FF',
+      background: '#FFFFFF',
+      surface: '#B0B0B0',
     },
     blocks: [
       {
@@ -357,24 +357,182 @@ export default function templateListData() {
     theme: 'Minimal',
     font: 'Roboto',
     colorSet: {
-      primary: '#482924',
-      secondary: '#123456',
-      background: '#123456',
-      surface: '#123456',
+      primary: '#5754DE',
+      secondary: '#ABA9FF',
+      background: '#FFFFFF',
+      surface: '#B0B0B0',
     },
-    blocks: [],
+    blocks: [
+      {
+        id: 1,
+        template: {
+          theme: 'Simple',
+          blockType: 'Nav',
+          layout: '',
+        },
+        data: {
+          navTitle: null,
+          logoImage: {
+            src: 'www.image.com/source/12312',
+            alt: 'logo',
+          },
+          logoText: {
+            value: '블록',
+          },
+        },
+      },
+      {
+        id: 2,
+        template: {
+          theme: 'Simple',
+          blockType: 'Hero',
+          layout: '',
+        },
+        data: {
+          navTitle: '홈',
+          caption: {
+            value: '노코드 웹사이트 빌더 플랫폼',
+          },
+          header: {
+            value: '여기에 블록에 입력한 제목이 들어갑니다. 여러줄도 오케이',
+          },
+          headerHighlight: {
+            value: '',
+          },
+          body: {
+            value:
+              '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
+          },
+          button: {
+            title: '여기에는 버튼명',
+            url: 'www.google.com',
+          },
+        },
+      },
+      {
+        id: 3,
+        template: {
+          theme: 'Simple',
+          blockType: 'Feature',
+          layout: '',
+        },
+        data: {
+          style: { value: 'Simple Default' },
+          navTitle: '기능 1',
+          image: {
+            src: '',
+            alt: 'image',
+          },
+          caption: {
+            value: '여기는 캡션',
+          },
+          header: {
+            value: '여기에 Feature 블록에서 입력한 값이 들어갑니다.',
+          },
+          headerHighlight: {
+            value: '',
+          },
+          body: {
+            value:
+              '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
+          },
+          button: {
+            title: '버튼',
+            url: 'naver.com',
+          },
+        },
+      },
+      {
+        id: 4,
+        template: {
+          theme: 'Simple',
+          blockType: 'Feature',
+          layout: 'RightImg',
+        },
+        data: {
+          navTitle: '기능 1',
+          image: {
+            src: '',
+            alt: 'image',
+          },
+          caption: {
+            value: '여기는 캡션',
+          },
+          header: {
+            value: '여기에 Feature 블록에서 입력한 값이 들어갑니다.',
+          },
+          headerHighlight: {
+            value: '',
+          },
+          body: {
+            value:
+              '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
+          },
+          button: {
+            title: '버튼',
+            url: 'naver.com',
+          },
+        },
+      },
+      {
+        id: 5,
+        template: {
+          theme: 'Simple',
+          blockType: 'Feature',
+          layout: 'Text',
+        },
+        data: {
+          navTitle: '기능 1',
+          image: {
+            src: '',
+            alt: 'image',
+          },
+          caption: {
+            value: '여기는 캡션',
+          },
+          header: {
+            value: '여기에 Feature 블록에서 입력한 값이 들어갑니다.',
+          },
+          headerHighlight: {
+            value: '',
+          },
+          body: {
+            value:
+              '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
+          },
+        },
+      },
+      {
+        id: 6,
+        template: {
+          theme: 'Simple',
+          blockType: 'Footer',
+          layout: '',
+        },
+        data: {
+          navTitle: null,
+          leftText: {
+            value: '노코드 웹사이트 빌더 플랫폼',
+          },
+          rightText: {
+            value: '여기에 블록에 입력한 제목이 들어갑니다. 여러줄도 오케이',
+          },
+        },
+      },
+    ],
   };
 
   const basicWeb = {
+    id: null,
     name: '',
     domain: '',
-    theme: 'Minimal',
+    theme: 'Simple',
     font: 'Roboto',
     colorSet: {
-      primary: '#482924',
-      secondary: '#123456',
-      background: '#123456',
-      surface: '#123456',
+      primary: '#5754DE',
+      secondary: '#ABA9FF',
+      background: '#FFFFFF',
+      surface: '#B0B0B0',
     },
     blocks: [],
   };

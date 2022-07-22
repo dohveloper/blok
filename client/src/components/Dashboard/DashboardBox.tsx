@@ -49,6 +49,10 @@ const Table = styled.table`
     padding: 1rem 4.8rem;
     text-align: center;
     transition: 0.2s ease-out;
+
+    .editButton {
+      margin-right: 5px;
+    }
   }
 
   @media screen and (max-width: 780px) {
@@ -204,7 +208,7 @@ export function DashboardInfo() {
 
   return (
     <Container>
-      <MainTitle className="title">Dashboard</MainTitle>
+      <MainTitle className="title dashboardTitle">Dashboard</MainTitle>
       <div className="tableBox">
         <Table>
           <thead>
@@ -221,13 +225,13 @@ export function DashboardInfo() {
                   <td>
                     {e.name}
                     <br />
-                    <a href={e.domain}>www.block.com/{e.domain}</a>
+                    <a href={e.domain}>www.blok.com/{e.domain}</a>
                   </td>
                   <td>Free</td>
                   <td>
                     <Link to={`/editor/${e._id}`}>
                       <ControlButton
-                        className={'editButton'}
+                        className="editButton"
                         rounding
                         color="white"
                       >
@@ -235,7 +239,7 @@ export function DashboardInfo() {
                       </ControlButton>
                     </Link>
                     <ControlButton
-                      className={'deleteButton'}
+                      className="deleteButton"
                       onClick={() => deleteHandler(e._id)}
                       color="gray"
                       rounding
