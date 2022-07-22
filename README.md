@@ -124,6 +124,35 @@
 
 <br>
 
+## 📝 테마 개발자 가이드
+
+### 기본 구조 설명
+    - Setting Block: 좌측 설정 블록
+    - Site Block: Preview, 실제 페이지에 보이는 블록
+    - BlockTemplates: 웹사이트가 제공하는 모든 블록 설정값을 기록해두는 파일
+        - template → [에디터] 및 [실제사이트]에서 어느 SettingBlock, SiteBlock을 렌더링할지 값.
+        - creationData → [에디터] - [블록추가] 팝업에서 보여지는 값 (이름, 아이콘, 중복불가능여부)
+        - defaultData → [에디터] - [블록추가] 시 블록에 디폴트로 설정되는 값
+### 테마 추가하는 방법 
+
+1. **폴더 추가 (테마, 블록타입, 레이아웃)**
+  - components/Blocks 안에 구조에 맞게 폴더를 추가한다. 
+  - components/Blocks/ ${테마}/${블록타입}/${레이아웃(optional)}
+2. **파일 생성 (SettingBlock, SiteBlock)**
+    1. SettingBlock.tsx 파일을 생성하고 Simple 테마의 코드를 참고하여 작성한다.
+        - components/Input 컴포넌트를 활용하여 필요한 인풋 필드를 설정한다.
+        - 기본적으로 필요한 함수들은 blockHelper 또는 SiteReducer 안에 있으니 필요시 활용한다.
+    2. SiteBlock.tsx 코드 작성 
+        - 원하는대로 커스터마이징하여 화면에 표시될 블록을 디자인한다.
+3. **테마 등록 하기**
+    - 만든 블록을 components/Block/blockTemplates.json 파일에 등록한다.
+        - → 테마이름, 기본값 데이터, 블록생성팝업에서 보여줄 이름,아이콘,중복가능여부
+    - 아이콘 등록
+        - 이미지를 추가후 index.ts 에 추가한다.
+### API
+    - Site API
+    - Login API
+
 ## 📦 결과물 
 - 다양한 블록 구현: 다양한 타입의 블록, 인풋, 폰트, 컬러셋을 지원하여 유저가 다양한 조합의 웹사이트를 만들 수 있도록 구현  (블록 12개, 인풋필드 7개)
 - 확장성 있는 코드 구현: 확장성을 고려하여 설계함으로써 추후에 다양한 테마를 지원할 수 있도록 설계
