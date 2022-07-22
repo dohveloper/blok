@@ -15,4 +15,6 @@ siteRouter.patch("/:siteId", loginRequired, siteController.updateSite);
 
 siteRouter.delete("/:siteId", loginRequired, siteController.deleteSite);
 
+siteRouter.post("/image", loginRequired, siteController.uploadImage);
+
 export { siteRouter };

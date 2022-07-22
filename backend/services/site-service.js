@@ -46,8 +46,8 @@ class SiteService {
         "등록된 사이트가 없습니다. 다시 한 번 확인해 주세요."
       );
     }
-    let domain = await this.siteModel.findBySiteDomain(toUpdate.domain);
-    if (domain && domain.no !== siteId) {
+    let domainSite = await this.siteModel.findBySiteDomain(toUpdate.domain);
+    if (domainSite && domainSite.no !== site.no) {
       throw new BadRequestError(
         "이 사이트의 도메인은 현재 사용중입니다. 다른 도메인을 입력해 주세요"
       );

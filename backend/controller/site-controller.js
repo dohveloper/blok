@@ -1,6 +1,6 @@
 import is from "@sindresorhus/is";
 import { siteService } from "../services";
-import { asyncHandler } from "../utils";
+import { asyncHandler, s3Uploadv2 } from "../utils";
 
 import { BadRequestError } from "../errors";
 
@@ -66,6 +66,12 @@ const siteController = {
     };
     const updatedSiteInfo = await siteService.updateSite(siteId, toUpdate);
     return res.ok(200, updatedSiteInfo);
+  }),
+  uploadImage: asyncHandler(async (req, res) => {
+    const image = req.file;
+    const results = await s3Uploadv2(image);
+    const imageUrl = results.Location;
+    return res.ok(200, imageUrl);
   }),
 
   deleteSite: asyncHandler(async (req, res) => {
