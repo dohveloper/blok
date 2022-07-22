@@ -88,6 +88,7 @@ const Button = styled.button<{ colorSet: ColorSet }>`
   @media screen and (max-width: 1120px) {
     font-size: 1.4vw;
     padding: 1vw 2vw;
+    margin-top: 1.2vw;
   }
 `;
 const HeaderHighlight = styled.span<{ colorSet: ColorSet }>`
