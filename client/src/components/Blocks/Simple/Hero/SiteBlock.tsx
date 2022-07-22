@@ -19,8 +19,8 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   padding: 5rem 2rem;
 `;
 
-const HeroMenuName = styled.div`
-  color: #2420e1;
+const HeroMenuName = styled.div<{ colorSet: ColorSet }>`
+  color: ${(props) => props.colorSet.primary};
   font-weight: 900;
   font-size: 1.2rem;
   line-height: 1.7rem;
@@ -41,11 +41,11 @@ const HeadLine = styled.div`
     line-height: ${RemtoVw(16, 5)};
   }
 `;
-const HeadLineText = styled.div`
+const HeadLineText = styled.div<{ colorSet: ColorSet }>`
   font-weight: 500;
   font-size: 1.2rem;
   line-height: 1.5rem;
-  color: #b0b0b0;
+  color: ${(props) => props.colorSet.surface};
   padding: 0 10%;
   margin-top: 1.3rem;
   @media screen and (max-width: 1120px) {
@@ -84,9 +84,9 @@ export default function SiteBox(props: SiteBlockProps) {
   return (
     <>
       <Container colorSet={colorSet} font={font}>
-        <HeroMenuName>{data.caption?.value}</HeroMenuName>
+        <HeroMenuName colorSet={colorSet}>{data.caption?.value}</HeroMenuName>
         <HeadLine>{data.header?.value}</HeadLine>
-        <HeadLineText>{data.body?.value}</HeadLineText>
+        <HeadLineText colorSet={colorSet}>{data.body?.value}</HeadLineText>
         <Button colorSet={colorSet} href={data.button?.url}>
           {data.button?.title}
         </Button>

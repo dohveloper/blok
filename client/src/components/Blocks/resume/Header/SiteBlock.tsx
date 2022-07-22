@@ -15,7 +15,7 @@ const Container = styled.div<{
   font: string;
   paddingNumber: number;
 }>`
-  background-color: ${(props) => props.colorSet.background};
+  background-color: #fff;
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
 
@@ -72,7 +72,7 @@ export default function SiteBlock(props: SiteBlockProps) {
   alldata.forEach((res) => {
     if (res.data.navTitle) return NavTitles.push(res.data.navTitle);
   });
-  console.log(data);
+
   return (
     <Container
       colorSet={colorSet}

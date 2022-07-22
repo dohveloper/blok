@@ -210,55 +210,21 @@ export default function templateListData() {
         id: 1,
         template: {
           theme: 'Resume',
-          blockType: 'Skillset',
+          blockType: 'Header',
           layout: '',
         },
         data: {
           navTitle: null,
-          arrText: {
-            value: ['javascript', 'java', 'typescript', 'react', 'node'],
-          },
           title: {
-            value: 'Skillset',
+            value: 'Header',
+          },
+          number: {
+            value: 5,
           },
         },
       },
       {
         id: 2,
-        template: {
-          theme: 'Resume',
-          blockType: 'Project',
-          layout: '',
-        },
-        data: {
-          navTitle: null,
-          title: {
-            value: 'ProJect',
-          },
-          leftText: {
-            value: '웹빌더프로젝트 - 블록',
-          },
-          arrText: {
-            value: ['javascript', 'java', 'typescript', 'react', 'node'],
-          },
-          caption: {
-            value: '2022년 6월 29일 ~ 2022년 7월 22일',
-          },
-          rightText: {
-            value: '프론트 엔드 개발',
-          },
-          button: {
-            title: '프로젝트URL',
-            url: 'naver.com',
-          },
-          body: {
-            value:
-              '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
-          },
-        },
-      },
-      {
-        id: 3,
         template: {
           theme: 'Resume',
           blockType: 'Introduce',
@@ -275,47 +241,24 @@ export default function templateListData() {
         },
       },
       {
+        id: 3,
+        template: {
+          theme: 'Resume',
+          blockType: 'Skillset',
+          layout: '',
+        },
+        data: {
+          navTitle: null,
+          arrText: {
+            value: ['javascript', 'java', 'typescript', 'react', 'node'],
+          },
+          title: {
+            value: 'Skillset',
+          },
+        },
+      },
+      {
         id: 4,
-        template: {
-          theme: 'Resume',
-          blockType: 'Header',
-          layout: '',
-        },
-        data: {
-          navTitle: null,
-          title: {
-            value: '해더',
-          },
-          number: {
-            value: 5,
-          },
-        },
-      },
-      {
-        id: 5,
-        template: {
-          theme: 'Resume',
-          blockType: 'Education',
-          layout: '',
-        },
-        data: {
-          navTitle: null,
-          title: {
-            value: 'Education',
-          },
-          leftText: {
-            value: '연세대학교',
-          },
-          rightText: {
-            value: '실내건축학과',
-          },
-          caption: {
-            value: '2017년 3월~2021년 12월',
-          },
-        },
-      },
-      {
-        id: 6,
         template: {
           theme: 'Resume',
           blockType: 'Career',
@@ -340,11 +283,69 @@ export default function templateListData() {
           },
           button: {
             title: '프로젝트URL',
+            url: 'http://naver.com/',
+          },
+          body: {
+            value:
+              '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
+          },
+        },
+      },
+      {
+        id: 5,
+        template: {
+          theme: 'Resume',
+          blockType: 'Project',
+          layout: '',
+        },
+        data: {
+          navTitle: null,
+          title: {
+            value: 'ProJect',
+          },
+          leftText: {
+            value: '웹빌더프로젝트 - 블록',
+          },
+          arrText: {
+            value: ['javascript', 'typescript', 'react', 'node'],
+          },
+          caption: {
+            value: '2022년 6월 29일 ~ 2022년 7월 22일',
+          },
+          rightText: {
+            value: '프론트 엔드 개발',
+          },
+          button: {
+            title: '프로젝트URL',
             url: 'naver.com',
           },
           body: {
             value:
               '여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다.',
+          },
+        },
+      },
+
+      {
+        id: 6,
+        template: {
+          theme: 'Resume',
+          blockType: 'Education',
+          layout: '',
+        },
+        data: {
+          navTitle: null,
+          title: {
+            value: 'Education',
+          },
+          leftText: {
+            value: '블록대학교',
+          },
+          rightText: {
+            value: '블록학과',
+          },
+          caption: {
+            value: '2017년 3월~2021년 12월',
           },
         },
       },

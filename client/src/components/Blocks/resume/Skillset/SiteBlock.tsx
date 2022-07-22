@@ -1,24 +1,23 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
-import { useAppSelector } from '../../../../reducers';
-import { selectBlockById } from '../../../../reducers/SiteReducer';
+
 import { SiteBlockProps, ColorSet } from '../../blockValidator';
 import { SiteBlockByType } from '../../../../reducers/HostReducer';
 
 const REM = 16;
 const Container = styled.div<{ colorSet: ColorSet; font: string }>`
-  background-color: ${(props) => props.colorSet.background};
+  background-color: #fff;
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
   display: flex;
   width: 90%;
-  padding: 2rem 0;
+  padding: 3rem 0;
   margin: 0 auto;
   border-bottom: 1px solid black;
   font-size: ${REM}px;
   box-sizing: border-box;
   @media screen and (max-width: 1120px) {
-    padding: ${RemtoVw(REM, 2)} 0;
+    padding: ${RemtoVw(REM, 3)} 0;
   }
 `;
 

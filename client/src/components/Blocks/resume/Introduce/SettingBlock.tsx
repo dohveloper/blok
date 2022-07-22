@@ -24,6 +24,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const [title, setTitle] = useState(data.title?.value);
   const [body, setbody] = useState(data.body?.value);
   const [navTitle, setNavTitle] = useState(data.navTitle);
+
   return (
     <>
       <Card title='Introduce' onRemove={onRemove} icon={icons.Introduce}>

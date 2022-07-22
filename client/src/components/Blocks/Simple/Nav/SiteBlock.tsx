@@ -29,11 +29,11 @@ const LogoBox = styled.div<{ style: any }>`
   display: flex;
 `;
 const LogoImg = styled.img`
-  width: 2rem;
-  height: 2rem;
+  width: 2.3rem;
+  height: 2.3rem;
   @media screen and (max-width: 1120px) {
-    width: ${RemtoVw(16, 2)};
-    height: ${RemtoVw(16, 2)};
+    width: ${RemtoVw(16, 2.3)};
+    height: ${RemtoVw(16, 2.3)};
   }
 `;
 const LogoTitle = styled.div`
@@ -66,6 +66,17 @@ const Nav = styled.div`
   align-items: center;
   margin-right: 1rem;
 `;
+export const ImgDiv = styled.div`
+  background-color: #efefef;
+  width: 2.3rem;
+  height: 2.3rem;
+  line-height: 2.3rem;
+  text-align: center;
+  @media screen and (max-width: 1120px) {
+    width: ${RemtoVw(16, 2.3)};
+    height: ${RemtoVw(16, 2.3)};
+  }
+`;
 
 export default function SiteBlock(props: SiteBlockProps) {
   const { blockId, type } = props;
@@ -79,7 +90,11 @@ export default function SiteBlock(props: SiteBlockProps) {
   return (
     <NavBarContainer font={font} colorSet={colorSet}>
       <LogoBox style={true}>
-        <LogoImg src={data.logoImage?.src} alt={data.logoImage?.alt} />
+        {data.image?.src ? (
+          <LogoImg src={data.image.src} alt={data.image.alt ?? ''} />
+        ) : (
+          <ImgDiv style={{ marginRight: '20px' }}>logo</ImgDiv>
+        )}
         <LogoTitle>{data.logoText?.value}</LogoTitle>
       </LogoBox>
 

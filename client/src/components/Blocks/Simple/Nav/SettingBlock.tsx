@@ -23,20 +23,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
   const [style, setStyle] = useState(currentStyle);
   const [Logo, setLogo] = useState(data.logoText?.value);
   const [image, setImage] = useState<any>(data.logoImage);
-  const onImgChange = async (event: any) => {
-    // setImgLoading(true);
-    setImage(URL.createObjectURL(event.target.files[0]));
-    // const response = axios.post(URL.createObjectURL(event.target.files[0]))
-    // setImgLoading(false);
-    dispatch(
-      updateBlockData({
-        blockId: id,
-        field: 'logoImage',
-        value: { url: URL.createObjectURL(event.target.files[0]) },
-      })
-    );
-  };
-  console.log(data);
+
   return (
     <>
       <Card title='Navbar' pinned onRemove={onRemove} icon={icon.Navbar}>
@@ -54,10 +41,23 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
         />
         <ImgInput
           title='로고 이미지'
-          guideline='가능한 포맷: .jpg, .png'
+          guideline='1:1 비율의 이미지로 업로드해주세요'
           src={image?.src}
           alt={image?.alt}
-          onChange={onImgChange}
+          placeholder={image?.src}
+          onChange={(e: any) => {
+            setImage(e);
+            dispatch(
+              updateBlockData({
+                blockId: id,
+                field: 'image',
+                value: {
+                  src: e,
+                  alt: e,
+                },
+              })
+            );
+          }}
         />
         <TextInput
           title='텍스트'

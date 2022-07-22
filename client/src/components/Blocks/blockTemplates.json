@@ -13,8 +13,8 @@
       },
       "defaultData": {
         "navTitle": null,
-        "logoImage": {
-          "src": "www.image.com/source/12312",
+        "image": {
+          "src": "",
           "alt": "logo"
         },
         "logoText": {
@@ -191,7 +191,7 @@
       "defaultData": {
         "navTitle": null,
         "arrText": {
-          "value": ["javascript", "java", "typescript", "react", "node"]
+          "value": ["javascript", "typescript", "react", "node"]
         },
         "title": {
           "value": "Skillset"
@@ -218,7 +218,7 @@
           "value": "웹빌더프로젝트 - 블록"
         },
         "arrText": {
-          "value": ["javascript", "java", "typescript", "react", "node"]
+          "value": ["javascript", "typescript", "react", "node"]
         },
         "caption": {
           "value": "2022년 6월 29일 ~ 2022년 7월 22일"
@@ -294,10 +294,10 @@
           "value": "Education"
         },
         "leftText": {
-          "value": "연세대학교"
+          "value": "블록대학교"
         },
         "rightText": {
-          "value": "실내건축학과"
+          "value": "블록학과"
         },
         "caption": {
           "value": "2017년 3월~2021년 12월"

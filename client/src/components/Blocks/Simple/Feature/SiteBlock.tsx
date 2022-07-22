@@ -90,18 +90,17 @@ const Button = styled.button<{ colorSet: ColorSet }>`
     padding: 1vw 2vw;
   }
 `;
+const HeaderHighlight = styled.span<{ colorSet: ColorSet }>`
+  font-size: 2rem;
+  font-weight: 700;
+  color: ${(props) => props.colorSet.primary};
+
+  @media screen and (max-width: 1120px) {
+    font-size: 2.8vw;
+  }
+`;
 
 function highlightHandler(header: string, keyword: string, colorSet: ColorSet) {
-  const HeaderHighlight = styled.span`
-    font-size: 2rem;
-    font-weight: 700;
-    color: ${colorSet.primary};
-
-    @media screen and (max-width: 1120px) {
-      font-size: 2.8vw;
-    }
-  `;
-
   let result = [];
 
   if (header.includes(keyword)) {
@@ -110,7 +109,7 @@ function highlightHandler(header: string, keyword: string, colorSet: ColorSet) {
       result.push(
         <>
           <Header>{splitedByKeyword[i]}</Header>
-          <HeaderHighlight>{keyword}</HeaderHighlight>
+          <HeaderHighlight colorSet={colorSet}>{keyword}</HeaderHighlight>
         </>
       );
     }
@@ -137,7 +136,9 @@ export default function SiteBlock(props: SiteBlockProps) {
         {data.image?.src ? (
           <Img src={data.image.src} alt={data.image.alt ?? ''} />
         ) : (
-          <ImgDiv style={{marginRight: '20px'}}>여기에 이미지가 보여집니다.</ImgDiv>
+          <ImgDiv style={{ marginRight: '20px' }}>
+            여기에 이미지가 보여집니다.
+          </ImgDiv>
         )}
         <TextContainer>
           {data.caption?.value && (

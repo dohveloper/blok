@@ -148,7 +148,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
-            console.log(e);
+
             setArr((res) => {
               if (!res) {
                 return;

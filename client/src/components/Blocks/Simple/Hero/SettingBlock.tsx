@@ -28,9 +28,9 @@ function Hero({ blockId, onRemove }: SettingBlockProps) {
   const [navTitle, setNavTitle] = useState(data.navTitle);
   const [caption, setCaption] = useState(data.caption?.value);
   const [header, setHeader] = useState(data.header?.value);
-  const [body, setBody] = useState(data.logoText?.value);
+  const [body, setBody] = useState(data.body?.value);
   const [buttontext, setButtontext] = useState(data.button?.title);
-  const [buttonurl, setButtonUrl] = useState(data.buttonurl?.url);
+  const [buttonurl, setButtonUrl] = useState(data.button?.url);
   const [style, setStyle] = useState(currentStyle);
   return (
     <>
@@ -71,7 +71,7 @@ function Hero({ blockId, onRemove }: SettingBlockProps) {
             dispatch(
               updateBlockData({
                 blockId: id,
-                field: 'title',
+                field: 'caption',
                 value: { value: e.target.value },
               })
             );
@@ -119,7 +119,7 @@ function Hero({ blockId, onRemove }: SettingBlockProps) {
             dispatch(
               updateBlockData({
                 blockId: id,
-                field: 'title',
+                field: 'button',
                 value: { title: e.target.value },
               })
             );
@@ -135,7 +135,7 @@ function Hero({ blockId, onRemove }: SettingBlockProps) {
             dispatch(
               updateBlockData({
                 blockId: id,
-                field: 'url',
+                field: 'button',
                 value: { url: e.target.value },
               })
             );

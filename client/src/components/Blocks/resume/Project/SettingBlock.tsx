@@ -90,7 +90,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
         value: { value: arr },
       })
     );
-  }, [arr]);
+  }, [arr, dispatch, id]);
   return (
     <>
       <Card title='Project' onRemove={onRemove} icon={icons.Project}>
@@ -197,7 +197,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
           }}
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
-            console.log(e);
+
             setArr((res) => {
               if (!res) {
                 return;
