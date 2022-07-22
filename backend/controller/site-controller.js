@@ -68,8 +68,7 @@ const siteController = {
     return res.ok(200, updatedSiteInfo);
   }),
   uploadImage: asyncHandler(async (req, res) => {
-    const image = req.file;
-    const results = await s3Uploadv2(image);
+    const results = await s3Uploadv2(req.file);
     const imageUrl = results.Location;
     return res.ok(200, imageUrl);
   }),

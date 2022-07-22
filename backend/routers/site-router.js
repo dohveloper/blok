@@ -1,5 +1,6 @@
 import { loginRequired } from "../middlewares";
 import { siteController } from "../controller";
+import { upload } from "../middlewares";
 import { Router } from "express";
 const siteRouter = Router();
 
@@ -15,6 +16,6 @@ siteRouter.patch("/:siteId", loginRequired, siteController.updateSite);
 
 siteRouter.delete("/:siteId", loginRequired, siteController.deleteSite);
 
-siteRouter.post("/image", loginRequired, siteController.uploadImage);
+siteRouter.post("/image", upload.single("file"), siteController.uploadImage);
 
 export { siteRouter };
