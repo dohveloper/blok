@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { TextInput, CustomSelect } from '../../../Input';
 import { Card } from '../../../Card/Card';
-import { HeroData } from '../../blockValidator';
 import * as icon from '../../../../icons';
 import { getStyleOptions, getCurrentStyleOption } from '../../blockHelper';
 import { useAppSelector, useAppDispatch } from '../../../../reducers';
@@ -12,10 +11,6 @@ import {
 } from '../../../../reducers/SiteReducer';
 import type { RootState } from '../../../../reducers/store';
 import { SettingBlockProps, StyleData } from '../../blockValidator';
-interface Hero {
-  data: HeroData;
-  onRemove: (event: React.MouseEvent<HTMLElement>) => void;
-}
 
 function Hero({ blockId, onRemove }: SettingBlockProps) {
   const { id, template, data } = useAppSelector((state: RootState) =>

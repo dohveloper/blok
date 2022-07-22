@@ -2,10 +2,7 @@ import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
 import { SiteBlockByType } from '../../../../reducers/HostReducer';
 import { useAppSelector } from '../../../../reducers';
-import {
-  selectBlockById,
-  selectBlocks,
-} from '../../../../reducers/SiteReducer';
+import { selectBlocks } from '../../../../reducers/SiteReducer';
 import { SiteBlockProps } from '../../blockValidator';
 
 const NavBarContainer = styled.div<{ font: any; colorSet: any }>`
@@ -89,7 +86,7 @@ export default function SiteBlock(props: SiteBlockProps) {
 
   return (
     <NavBarContainer font={font} colorSet={colorSet}>
-      <LogoBox style={true}>
+      <LogoBox style>
         {data.image?.src ? (
           <LogoImg src={data.image.src} alt={data.image.alt ?? ''} />
         ) : (

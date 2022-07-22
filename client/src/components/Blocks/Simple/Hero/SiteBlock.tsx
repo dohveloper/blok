@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { RemtoVw } from '../../../../utils/cssconvert';
-import { useAppSelector } from '../../../../reducers';
-import { selectBlockById } from '../../../../reducers/SiteReducer';
 import { SiteBlockProps, ColorSet } from '../../blockValidator';
 import { SiteBlockByType } from '../../../../reducers/HostReducer';
 

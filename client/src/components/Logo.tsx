@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import * as icon from '../icons';
 
 const Logodiv = styled.div`
-  font-size: 30px;
-  font-weight: 700;
+  font-family: 'GangwonEduPower';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 29px;
   width: 100px;
   margin: 0 auto 0 20px;
   position: absolute;
@@ -12,6 +16,9 @@ const Logodiv = styled.div`
   height: 40px;
   cursor: pointer;
   padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @media screen and (max-width: 1120px) {
     position: static;
     width: 100%;
@@ -21,6 +28,12 @@ const Logodiv = styled.div`
     height: 40px;
     padding: 10px 0;
   }
+`;
+
+const LogoImg = styled.img`
+  height: 33px;
+  width: 36px;
+  margin-right: 10px;
 `;
 
 const Logo = () => {
@@ -34,7 +47,8 @@ const Logo = () => {
         toMainClick(e);
       }}
     >
-      Blok
+      <LogoImg src={icon.Logo} />
+      blok
     </Logodiv>
   );
 };

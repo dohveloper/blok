@@ -88,7 +88,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
         value: { value: arr },
       })
     );
-  }, [arr]);
+  }, [arr, dispatch, id]);
   return (
     <>
       <Card title='Skillset' onRemove={onRemove} icon={icons.Skillset}>
@@ -124,7 +124,7 @@ function SettingBlock({ blockId, onRemove }: SettingBlockProps) {
         <TextInput
           title='타이틀'
           required={true}
-          guideline='텍스트를 입력해주세요'
+          guideline='타이틀을 입력해주세요'
           value={title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setTitle(e.target.value);
