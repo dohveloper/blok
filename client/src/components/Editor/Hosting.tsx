@@ -8,6 +8,7 @@ import ErrorBoundary from './ErrorBoundary';
 
 const Container = styled.div`
   width: 100%;
+  max-width: 1140px;
   height: calc(100% - 60px);
   box-sizing: border-box;
   overflow-y: scroll;
@@ -90,7 +91,7 @@ export default function Hosting() {
 
     return (
       <SiteBlock
-        type='host'
+        type="host"
         key={id}
         blockId={id}
         colorSet={colorSet}

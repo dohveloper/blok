@@ -7,7 +7,7 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
 
-  padding: 100px 40px;
+  padding: 100px 32px;
   margin: 0 auto;
 
   display: flex;

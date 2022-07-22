@@ -8,11 +8,11 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
 
-  padding: 80px 10px;
+  padding: 80px 32px;
   margin: 0 auto;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -157,7 +157,9 @@ export default function SiteBlock(props: SiteBlockProps) {
         {data.image?.src ? (
           <Img src={data.image.src} alt={data.image.alt ?? ''} />
         ) : (
-          <ImgDiv style={{marginLeft: '20px'}}>여기에 이미지가 보여집니다.</ImgDiv>
+          <ImgDiv style={{ marginLeft: '20px' }}>
+            여기에 이미지가 보여집니다.
+          </ImgDiv>
         )}
       </Container>
     </>
