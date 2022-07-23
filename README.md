@@ -58,15 +58,10 @@
 | 국내외 다양한 노코드툴을 써보며 서비스 기획초안 제작  | Figma를 활용하여 UI 및 디자인시스템 제작 | 
 |:-------------:|:-------------:|  
 |<img width="300" alt="before1" src="https://user-images.githubusercontent.com/32115010/180220513-a04ce8dd-a5f5-4c93-9624-e1cf73bfc2ba.png">     | <img width="600"  alt="before2" src="https://user-images.githubusercontent.com/32115010/180222539-183243bd-27d4-44c2-8a52-b185a5e37ea6.png"> |
-
-
-### 테크스택
-
-- 프론트엔드 
-  - 코어: React, TypeScript
-  - 상태관리: Redux, Redux Toolkit
-  - 스타일링: styled-components
   
+<br>
+<br>
+
 ### 테크스택
 
 - 프론트엔드 
