@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Button from '../Button';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../reducers';
+import { useAppDispatch, useAppSelector } from '../../reducers';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import default_profile from '../../imgs/profileImage.png';
 
@@ -80,7 +80,7 @@ const ProfileImage = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  /* background-color: #e7e7e7; */
+  background-color: #fff;
   cursor: pointer;
 `;
 
@@ -93,7 +93,8 @@ export default function MyInfo() {
   const [userId, setUserId] = useState('');
   const [prorileImage, setProfileImage] = useState('');
   // const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
-  // 리덕스 스토어에서 userData를 불러올 때 간헐적 에러가 있어서 아래 코드 추가
+
+  // 리덕스 스토어에서 userData를 불러올 때 리랜더링 이슈가 있어서 아래 코드 추가
   const getUserInfo = async () => {
     try {
       const res = await axios.get('/api/user/logincheck');
@@ -103,6 +104,14 @@ export default function MyInfo() {
       setUserName(res.data.userName);
       setUserId(res.data.userId);
       setProfileImage(res.data.profileImage);
+
+      if (!res.data.userId) {
+        dispatch({
+          type: 'alertOn',
+          payload: { msg: `로그인 한 유저만 이용 가능합니다.` },
+        });
+        navigate('/login');
+      }
 
       if (res.data.profileImage == null) {
         setProfileImage(default_profile);

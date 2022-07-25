@@ -12,10 +12,12 @@ class AuthService {
     if (user && user.oauth !== oauth) {
       throw new BadRequestError("이미 계정으로 가입된 이메일입니다.");
     }
+    console.log(user);
+
     if (user) {
       return user;
     }
-    const created = await userModel.create({
+    await userModel.create({
       userName,
       email,
       profileImage,
@@ -23,7 +25,7 @@ class AuthService {
       password: "OAUTH",
       oauth: oauth,
     });
-    return created;
+    return await userModel.findByEmail(email);
   }
 }
 

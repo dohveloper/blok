@@ -46,7 +46,7 @@ const Nav = styled.nav`
 
 const Profile = styled.div`
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 12px;
   cursor: pointer;
 
@@ -56,11 +56,8 @@ const Profile = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  /* position: absolute; */
-  bottom: 20px;
-  left: 12px;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   cursor: pointer;
 
@@ -86,8 +83,8 @@ const MenuContainer = styled.div`
   box-sizing: border-box;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   position: fixed;
-  bottom: 54px;
-  left: 54px;
+  bottom: 50px;
+  left: 50px;
 
   @media screen and (max-width: 780px) {
     top: 51px;
@@ -131,6 +128,7 @@ const ListSpan = styled.span`
   font-size: 18px;
   display: inline-block;
   text-align: center;
+  cursor: pointer;
   @media screen and (max-width: 780px) {
     margin-top: 6px;
     width: 100px;
@@ -172,39 +170,39 @@ const Menu = (props: IMyProps) => {
       onMouseLeave={props.onMouseLeave}
       onMouseEnter={props.onMouseEnter}
     >
-      <Link to='/account' style={{ textDecoration: 'none' }}>
+      <Link to="/account" style={{ textDecoration: 'none' }}>
         <List>
-          <FaUserAlt color='black' />
+          <FaUserAlt color="black" />
           <ListSpan>Account</ListSpan>
         </List>
       </Link>
 
       {userData?.role === 'admin' ? (
         <>
-          <Link to='/site' style={{ textDecoration: 'none' }}>
+          <Link to="/admin/site" style={{ textDecoration: 'none' }}>
             <List>
-              <MdOutlineSpaceDashboard color='black' />
+              <MdOutlineSpaceDashboard color="black" />
               <ListSpan>Manage Site</ListSpan>
             </List>
           </Link>
-          <Link to='/user' style={{ textDecoration: 'none' }}>
+          <Link to="/admin/user" style={{ textDecoration: 'none' }}>
             <List>
-              <MdOutlineSpaceDashboard color='black' />
+              <MdOutlineSpaceDashboard color="black" />
               <ListSpan>Manage User</ListSpan>
             </List>
           </Link>
         </>
       ) : (
-        <Link to='/dashboard' style={{ textDecoration: 'none' }}>
+        <Link to="/dashboard" style={{ textDecoration: 'none' }}>
           <List>
-            <MdOutlineSpaceDashboard color='black' />
+            <MdOutlineSpaceDashboard color="black" />
             <ListSpan>Dashboard</ListSpan>
           </List>
         </Link>
       )}
       <div onClick={logoutHandler} style={{ textDecoration: 'none' }}>
         <List>
-          <BiLogOut color='black' />
+          <BiLogOut color="black" />
           <ListSpan>Logout</ListSpan>
         </List>
       </div>
@@ -223,9 +221,9 @@ export default function Sidebar() {
 
   return (
     <Nav>
-      <div className='navbarLogo'>
-        <Link to='/'>
-          <LogoImg src={logoImg} alt='logo' />
+      <div className="navbarLogo">
+        <Link to="/dashboard">
+          <LogoImg src={logoImg} alt="logo" />
         </Link>
       </div>
       <Hamburger onClick={() => setIsMobile(true)}>
@@ -235,12 +233,12 @@ export default function Sidebar() {
         onMouseEnter={() => setIsMobile(true)}
         onMouseLeave={() => setIsMobile(false)}
       >
-        {profileImage === null ? (
-          <ProfileImage src={default_profile} alt='profile' />
+        {profileImage == null ? (
+          <ProfileImage src={default_profile} alt="profile" />
         ) : (
           <ProfileImage
             src={profileImage}
-            alt='profileImg'
+            alt="profileImg"
             onError={onErrorImg}
           />
         )}

@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Button from '../Button';
 import { MainTitle } from './MyInfo';
-// import { useDispatch } from "react-redux";
-import { useAppDispatch } from '../../reducers';
+import { useAppDispatch, useAppSelector } from '../../reducers';
+import { useNavigate } from 'react-router-dom';
 import { CustomSelect } from './UserTable';
 
 const Container = styled.div`
@@ -59,8 +59,6 @@ const SearchInput = styled.input`
 
 const TableContainer = styled.div`
   width: 1200px;
-  // min-height: 500px;
-  // height: 600px;
   height: 580px;
   overflow: scroll;
   background-color: #fff;
@@ -76,8 +74,6 @@ const Table = styled.table`
   margin-bottom: 1rem;
   width: 1100px;
   word-wrap: break-word;
-  // table-layout: fixed;
-  // white-space: nowrap;
 
   caption {
     color: black;
@@ -106,9 +102,13 @@ const Table = styled.table`
 
 export default function SiteTable() {
   const dispatch = useAppDispatch();
-  const [query, setQuery] = useState('');
-  const [text, setText] = useState('');
+  const navigate = useNavigate();
   const [data, setData] = useState<any[]>([]);
+  const [text, setText] = useState('');
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [perPage, setPerpage] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
   const [option, setOption] = useState({ value: 'name', label: '사이트명' });
   const options = [
     { value: 'name', label: '사이트명' },
@@ -116,21 +116,15 @@ export default function SiteTable() {
     { value: 'user.userName', label: '소유자' },
   ];
 
-  const [page, setPage] = useState(1);
-  const [perPage, setPerpage] = useState(10);
-  const [totalCount, setTotalCount] = useState(0);
+  const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
 
-  const handlePrevPage = () => {
-    setPage(page - 1);
-  };
-
-  const handleNextPage = () => {
-    setPage(page + 1);
-  };
-  const handleChangePerPage = (e: any) => {
-    setPerpage(parseInt(e.target.value, 10));
-    setPage(1);
-  };
+  if (userData.role !== 'admin') {
+    dispatch({
+      type: 'alertOn',
+      payload: { msg: `관리자만 이용 가능합니다.` },
+    });
+    navigate('/login');
+  }
 
   const getSites = async () => {
     const res = await axios.get(
@@ -143,8 +137,6 @@ export default function SiteTable() {
   useEffect(() => {
     getSites();
   }, [query, page, perPage]);
-
-  console.log(data);
 
   const handleSearch = async (e: any) => {
     e.preventDefault();
@@ -165,6 +157,18 @@ export default function SiteTable() {
     dispatch({ type: 'alertOn', payload: { msg: '사이트가 삭제되었습니다.' } });
     // 삭제 후 재랜더링
     getSites();
+  };
+
+  const handlePrevPage = () => {
+    setPage(page - 1);
+  };
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+  const handleChangePerPage = (e: any) => {
+    setPerpage(parseInt(e.target.value, 10));
+    setPage(1);
   };
 
   return (

@@ -7,7 +7,7 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   font-family: ${(props) => props.font};
   color: ${(props) => props.colorSet.surface};
 
-  padding: 80px 10px;
+  padding: 100px 10px;
   margin: 0 auto;
 
   display: flex;
@@ -39,7 +39,7 @@ const Img = styled.img`
 
 const TextContainer = styled.div`
   vertical-align: middle;
-  padding-top: 30px;
+  padding: 40px;
 `;
 
 const Caption = styled.div<{ colorSet: ColorSet }>`

@@ -127,14 +127,15 @@ function Loginfield() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     try {
+      const domain = window.location.origin;
       const new_popup = window.open(
-        'http://localhost:5001/api/auth/google',
+        `$${domain}/api/auth/google`,
         '_blank',
         'height=400,width=377,top=100,left=200,scrollbars=yes,resizable=yes'
       );
       const timer = setInterval(async () => {
         const res = await axios.get('/api/user/logincheck');
-        if (res) {
+        if (res.data.userId) {
           new_popup!.close();
           clearInterval(timer);
           nav('/dashboard');

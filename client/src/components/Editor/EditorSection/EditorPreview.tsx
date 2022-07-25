@@ -31,12 +31,17 @@ const SiteBlockList = styled.div<{ blockCount: number }>`
       min-height: 100%;
     `}
 `;
-const SiteBlockContainer = styled.div`
+const SiteBlockContainer = styled.div<{ theme: any }>`
   div {
     :last-child {
       border-bottom: none;
     }
   }
+  ${(props) =>
+    props.theme === 'Simple' &&
+    css`
+      padding: 8px 40px 0 40px;
+    `}
 `;
 
 export default function EditorPreview() {
@@ -70,7 +75,7 @@ export default function EditorPreview() {
     <Container>
       <SiteBlockList blockCount={blocks.length}>
         <ErrorBoundary>
-          <SiteBlockContainer>
+          <SiteBlockContainer theme={blocks[0]?.template.theme}>
             <Suspense fallback={<PageLoading />}>{siteBlocks}</Suspense>
           </SiteBlockContainer>
         </ErrorBoundary>

@@ -14,7 +14,8 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
-  padding: 5rem 2rem;
+  margin-top: 56px;
+  padding: 7rem 2rem;
 `;
 
 const HeroMenuName = styled.div<{ colorSet: ColorSet }>`
@@ -33,6 +34,7 @@ const HeadLine = styled.div`
   font-weight: 700;
   font-size: 2.7rem;
   margin-top: 1.3rem;
+  text-align: center;
   @media screen and (max-width: 1120px) {
     margin-top: ${RemtoVw(16, 1.3)};
     font-size: ${RemtoVw(16, 2.7)};

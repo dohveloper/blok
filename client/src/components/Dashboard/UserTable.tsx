@@ -152,27 +152,16 @@ export default function UserTable() {
   const [perPage, setPerpage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
 
-  const handlePrevPage = () => {
-    setPage(page - 1);
-  };
-
-  const handleNextPage = () => {
-    setPage(page + 1);
-  };
-  const handleChangeperPage = (e: any) => {
-    setPerpage(parseInt(e.target.value, 10));
-    setPage(1);
+  const getUsers = async () => {
+    const res = await axios.get(
+      `/api/admin/user?page=${page}&perPage=${perPage}&searchKey=${option.value}&searchValue=${query}`
+    );
+    setData(res.data.users);
+    setTotalCount(res.data.totalCount);
   };
 
   useEffect(() => {
-    const getSites = async () => {
-      const res = await axios.get(
-        `/api/admin/user?page=${page}&perPage=${perPage}&searchKey=${option.value}&searchValue=${query}`
-      );
-      setData(res.data.users);
-      setTotalCount(res.data.totalCount);
-    };
-    getSites();
+    getUsers();
   }, [page, perPage, query, data]);
 
   const handleSearch = async (e: any) => {
@@ -188,11 +177,24 @@ export default function UserTable() {
       type: 'alertOn',
       payload: { msg: '회원정보가 삭제되었습니다.' },
     });
+    getUsers();
   };
 
   const handleReset = () => {
     setText('');
     setQuery('');
+    setPage(1);
+  };
+
+  const handlePrevPage = () => {
+    setPage(page - 1);
+  };
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+  const handleChangeperPage = (e: any) => {
+    setPerpage(parseInt(e.target.value, 10));
     setPage(1);
   };
 
@@ -259,7 +261,7 @@ export default function UserTable() {
                   <td>{e.role}</td>
                   <td>
                     <Link
-                      to={'/user/' + e.userId}
+                      to={'/admin/user/' + e.userId}
                       style={{ textDecoration: 'none' }}
                     >
                       <ControlButton

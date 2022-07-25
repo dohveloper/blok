@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  Navigate,
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from 'react-router-dom';
 import Login from './pages/Login';
 import Account from './pages/Account';
 import Dashboard from './pages/Dashboard';
@@ -19,13 +24,14 @@ export function AppRouter() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/blok" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/account" element={<Account />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin/user" element={<ManageUser />} />
         <Route path="admin/site" element={<ManageSite />} />
-        <Route path="/user/:userId" element={<UserInfo />} />
+        <Route path="/admin/user" element={<ManageUser />} />
+        <Route path="/admin/user/:userId" element={<UserInfo />} />
         <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/main" element={<Main />} />
         <Route path="/findpassword" element={<FindPassword />} />

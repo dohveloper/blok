@@ -1,42 +1,53 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+const autoIncrement = require("mongoose-auto-increment");
+
+autoIncrement.initialize(mongoose);
 
 const SiteSchema = new Schema(
   {
-    siteName: {
-      type: String,
-      required: true,
-    },
-    siteDomain: {
+    no: Number,
+    userId: {
       type: Schema.Types.ObjectId,
-      ref: "domain",
+      ref: "users",
       required: true,
     },
-    siteOwner: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
-      required: true,
-    },
-    siteURL: {
+    name: {
       type: String,
       required: true,
     },
-    siteTheme: {
+    domain: {
       type: String,
       required: true,
     },
-    siteFont: {
+    theme: {
       type: String,
-      required: true,
+      default: "Standard",
     },
-    siteColor: {
+    font: {
+      type: String,
+      default: "Roboto",
+    },
+    colorSet: {
       type: new Schema({
-        primaryColor: String,
-        secondaryColor: String,
-        backgroundColor: String,
-        surfaceColor: String,
+        primary: {
+          type: String,
+          default: "#482924",
+        },
+        secondary: {
+          type: String,
+          default: "#123456",
+        },
+        background: {
+          type: String,
+          default: "#123456",
+        },
+        surface: {
+          type: String,
+          default: "#123456",
+        },
       }),
     },
-    siteData: {
+    blocks: {
       type: Object,
       required: false,
     },
@@ -46,5 +57,12 @@ const SiteSchema = new Schema(
     timestamps: true,
   }
 );
+
+SiteSchema.plugin(autoIncrement.plugin, {
+  model: "sites",
+  field: "no",
+  startAt: 1,
+  incrementBy: 1,
+});
 
 export { SiteSchema };

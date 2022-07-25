@@ -4,14 +4,18 @@ import { upload } from "../middlewares";
 
 const adminRouter = Router();
 
-adminRouter.get("/user/:_id", adminController.getUserInfo);
+adminRouter.get("/user", adminController.getUsersInfoByPagination);
+adminRouter.get("/user/:userId", adminController.getUserInfo);
+
+adminRouter.get("/site", adminController.getSitesByPagination);
+adminRouter.delete("/site/:siteId", adminController.deleteSite);
 
 adminRouter.patch(
-  "/user/:_id",
+  "/user/:userId",
   upload.single("profileImage"),
   adminController.editUserInfo
 );
 
-adminRouter.delete("/user/:_id", adminController.deleteUser);
+adminRouter.delete("/user/:userId", adminController.deleteUser);
 
 export { adminRouter };

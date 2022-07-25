@@ -151,6 +151,9 @@ export function DashboardInfo() {
       // current loginUser 데이터 가져와서 redux store에 저장
       const loginCheckData = await axios.get('/api/user/logincheck');
       const user = loginCheckData.data;
+      if (!user.userId) {
+        nav('/login');
+      }
       const res = await axios.get(`/api/site/user/${user.userId}`);
       console.log('site Data:', res.data);
       setData(() => res.data);
@@ -170,11 +173,6 @@ export function DashboardInfo() {
       });
     } catch (error: any) {
       console.log(error);
-      dispatch({
-        type: 'alertOn',
-        payload: { msg: `${error.response.data.reason}` },
-      });
-      nav('/login');
     }
   };
 

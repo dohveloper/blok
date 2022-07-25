@@ -17,9 +17,10 @@ const Container = styled.div<{ colorSet: ColorSet; font: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px;
   font-size: 0.8rem;
-
+  margin: 0 auto;
+  margin-top: 80px;
+  max-width: 940px;
   @media screen and (max-width: 1120px) {
     font-size: 1.5vw;
     padding: 0 20px;

@@ -39,7 +39,7 @@ const LogoImg = styled.img`
 const Logo = () => {
   const nav = useNavigate();
   const toMainClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    nav('/dashboard');
+    nav('/');
   };
   return (
     <Logodiv

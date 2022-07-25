@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { MainTitle } from './MyInfo';
-import { useAppDispatch } from '../../reducers';
+import { useAppDispatch, useAppSelector } from '../../reducers';
+import { useNavigate } from 'react-router-dom';
 import { ImgInput, TextInputWidth90, CustomSelectWidth90 } from '../Input';
 
 const Container = styled.div`
@@ -88,6 +89,13 @@ interface IUser {
 export default function User() {
   const { userId } = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const userData = useAppSelector((state) => state.loginCheckReducer.loginData);
+  const profileImage = useRef<HTMLInputElement>(null);
+  const userName = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+  const [userNameError, setUserNameError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const [data, setData] = useState<IUser>({
     createdAt: '',
     email: '',
@@ -104,13 +112,6 @@ export default function User() {
     _id: '',
   });
 
-  const profileImage = useRef<HTMLInputElement>(null);
-  const userName = useRef<HTMLInputElement>(null);
-  const password = useRef<HTMLInputElement>(null);
-
-  const [userNameError, setUserNameError] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
-
   const [role, setRole] = useState({ value: data.role, label: data.role });
   const [plan, setPlan] = useState({ value: data.plan, label: data.plan });
 
@@ -122,6 +123,14 @@ export default function User() {
     { value: 'free', label: 'free' },
     { value: 'paid', label: 'paid' },
   ];
+
+  if (userData.role !== 'admin') {
+    dispatch({
+      type: 'alertOn',
+      payload: { msg: `관리자만 이용 가능합니다.` },
+    });
+    navigate('/login');
+  }
 
   // userId로 userData 불러오기
   const getUserInfo = async () => {

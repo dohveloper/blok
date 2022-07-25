@@ -55,6 +55,8 @@ export interface BlockData {
   leftText?: TextData;
   arrText?: ArrData;
   number?: NumberData;
+  venue?: TextData;
+  date?: TextData;
 }
 export interface StyleData {
   label: string;

@@ -340,6 +340,38 @@
           "value": "여기에는 설명이 들어갑니다. 여기에는 설명이 들어갑니다. 여러줄도 괜찮습니다."
         }
       }
+    },
+    {
+      "template": {
+        "theme": "Wedding",
+        "blockType": "Main",
+        "layout": ""
+      },
+      "creationData": {
+        "title": "이미지+텍스트",
+        "icon": "Feature",
+        "isUnique": false
+      },
+      "defaultData": {
+        "style": { "value": "Simple Default" },
+        "navTitle": "기능 1",
+        "image": {
+          "src": "",
+          "alt": "image"
+        },
+        "header": {
+          "value": "준호 그리고 아름"
+        },
+        "body": {
+          "value": "SAVE THE DATE"
+        },
+        "date": {
+          "value": "2022-03-05-10-00"
+        },
+        "venue": {
+          "value": "미리웨딩하우스 1층 그랜드홀"
+        }
+      }
     }
   ]
 }

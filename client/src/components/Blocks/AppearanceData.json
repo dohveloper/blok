@@ -74,7 +74,7 @@
     }
   ],
 
- "fontData" : [
+  "fontData": [
     {
       "label": "Roboto",
       "value": "Roboto"
@@ -109,7 +109,7 @@
     }
   ],
 
-"themeData": [
+  "themeData": [
     {
       "label": "Simple",
       "value": "Simple"
@@ -117,6 +117,10 @@
     {
       "label": "Resume",
       "value": "Resume"
+    },
+    {
+      "label": "Wedding",
+      "value": "Wedding"
     }
   ]
 }
